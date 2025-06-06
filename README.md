@@ -1,4 +1,4 @@
-# Auvik-Api
+# Orion.Auvik-Api
 
 A PowerShell wrapper for the Auvik API
 

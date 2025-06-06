@@ -6,7 +6,7 @@ BeforeAll {
     # Remove trailing slash or backslash
     $ModulePath = $ModulePath -replace '[\\/]*$'
     $ModuleName = (Get-Item "$ModulePath\..").Name
-    $ModuleManifestName = 'Auvik-Api.psd1'
+    $ModuleManifestName = 'Orion.Auvik-Api.psd1'
     $ModuleManifestPath = Join-Path -Path $ModulePath -ChildPath $ModuleManifestName
 }
 
