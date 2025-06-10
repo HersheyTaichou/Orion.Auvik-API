@@ -32,6 +32,7 @@ Multiple always returns a 500 error, appears to be an issue on Auvik's end?
 function Get-AuvikDeviceExtendedDetail {
     [CmdletBinding(DefaultParameterSetName="Multiple")]
     param (
+        <#
         # Filter by device type.
         [Parameter(ParameterSetName="Multiple",Mandatory)][ValidateSet("unknown","switch","l3Switch","router","accessPoint","firewall","workstation","server","storage","printer","copier","hypervisor","multimedia","phone","tablet","handheld","virtualAppliance","bridge","controller","hub","modem","ups","module","loadBalancer","camera","telecommunications","packetProcessor","chassis","airConditioner","virtualMachine","pdu","ipPhone","backhaul","internetOfThings","voipSwitch","stack","backupDevice","timeClock","lightingDevice","audioVisual","securityAppliance","utm","alarm","buildingManagement","ipmi","thinAccessPoint","thinClient",IgnoreCase=$false)]
         [string]
@@ -52,6 +53,7 @@ function Get-AuvikDeviceExtendedDetail {
         [Parameter(ParameterSetName="Multiple")]
         [string[]]
         $Tenants,
+        #>
         # ID of a device in Auvik. Not compatible with the other parameters.
         [Parameter(ParameterSetName="Single")]
         [string[]]
@@ -63,6 +65,7 @@ function Get-AuvikDeviceExtendedDetail {
             Throw "Authentication needed. Please call Connect-AuvikApi"
         }
 
+        <#
         $QueryParams = foreach ($Key in $PSBoundParameters.Keys) {
             switch ($Key) {
                 DeviceType {
@@ -75,7 +78,7 @@ function Get-AuvikDeviceExtendedDetail {
                     "filter[notSeenSince]=$($NotSeenSince)"
                 }
                 StateKnown {
-                    "filter[stateKnown]=$($StateKnown)"
+                    "filter[stateKnown]=$($StateKnown.ToString().ToLower())"
                 }
                 Tenants {
                     "tenants=$($Tenants -join ",")"
@@ -83,6 +86,7 @@ function Get-AuvikDeviceExtendedDetail {
                 default {}
             }
         }
+        #>
     }
 
     process {
