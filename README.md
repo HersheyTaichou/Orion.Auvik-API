@@ -45,24 +45,24 @@ For automated tasks, the credentials and Uri can be stored, but the credentials 
 
 ## Progress
 
-| Endpoint | Status | Command |
-| -- | -- | -- |
-| /inventory/device/info | Done | Get-AuvikDevice |
-| /inventory/device/info/{id} | Done | Get-AuvikDevice |
-| /inventory/device/detail | Done | Get-AuvikDeviceDetail |
-| /inventory/device/detail/{id} | Done | Get-AuvikDeviceDetail |
-| /inventory/device/detail/extended | Done | Get-AuvikDeviceExtendedDetail |
-| /inventory/device/detail/extended/{id} | Done | Get-AuvikDeviceExtendedDetail |
-| /inventory/device/warranty | Done | Get-AuvikDeviceWarranty |
-| /inventory/device/warranty/{id} | Done | Get-AuvikDeviceWarranty |
-| /inventory/device/lifecycle | Done | Get-AuvikDeviceLifecycle |
-| /inventory/device/lifecycle/{id} | Done | Get-AuvikDeviceLifecycle |
-| /inventory/network/info | Done | Get-AuvikNetwork |
-| /inventory/network/info/{id} | Done | Get-AuvikNetwork |
+| Endpoint | Status | Command | Tests |
+| -- | -- | -- | -- |
+| /inventory/device/info | Done | Get-AuvikDevice | Pass |
+| /inventory/device/info/{id} | Done | Get-AuvikDevice | Pass |
+| /inventory/device/detail | Done | Get-AuvikDeviceDetail | Pass |
+| /inventory/device/detail/{id} | Done | Get-AuvikDeviceDetail | Pass |
+| /inventory/device/detail/extended | Error | Get-AuvikDeviceExtendedDetail | - |
+| /inventory/device/detail/extended/{id} | Done | Get-AuvikDeviceExtendedDetail | Pass |
+| /inventory/device/warranty | Done | Get-AuvikDeviceWarranty | Pass |
+| /inventory/device/warranty/{id} | Done | Get-AuvikDeviceWarranty | Pass |
+| /inventory/device/lifecycle | Done | Get-AuvikDeviceLifecycle | Pass |
+| /inventory/device/lifecycle/{id} | Done | Get-AuvikDeviceLifecycle | Pass |
+| /inventory/network/info | Done | Get-AuvikNetwork | Pass |
+| /inventory/network/info/{id} | Done | Get-AuvikNetwork | Pass |
 | /inventory/network/detail | Done | Get-AuvikNetworkDetail |
 | /inventory/network/detail/{id} | Done | Get-AuvikNetworkDetail |
-| /inventory/interface/info | To-Do | - |
-| /inventory/interface/info/{id} | To-Do | - |
+| /inventory/interface/info | Done | Get-AuvikInterface |
+| /inventory/interface/info/{id} | Done | Get-AuvikInterface |
 | /inventory/component/info | To-Do | - |
 | /inventory/component/info/{id} | To-Do | - |
 | /inventory/entity/note | To-Do | - |
@@ -74,8 +74,8 @@ For automated tasks, the credentials and Uri can be stored, but the credentials 
 | /alert/history/info | To-Do | - |
 | /alert/history/info/{id} | To-Do | - |
 | /alert/dismiss/{id} | To-Do | - |
-| /authentication/verify | Done | Connect-AuvikApi |
-| /tenants | Done | Get-AuvikTenant |
+| /authentication/verify | Done | Connect-AuvikApi | Pass |
+| /tenants | Done | Get-AuvikTenant | Pass |
 | /tenants/detail | Done | Get-AuvikTenantDetail |
 | /tenants/detail/{id} | Done | Get-AuvikTenantDetail |
 | /billing/usage/client | To-Do | - |
