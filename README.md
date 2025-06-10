@@ -59,10 +59,10 @@ For automated tasks, the credentials and Uri can be stored, but the credentials 
 | /inventory/device/lifecycle/{id} | Done | Get-AuvikDeviceLifecycle | Pass |
 | /inventory/network/info | Done | Get-AuvikNetwork | Pass |
 | /inventory/network/info/{id} | Done | Get-AuvikNetwork | Pass |
-| /inventory/network/detail | Done | Get-AuvikNetworkDetail |
-| /inventory/network/detail/{id} | Done | Get-AuvikNetworkDetail |
-| /inventory/interface/info | Done | Get-AuvikInterface |
-| /inventory/interface/info/{id} | Done | Get-AuvikInterface |
+| /inventory/network/detail | Done | Get-AuvikNetworkDetail | Pass |
+| /inventory/network/detail/{id} | Done | Get-AuvikNetworkDetail | Pass |
+| /inventory/interface/info | Done | Get-AuvikInterface | Pass |
+| /inventory/interface/info/{id} | Done | Get-AuvikInterface | Pass |
 | /inventory/component/info | To-Do | - |
 | /inventory/component/info/{id} | To-Do | - |
 | /inventory/entity/note | To-Do | - |
@@ -76,8 +76,8 @@ For automated tasks, the credentials and Uri can be stored, but the credentials 
 | /alert/dismiss/{id} | To-Do | - |
 | /authentication/verify | Done | Connect-AuvikApi | Pass |
 | /tenants | Done | Get-AuvikTenant | Pass |
-| /tenants/detail | Done | Get-AuvikTenantDetail |
-| /tenants/detail/{id} | Done | Get-AuvikTenantDetail |
+| /tenants/detail | Done | Get-AuvikTenantDetail | Pass |
+| /tenants/detail/{id} | Done | Get-AuvikTenantDetail | Pass |
 | /billing/usage/client | To-Do | - |
 | /billing/usage/device/{id} | To-Do | - |
 | /stat/device/{statId} | To-Do | - |
