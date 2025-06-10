@@ -24,7 +24,11 @@ function Get-AuvikDeviceLifecycle {
         # ID of a device in Auvik. Only accepts one ID at a time and is not compatible with the other parameters
         [Parameter(ParameterSetName="Single")]
         [string[]]
-        $Id
+        $Id,
+        # Get all results
+        [Parameter()]
+        [switch]
+        $LimitResults
     )
 
     begin {
@@ -46,15 +50,21 @@ function Get-AuvikDeviceLifecycle {
                 Default {}
             }
         }
+
+        if ($LimitResults) {
+            $All =$false
+        } else {
+            $All = $true
+        }
     }
 
     process {
         $AuvikDeviceLifecycle = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikDeviceLifecycle]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/lifecycle/$($_)"))
+                [AuvikDeviceLifecycle]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/lifecycle/$($_)" -All:$All))
             }
         } else {
-            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/lifecycle?$($QueryParams -join '&')").data | ForEach-Object {[AuvikDeviceLifecycle]::new($_)}
+            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/lifecycle?$($QueryParams -join '&')" -All:$All).data | ForEach-Object {[AuvikDeviceLifecycle]::new($_)}
         }
     }
 

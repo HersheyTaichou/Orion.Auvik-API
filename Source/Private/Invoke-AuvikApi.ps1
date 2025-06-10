@@ -1,10 +1,14 @@
 function Invoke-AuvikApi {
     [CmdletBinding()]
     param (
-        # Parameter help description
+        # Uri to query
         [Parameter(Mandatory)]
         [uri]
-        $Uri
+        $Uri,
+        # Get all results
+        [Parameter()]
+        [switch]
+        $All
     )
 
     begin {
@@ -35,7 +39,11 @@ function Invoke-AuvikApi {
             switch ($StatusCode) {
                 200 {
                     $Page++
-                    $DeviceParams.Uri = $RestMethod.links.next
+                    if ($All) {
+                        $DeviceParams.Uri = $RestMethod.links.next
+                    } else {
+                        $DeviceParams.Uri = $null
+                    }
                     $TotalPages = $RestMethod.meta.totalPages
                     $Try = 0
                     $RestMethod

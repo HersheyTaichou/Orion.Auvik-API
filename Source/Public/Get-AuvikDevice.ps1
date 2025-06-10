@@ -83,7 +83,11 @@ function Get-AuvikDevice {
         # ID of a device in Auvik. Not compatible with the other parameters.
         [Parameter(ParameterSetName="Single")]
         [string[]]
-        $Id
+        $Id,
+        # Get all results
+        [Parameter()]
+        [switch]
+        $LimitResults
     )
 
     begin {
@@ -115,7 +119,7 @@ function Get-AuvikDevice {
                     "filter[notSeenSince]=$NotSeenSince"
                 }
                 StateKnown {
-                    "filter[stateKnown]=$StateKnown"
+                    "filter[stateKnown]=$($StateKnown.ToString().ToLower())"
                 }
                 Tenants {
                     "tenants=$($Tenants -join ",")"
@@ -123,15 +127,21 @@ function Get-AuvikDevice {
                 default {}
             }
         }
+
+        if ($LimitResults) {
+            $All =$false
+        } else {
+            $All = $true
+        }
     }
 
     process {
         $AuvikDevice = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikDevice]::new($(Invoke-AuvikApi -Uri "$AuvikBaseUri/inventory/device/info/$($_)?include=deviceDetail"))
+                [AuvikDevice]::new($(Invoke-AuvikApi -Uri "$AuvikBaseUri/inventory/device/info/$($_)?include=deviceDetail" -All:$All))
             }
         } else {
-            $Devices = Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/info?include=deviceDetail&$($QueryParams -join '&')"
+            $Devices = Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/info?include=deviceDetail&$($QueryParams -join '&')" -All:$All
             for ($i = 0; $i -lt $Devices.data.Count; $i++) {
                 $Content = [PSCustomObject]@{
                     'Data' = $Devices.data[$i]

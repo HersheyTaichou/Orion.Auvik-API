@@ -24,7 +24,11 @@ function Get-AuvikNetwork {
         # ID of a network in Auvik. Not compatible with the other parameters.
         [Parameter(ParameterSetName="Single")]
         [string[]]
-        $Id
+        $Id,
+        # Get all results
+        [Parameter()]
+        [switch]
+        $LimitResults
     )
 
     begin {
@@ -52,15 +56,21 @@ function Get-AuvikNetwork {
                 default {}
             }
         }
+
+        if ($LimitResults) {
+            $All =$false
+        } else {
+            $All = $true
+        }
     }
 
     process {
         $AuvikNetwork = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikNetwork]::new($(Invoke-AuvikApi -Uri "$AuvikBaseUri/inventory/network/info/$($_)?include=networkDetail"))
+                [AuvikNetwork]::new($(Invoke-AuvikApi -Uri "$AuvikBaseUri/inventory/network/info/$($_)?include=networkDetail" -All:$All))
             }
         } else {
-            $Devices = Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/info?include=networkDetail&$($QueryParams -join '&')"
+            $Devices = Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/info?include=networkDetail&$($QueryParams -join '&')" -All:$All
             for ($i = 0; $i -lt $Devices.data.Count; $i++) {
                 $Content = [PSCustomObject]@{
                     'Data' = $Devices.data[$i]

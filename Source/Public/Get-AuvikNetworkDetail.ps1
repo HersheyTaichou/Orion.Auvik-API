@@ -28,7 +28,11 @@ function Get-AuvikNetworkDetail {
         # ID of a network in Auvik. Not compatible with the other parameters.
         [Parameter(ParameterSetName="Single")]
         [string[]]
-        $Id
+        $Id,
+        # Get all results
+        [Parameter()]
+        [switch]
+        $LimitResults
     )
 
     begin {
@@ -59,15 +63,21 @@ function Get-AuvikNetworkDetail {
                 default {}
             }
         }
+
+        if ($LimitResults) {
+            $All =$false
+        } else {
+            $All = $true
+        }
     }
 
     process {
         $AuvikNetworkDetail = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikNetworkDetail]::new($(Invoke-AuvikApi -Uri "$AuvikBaseUri/inventory/network/detail/$($_)"))
+                [AuvikNetworkDetail]::new($(Invoke-AuvikApi -Uri "$AuvikBaseUri/inventory/network/detail/$($_)" -All:$All))
             }
         } else {
-            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/detail?$($QueryParams -join '&')").data | ForEach-Object {[AuvikNetworkDetail]::new($_)}
+            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/detail?$($QueryParams -join '&')" -All:$All).data | ForEach-Object {[AuvikNetworkDetail]::new($_)}
         }
     }
 
