@@ -40,7 +40,7 @@ function Get-AuvikTenant {
         if ($Tenants.Count -eq 0 -and $DomainPrefix) {
             Write-Warning "Provided DomainPrefix not found"
         } else {
-            Write-Verbose "$($SelectedTenants.Count) tenants found"
+            Write-Verbose "$($Tenants.Count) tenants found"
         }
     }
 
