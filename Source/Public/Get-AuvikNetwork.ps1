@@ -70,11 +70,11 @@ function Get-AuvikNetwork {
                 [AuvikNetwork]::new($(Invoke-AuvikApi -Uri "$AuvikBaseUri/inventory/network/info/$($_)?include=networkDetail" -All:$All))
             }
         } else {
-            $Devices = Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/info?include=networkDetail&$($QueryParams -join '&')" -All:$All
-            for ($i = 0; $i -lt $Devices.data.Count; $i++) {
+            $Networks = Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/info?include=networkDetail&$($QueryParams -join '&')" -All:$All
+            for ($i = 0; $i -lt $Networks.data.Count; $i++) {
                 $Content = [PSCustomObject]@{
-                    'Data' = $Devices.data[$i]
-                    'Included' = $Devices.included | Where-Object {$Devices.data[$i].id -eq $_.id}
+                    'Data' = $Networks.data[$i]
+                    'Included' = $Networks.included | Where-Object {$Networks.data[$i].id -eq $_.id}
                 }
                 [AuvikNetwork]::new($Content)
             }
