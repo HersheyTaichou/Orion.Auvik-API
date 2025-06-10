@@ -16,7 +16,6 @@ The version of the Auvik API to query. Currently, only v1 is available.
 
 .EXAMPLE
 Connect-AuvikApi -Credential (Get-Credential) -Uri "https://auvikapi.us1.my.auvik.com"
-
 Connected to the Auvik API
 
 .NOTES
@@ -33,6 +32,10 @@ function Connect-AuvikApi {
         [Parameter(Mandatory)]
         [uri]
         $Uri,
+        # Parameter help description
+        [Parameter()]
+        [switch]
+        $NoWelcome,
         # API version number
         [Parameter(DontShow)][ValidateSet("v1",IgnoreCase=$false)]
         [string]
@@ -66,7 +69,7 @@ function Connect-AuvikApi {
         }
         switch ($StatusCode) {
             200 {
-                Write-Output "Connected to the Auvik API"
+                if (-not($NoWelcome)) {Write-Output "Connected to the Auvik API"}
                 $script:AuvikApiCredentials = $Credential
                 $script:ConnectedToAuvik = $true
             }
