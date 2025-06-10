@@ -38,11 +38,17 @@ function Get-AuvikDeviceLifecycle {
 
         $QueryParams = foreach ($Key in $PSBoundParameters.Keys) {
             switch ($Key) {
-                CoveredUnderWarranty {
-                    "filter[coveredUnderWarranty]=$($CoveredUnderWarranty.ToString().ToLower())"
+                SalesAvailability {
+                    "filter[salesAvailability]=$($SalesAvailability)"
                 }
-                CoveredUnderService {
-                    "filter[coveredUnderService]=$($CoveredUnderService.ToString().ToLower())"
+                SoftwareMaintenanceStatus {
+                    "filter[softwareMaintenanceStatus]=$($SoftwareMaintenanceStatus)"
+                }
+                SecuritySoftwareMaintenanceStatus {
+                    "filter[securitySoftwareMaintenanceStatus]=$($SecuritySoftwareMaintenanceStatus)"
+                }
+                LastSupportStatus {
+                    "filter[lastSupportStatus]=$($LastSupportStatus)"
                 }
                 Tenants {
                     "tenants=$($Tenants -join ",")"
