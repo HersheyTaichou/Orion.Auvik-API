@@ -165,7 +165,6 @@ enum OperationalStatus {
     dormant
     notPresent
     lowerLayerDown
-    unknown
 }
 
 class AuvikTenant {
