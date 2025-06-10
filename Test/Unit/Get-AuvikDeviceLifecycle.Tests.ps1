@@ -23,19 +23,19 @@ Describe 'Get-AuvikDeviceLifecycle Tests' -Tags 'Unit' {
         $DeviceLifecycle | Should -Not -BeNullOrEmpty
     }
 
-    It 'Returns devices by ' {
+    It 'Returns devices by SalesAvailability' {
         Get-AuvikDeviceLifecycle -SalesAvailability $SalesAvailability -LimitResults | Should -Not -BeNullOrEmpty
     }
 
-    It 'Returns devices by ' {
+    It 'Returns devices by SoftwareMaintenanceStatus' {
         Get-AuvikDeviceLifecycle -SoftwareMaintenanceStatus $SoftwareMaintenanceStatus -LimitResults | Should -Not -BeNullOrEmpty
     }
 
-    It 'Returns devices by ' {
+    It 'Returns devices by SecuritySoftwareMaintenanceStatus' {
         Get-AuvikDeviceLifecycle -SecuritySoftwareMaintenanceStatus $SecuritySoftwareMaintenanceStatus -LimitResults | Should -Not -BeNullOrEmpty
     }
 
-    It 'Returns devices by ' {
+    It 'Returns devices by LastSupportStatus' {
         Get-AuvikDeviceLifecycle -LastSupportStatus $LastSupportStatus -LimitResults | Should -Not -BeNullOrEmpty
     }
 
