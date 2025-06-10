@@ -42,16 +42,16 @@ function Get-AuvikInterface {
 
         $QueryParams = foreach ($Key in $PSBoundParameters.Keys) {
             switch ($Key) {
-                Networks {
+                InterfaceType {
                     "filter[interfaceType]=$InterfaceType"
                 }
-                DeviceType {
+                ParentDevice {
                     "filter[parentDevice]=$ParentDevice"
                 }
-                MakeModel {
+                AdminStatus {
                     "filter[adminStatus]=$($AdminStatus.ToString().ToLower())"
                 }
-                VendorName {
+                OperationalStatus {
                     "filter[operationalStatus]=$OperationalStatus"
                 }
                 ModifiedAfter {
