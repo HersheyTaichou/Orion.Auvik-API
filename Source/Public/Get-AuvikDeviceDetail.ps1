@@ -55,12 +55,12 @@ function Get-AuvikDeviceDetail {
         [string]
         $DiscoveryLogin,
         # Filter by the device's VMware discovery status.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("online","offline","unreachable","testing","unknown","dormant","notPresent","lowerLayerDown",IgnoreCase=$false)]
+        [Parameter(ParameterSetName="Multiple")][ValidateSet("disabled","determining","notSupported","notAuthorized","authorizing","authorized","privileged",IgnoreCase=$false)]
         [string]
         $DiscoveryVMware,
         # Filter by the device's TrafficInsights status.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("disabled","determining","notSupported","notAuthorized","authorizing","authorized","privileged",IgnoreCase=$false)]
-        [datetime]
+        [Parameter(ParameterSetName="Multiple")][ValidateSet("notDetected","detected","notApproved","approved","linking","linkingFailed","forwarding",IgnoreCase=$false)]
+        [string]
         $TrafficInsightsStatus,
         # Array of tenant IDs to request info from.
         [Parameter(ParameterSetName="Multiple")]
@@ -69,7 +69,11 @@ function Get-AuvikDeviceDetail {
         # ID of a device in Auvik. Only accepts one ID at a time and is not compatible with the other parameters
         [Parameter(ParameterSetName="Single")]
         [string[]]
-        $Id
+        $Id,
+        # Get all results
+        [Parameter()]
+        [switch]
+        $LimitResults
     )
 
     begin {
@@ -103,15 +107,21 @@ function Get-AuvikDeviceDetail {
                 Default {}
             }
         }
+
+        if ($LimitResults) {
+            $All =$false
+        } else {
+            $All = $true
+        }
     }
 
     process {
         $AuvikDeviceDetail = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikDeviceDetail]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/detail/$($_)"))
+                [AuvikDeviceDetail]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/detail/$($_)" -All:$All))
             }
         } else {
-            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/detail?$($QueryParams -join '&')").data | ForEach-Object {[AuvikDeviceDetail]::new($_)}
+            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/detail?$($QueryParams -join '&')" -All:$All).data | ForEach-Object {[AuvikDeviceDetail]::new($_)}
         }
     }
 
