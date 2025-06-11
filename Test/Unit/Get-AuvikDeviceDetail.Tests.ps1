@@ -8,7 +8,7 @@ BeforeAll {
     Import-Module "$ModuleManifest" -ErrorAction Stop
 }
 
-Describe 'Get-AuvikDeviceDetail Tests' -Tags 'Unit' {
+Describe 'Get-AuvikDeviceDetail Tests' -Tags 'Unit','New' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
@@ -25,31 +25,32 @@ Describe 'Get-AuvikDeviceDetail Tests' -Tags 'Unit' {
     }
 
     It 'Returns devices by ManageStatus' {
-        Get-AuvikDeviceDetail -ManageStatus $true -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDeviceDetail -ManageStatus $true -LimitResults).ManageStatus | Sort-Object -Unique | Should -BeTrue
     }
 
     It 'Returns devices by DiscoverySNMP' {
-        Get-AuvikDeviceDetail -DiscoverySNMP $DiscoverySNMP -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDeviceDetail -DiscoverySNMP $DiscoverySNMP -LimitResults).SnmpStatus | Sort-Object -Unique | Should -Be $DiscoverySNMP
     }
 
     It 'Returns devices by DiscoveryWMI' {
-        Get-AuvikDeviceDetail -DiscoveryWMI $DiscoveryWMI -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDeviceDetail -DiscoveryWMI $DiscoveryWMI -LimitResults).WmiStatus | Sort-Object -Unique | Should -Be $DiscoveryWMI
     }
 
+    # When testing, this returned more than just disabled logins
     It 'Returns devices by DiscoveryLogin' {
-        Get-AuvikDeviceDetail -DiscoveryLogin $DiscoveryLogin -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDeviceDetail -DiscoveryLogin $DiscoveryLogin -LimitResults).LoginStatus | Sort-Object -Unique | Should -Contain $DiscoveryLogin
     }
 
     It 'Returns devices by DiscoveryVMware' {
-        Get-AuvikDeviceDetail -DiscoveryVMware $DiscoveryVMware -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDeviceDetail -DiscoveryVMware $DiscoveryVMware -LimitResults).VMwareStatus | Sort-Object -Unique | Should -Be $DiscoveryVMware
     }
 
     It 'Returns devices by trafficInsightsStatus' {
-        Get-AuvikDeviceDetail -TrafficInsightsStatus $TrafficInsightsStatus -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDeviceDetail -TrafficInsightsStatus $TrafficInsightsStatus -LimitResults).TrafficInsightsStatus | Sort-Object -Unique | Should -Be $TrafficInsightsStatus
     }
 
     It 'Returns device by Id' {
-        Get-AuvikDeviceDetail -Id $DeviceDetail[0].Id | Should -Not -BeNullOrEmpty
+        (Get-AuvikDeviceDetail -Id $DeviceDetail[0].Id).Id | Should -Be $DeviceDetail[0].Id
     }
 
 }

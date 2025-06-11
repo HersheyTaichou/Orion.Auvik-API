@@ -28,6 +28,7 @@ function Invoke-AuvikApi {
         $Content = do {
             Write-Progress -Activity "Querying Page $Page" -Status "$($Uri.PathAndQuery)" -PercentComplete ($Page / $TotalPages * 100) -CurrentOperation "$($Uri.Query)"
             try {
+                Write-Debug "URI: $($DeviceParams.Uri)"
                 $RestMethod = Invoke-RestMethod @DeviceParams
             }
             catch {

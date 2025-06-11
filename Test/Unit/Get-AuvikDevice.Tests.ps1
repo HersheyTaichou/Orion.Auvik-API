@@ -27,31 +27,31 @@ Describe 'Get-AuvikDevice Tests' -Tags 'Unit' {
     }
 
     It 'Returns devices by Network' {
-        Get-AuvikDevice -Networks $NetworkId -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDevice -Networks $NetworkId -LimitResults).Network.Id | Sort-Object -Unique | Should -Contain $NetworkId
     }
 
     It 'Returns devices by DeviceType' {
-        Get-AuvikDevice -DeviceType $DeviceType -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDevice -DeviceType $DeviceType -LimitResults).DeviceType | Get-Unique | Should -Be $DeviceType
     }
 
     It 'Returns devices by MakeModel' {
-        Get-AuvikDevice -MakeModel $MakeModel -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDevice -MakeModel $MakeModel -LimitResults).MakeModel | Get-Unique | Should -Be $MakeModel
     }
 
     It 'Returns devices by VendorName' {
-        Get-AuvikDevice -VendorName $VendorName -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDevice -VendorName $VendorName -LimitResults) | Should -Not -BeNullOrEmpty
     }
 
     It 'Returns devices by OnlineStatus' {
-        Get-AuvikDevice -OnlineStatus $OnlineStatus -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDevice -OnlineStatus $OnlineStatus -LimitResults).OnlineStatus | Get-Unique | Should -Be $OnlineStatus
     }
 
     It 'Returns devices by ModifiedAfter' {
-        Get-AuvikDevice -ModifiedAfter $ModifiedAfter -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDevice -ModifiedAfter $ModifiedAfter -LimitResults).LastModified | Sort-Object -Unique -Top 1 | Should -BeGreaterOrEqual $ModifiedAfter
     }
 
     It 'Returns devices by NotSeenSince' {
-        Get-AuvikDevice -NotSeenSince $NotSeenSince -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDevice -NotSeenSince $NotSeenSince -LimitResults).LastSeenTime |  Sort-Object -Unique -Top 1 | Should -BeLessOrEqual $NotSeenSince
     }
 
     It 'Returns devices by StateKnown' {
@@ -59,7 +59,7 @@ Describe 'Get-AuvikDevice Tests' -Tags 'Unit' {
     }
 
     It 'Returns device by Id' {
-        Get-AuvikDevice -Id $Devices[0].Id | Should -Not -BeNullOrEmpty
+        (Get-AuvikDevice -Id $Devices[0].Id).Id | Should -Be $Devices[0].Id
     }
 
 }
