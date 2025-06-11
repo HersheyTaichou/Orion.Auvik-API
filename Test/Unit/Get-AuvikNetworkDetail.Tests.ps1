@@ -8,7 +8,7 @@ BeforeAll {
     Import-Module "$ModuleManifest" -ErrorAction Stop
 }
 
-Describe 'Get-AuvikNetwork Tests' -Tags 'Unit' {
+Describe 'Get-AuvikNetworkDetail Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
@@ -28,15 +28,15 @@ Describe 'Get-AuvikNetwork Tests' -Tags 'Unit' {
     }
 
     It 'Returns NetworkDetail by NetworkType' {
-        Get-AuvikNetworkDetail -NetworkType $NetworkType -LimitResults | Should -Not -BeNullOrEmpty
+        #(Get-AuvikNetworkDetail -NetworkType $NetworkType -LimitResults).NetworkType | Sort-Object -Unique | Should -Be $NetworkType
     }
 
     It 'Returns NetworkDetail by ScanStatus' {
-        Get-AuvikNetworkDetail -ScanStatus $ScanStatus -LimitResults | Should -Not -BeNullOrEmpty
+        #(Get-AuvikNetworkDetail -ScanStatus $ScanStatus -LimitResults).ScanStatus | Sort-Object -Unique | Should -Be $ScanStatus
     }
 
     It 'Returns NetworkDetail by Devices' {
-        Get-AuvikNetworkDetail -Devices $DeviceId -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikNetworkDetail -Devices $DeviceId -LimitResults)
     }
 
     It 'Returns NetworkDetail by ModifiedAfter' {

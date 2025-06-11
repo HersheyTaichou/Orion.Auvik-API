@@ -30,15 +30,15 @@ Describe 'Get-AuvikComponent Tests' -Tags 'Unit' {
     }#>
 
     It 'Returns Component by Parent Device ID' {
-        (Get-AuvikComponent -DeviceId $ParentDevice.Id -LimitResults).ParentDevice.Id | Get-Unique | Should -Be $ParentDevice.Id
+        (Get-AuvikComponent -DeviceId $ParentDevice.Id -LimitResults).ParentDevice.Id | Sort-Object -Unique | Should -Be $ParentDevice.Id
     }
 
     It 'Returns Component by Parent Device Name' {
-        (Get-AuvikComponent -DeviceName $ParentDevice.DeviceName -LimitResults).ParentDevice.DeviceName | Get-Unique | Should -Be $ParentDevice.DeviceName
+        (Get-AuvikComponent -DeviceName $ParentDevice.DeviceName -LimitResults).ParentDevice.DeviceName | Sort-Object -Unique | Should -Be $ParentDevice.DeviceName
     }
 
     It 'Returns Component by Current Status' {
-        (Get-AuvikComponent -CurrentStatus $CurrentStatus -LimitResults).CurrentStatus | Get-Unique | Should -Be $CurrentStatus
+        (Get-AuvikComponent -CurrentStatus $CurrentStatus -LimitResults).CurrentStatus | Sort-Object -Unique | Should -Be $CurrentStatus
     }
 
     It 'Returns Component by Id' {

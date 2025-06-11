@@ -16,7 +16,7 @@ Describe 'Get-AuvikDeviceExtendedDetail Test' -Tags 'Unit' {
     }
 
     It 'Returns device by Id' {
-        Get-AuvikDeviceExtendedDetail -Id $Devices[0].Id | Should -Not -BeNullOrEmpty
+        (Get-AuvikDeviceExtendedDetail -Id $Devices[0].Id).Id | Should -Be $Devices[0].Id
     }
 
 }

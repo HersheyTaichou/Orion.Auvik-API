@@ -19,16 +19,16 @@ Describe 'Get-AuvikDeviceWarranty Tests' -Tags 'Unit' {
         $DeviceWarranty | Should -Not -BeNullOrEmpty
     }
 
-    It 'Returns devices by ManageStatus' {
-        Get-AuvikDeviceWarranty -CoveredUnderWarranty $false -LimitResults | Should -Not -BeNullOrEmpty
+    It 'Returns devices CoveredUnderWarranty' {
+        (Get-AuvikDeviceWarranty -CoveredUnderWarranty $false -LimitResults).WarrantyCoverageStatus | Sort-Object -Unique -Top 1 | Should -BeIn @('Available','Expired','Unknown')
     }
 
-    It 'Returns devices by DiscoverySNMP' {
-        Get-AuvikDeviceWarranty -CoveredUnderService $false -LimitResults | Should -Not -BeNullOrEmpty
+    It 'Returns devices CoveredUnderService' {
+        (Get-AuvikDeviceWarranty -CoveredUnderService $false -LimitResults).ServiceCoverageStatus | Sort-Object -Unique -Top 1 | Should -BeIn @('Expired','Unknown')
     }
 
     It 'Returns device by Id' {
-        Get-AuvikDeviceWarranty -Id $DeviceWarranty[0].Id | Should -Not -BeNullOrEmpty
+        (Get-AuvikDeviceWarranty -Id $DeviceWarranty[0].Id).Id | Should -Be $DeviceWarranty[0].Id
     }
 
 }

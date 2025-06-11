@@ -18,8 +18,8 @@ Describe 'Get-AuvikDevice Tests' -Tags 'Unit' {
         $MakeModel = ($Devices | Where-Object {"" -ne $_.MakeModel})[0].MakeModel
         $VendorName = ($Devices | Where-Object {"" -ne $_.VendorName})[0].VendorName
         $OnlineStatus = ($Devices | Where-Object {"" -ne $_.OnlineStatus})[0].OnlineStatus
-        $ModifiedAfter = ($Devices | Where-Object {"" -ne $_.LastModified})[0].LastModified.AddHours(-1)
-        $NotSeenSince = ($Devices | Where-Object {"" -ne $_.LastSeenTime})[0].LastSeenTime.AddHours(-1)
+        $ModifiedAfter = ($Devices | Where-Object {"" -ne $_.LastModified})[0].LastModified
+        $NotSeenSince = ($Devices | Where-Object {"" -ne $_.LastSeenTime})[0].LastSeenTime
     }
 
     It 'Returns devices by Tenant' {
@@ -31,19 +31,19 @@ Describe 'Get-AuvikDevice Tests' -Tags 'Unit' {
     }
 
     It 'Returns devices by DeviceType' {
-        (Get-AuvikDevice -DeviceType $DeviceType -LimitResults).DeviceType | Get-Unique | Should -Be $DeviceType
+        (Get-AuvikDevice -DeviceType $DeviceType -LimitResults).DeviceType | Sort-Object -Unique | Should -Be $DeviceType
     }
 
     It 'Returns devices by MakeModel' {
-        (Get-AuvikDevice -MakeModel $MakeModel -LimitResults).MakeModel | Get-Unique | Should -Be $MakeModel
+        (Get-AuvikDevice -MakeModel $MakeModel -LimitResults).MakeModel | Sort-Object -Unique | Should -Be $MakeModel
     }
 
     It 'Returns devices by VendorName' {
-        (Get-AuvikDevice -VendorName $VendorName -LimitResults) | Should -Not -BeNullOrEmpty
+        (Get-AuvikDevice -VendorName $VendorName -LimitResults).VendorName | Sort-Object -Unique | Should -Be $VendorName
     }
 
     It 'Returns devices by OnlineStatus' {
-        (Get-AuvikDevice -OnlineStatus $OnlineStatus -LimitResults).OnlineStatus | Get-Unique | Should -Be $OnlineStatus
+        (Get-AuvikDevice -OnlineStatus $OnlineStatus -LimitResults).OnlineStatus | Sort-Object -Unique | Should -Be $OnlineStatus
     }
 
     It 'Returns devices by ModifiedAfter' {

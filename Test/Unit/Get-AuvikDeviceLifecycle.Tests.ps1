@@ -24,23 +24,23 @@ Describe 'Get-AuvikDeviceLifecycle Tests' -Tags 'Unit' {
     }
 
     It 'Returns devices by SalesAvailability' {
-        Get-AuvikDeviceLifecycle -SalesAvailability $SalesAvailability -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDeviceLifecycle -SalesAvailability $SalesAvailability -LimitResults).SalesAvailability | Sort-Object -Unique | Should -Be $SalesAvailability
     }
 
     It 'Returns devices by SoftwareMaintenanceStatus' {
-        Get-AuvikDeviceLifecycle -SoftwareMaintenanceStatus $SoftwareMaintenanceStatus -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDeviceLifecycle -SoftwareMaintenanceStatus $SoftwareMaintenanceStatus -LimitResults).SoftwareMaintenanceStatus | Sort-Object -Unique | Should -Be $SoftwareMaintenanceStatus
     }
 
     It 'Returns devices by SecuritySoftwareMaintenanceStatus' {
-        Get-AuvikDeviceLifecycle -SecuritySoftwareMaintenanceStatus $SecuritySoftwareMaintenanceStatus -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDeviceLifecycle -SecuritySoftwareMaintenanceStatus $SecuritySoftwareMaintenanceStatus -LimitResults).SecuritySoftwareMaintenanceStatus | Sort-Object -Unique | Should -Be $SecuritySoftwareMaintenanceStatus
     }
 
     It 'Returns devices by LastSupportStatus' {
-        Get-AuvikDeviceLifecycle -LastSupportStatus $LastSupportStatus -LimitResults | Should -Not -BeNullOrEmpty
+        (Get-AuvikDeviceLifecycle -LastSupportStatus $LastSupportStatus -LimitResults).LastSupportStatus | Sort-Object -Unique | Should -Be $LastSupportStatus
     }
 
     It 'Returns device by Id' {
-        Get-AuvikDeviceLifecycle -Id $DeviceLifecycle[0].Id | Should -Not -BeNullOrEmpty
+        (Get-AuvikDeviceLifecycle -Id $DeviceLifecycle[0].Id).Id | Should -Be $DeviceLifecycle[0].Id
     }
 
 }
