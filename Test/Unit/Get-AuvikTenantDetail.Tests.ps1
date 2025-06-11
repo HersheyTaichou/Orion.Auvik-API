@@ -15,11 +15,11 @@ Describe 'Get-AuvikDevice Tests' -Tags 'Unit' {
     }
 
     It 'Returns Tenant Details by DomainPrefix' {
-        Get-AuvikTenantDetail -DomainPrefix $Tenants[0].DomainPrefix | Should -not -BeNullOrEmpty
+        (Get-AuvikTenantDetail -DomainPrefix $Tenants[0].DomainPrefix).DomainPrefix | Should -Contain $Tenants[0].DomainPrefix
     }
 
     It 'Returns Tenant Details by Id' {
-        Get-AuvikTenantDetail -DomainPrefix $Tenants[0].DomainPrefix -Id $Tenants[0].Id | Should -not -BeNullOrEmpty
+        (Get-AuvikTenantDetail -DomainPrefix $Tenants[0].DomainPrefix -Id $Tenants[0].Id).Id | Should -Contain $Tenants[0].Id
     }
 
 }

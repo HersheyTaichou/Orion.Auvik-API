@@ -9,7 +9,7 @@ Use Get-AuvikTenantDetail to pull details for multiple multi-clients and clients
 Domain prefix of your main Auvik account (tenant).
 
 .PARAMETER Id
-ID of a tenant in Auvik. Only accepts one ID at a time.
+ID of a tenant in Auvik
 
 .EXAMPLE
 An example
