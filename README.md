@@ -63,8 +63,8 @@ For automated tasks, the credentials and Uri can be stored, but the credentials 
 | /inventory/network/detail/{id} | Done | Get-AuvikNetworkDetail | Pass |
 | /inventory/interface/info | Done | Get-AuvikInterface | Pass |
 | /inventory/interface/info/{id} | Done | Get-AuvikInterface | Pass |
-| /inventory/component/info | To-Do | - |
-| /inventory/component/info/{id} | To-Do | - |
+| /inventory/component/info | Done | Get-AuvikComponent | Pass |
+| /inventory/component/info/{id} | Done | Get-AuvikComponent | Pass |
 | /inventory/entity/note | To-Do | - |
 | /inventory/entity/note/{id} | To-Do | - |
 | /inventory/entity/audit | To-Do | - |
