@@ -178,14 +178,14 @@ class AuvikTenant {
     [bool]$Running
     [datetime]$TrialStartDate
     [datetime]$trialEndDate
-    [PSCustomObject]$Address
+    [pscustomobject]$Address
     [AuvikTenant]$Parent
-    [PSCustomObject]$Authorizations
+    [pscustomobject]$Authorizations
     hidden $Tenant
 
     AuvikTenant() { $this.Init(@{}) }
 
-    AuvikTenant([PSCustomObject]$Content) {
+    AuvikTenant([pscustomobject]$Content) {
         if ($Content.data) {
             $Data = $Content.data
         } else {
@@ -218,41 +218,6 @@ class AuvikTenant {
     }
 }
 
-class AuvikLink {
-    [uri]$Dashboard
-    [uri]$Info
-    [uri]$Self
-
-    AuvikLink() { $this.Init(@{}) }
-
-    AuvikLink([hashtable]$Properties) { $this.Init($Properties) }
-
-    [void] Init([hashtable]$Properties) {
-        foreach ($Property in $Properties.Keys) {
-            $this.$Property = $Properties.$Property
-        }
-    }
-}
-
-class AuvikAddress {
-    [string]$Address1
-    [string]$Address2
-    [string]$City
-    [string]$State
-    [string]$PostalCode
-    [string]$Country
-
-    AuvikAddress() { $this.Init(@{}) }
-
-    AuvikAddress([hashtable]$Properties) { $this.Init($Properties) }
-
-    [void] Init([hashtable]$Properties) {
-        foreach ($Property in $Properties.Keys) {
-            $this.$Property = $Properties.$Property
-        }
-    }
-}
-
 class AuvikNetworkDetail {
     [string]$Id
     [Scope]$Scope
@@ -261,12 +226,12 @@ class AuvikNetworkDetail {
     [string]$CollectorSelection
     [string[]]$ExcludedIpAddresses
     [AuvikTenant]$Tenant
-    [AuvikLink]$Links
+    [pscustomobject]$Links
     hidden $NetworkDetail
 
     AuvikNetworkDetail() { $this.Init(@{}) }
 
-    AuvikNetworkDetail([PSCustomObject]$Content) {
+    AuvikNetworkDetail([pscustomobject]$Content) {
         if ($Content.data) {
             $Data = $Content.data
         } else {
@@ -280,8 +245,8 @@ class AuvikNetworkDetail {
             'CollectorSelection' = $Data.attributes.CollectorSelection
             'ExcludedIpAddresses' = $Data.attributes.ExcludedIpAddresses
             'Tenant' = $Data.relationships.tenant.data
-            'Links' =$Content.data.links
-            'NetworkDetail' = $Data
+            'Links' = $Data.links
+            'NetworkDetail' = $Content
         })
     }
 
@@ -304,14 +269,14 @@ class AuvikNetwork {
     [AuvikNetworkDetail[]]$NetworkDetail
     [AuvikTenant]$Tenant
     [AuvikDevice[]]$Device
-    [AuvikLink]$Links
+    [pscustomobject]$Links
     hidden $Network
 
     AuvikNetwork() {
         $this.Init(@{})
     }
 
-    AuvikNetwork([PSCustomObject]$Content) {
+    AuvikNetwork([pscustomobject]$Content) {
         if ($Content.data) {
             $Data = $Content.data
         } else {
@@ -361,12 +326,12 @@ class AuvikDevice {
     [AuvikTenant]$Tenant
     [AuvikNetwork[]]$Network
     [AuvikDeviceDetail[]]$DeviceDetail
-    [AuvikLink]$Links
+    [pscustomobject]$Links
     hidden $Device
 
     AuvikDevice() { $this.Init(@{}) }
 
-    AuvikDevice([PSCustomObject]$Content) {
+    AuvikDevice([pscustomobject]$Content) {
         if ($Content.data) {
             $Data = $Content.data
         } else {
@@ -414,15 +379,15 @@ class AuvikDeviceDetail {
     [AuvikTenant]$Tenant
     [AuvikDevice[]]$ConnectedDevices
     [AuvikInterface[]]$Interfaces
-    [PSCustomObject[]]$Configurations
-    [PSCustomObject[]]$Components
-    [AuvikLink]$Links
+    [pscustomobject[]]$Configurations
+    [pscustomobject[]]$Components
+    [pscustomobject]$Links
     hidden $DeviceDetail
 
 
     AuvikDeviceDetail() { $this.Init(@{}) }
 
-    AuvikDeviceDetail([PSCustomObject]$Content) {
+    AuvikDeviceDetail([pscustomobject]$Content) {
         if ($Content.data) {
             $Data = $Content.data
         } else {
@@ -442,7 +407,7 @@ class AuvikDeviceDetail {
             'Configurations' = $Data.relationships.Configurations.data
             'Components' = $Data.relationships.Components.data
             'Links' = $Data.Links
-            'DeviceDetail' = $Data
+            'DeviceDetail' = $Content
         })
     }
 
@@ -457,7 +422,7 @@ class AuvikDeviceDetail {
 
 class AuvikDeviceExtendedDetail {
     [string]$Id
-    [AuvikLink]$Links
+    [pscustomobject]$Links
     [string]$DeviceName
     [DeviceType]$DeviceType
     [datetime]$LastModified
@@ -472,7 +437,7 @@ class AuvikDeviceExtendedDetail {
 
     AuvikDeviceExtendedDetail() { $this.Init(@{}) }
 
-    AuvikDeviceExtendedDetail([PSCustomObject]$Content) {
+    AuvikDeviceExtendedDetail([pscustomobject]$Content) {
         if ($Content.data) {
             $Data = $Content.data
         } else {
@@ -491,7 +456,7 @@ class AuvikDeviceExtendedDetail {
             #'Networks' = $Data.relationships.Networks.data
             #'DeviceDetail' = $Data.relationships.deviceDetail.data
             #'Members' = $Data.relationships.members
-            'DeviceExtendedDetail' = $Data
+            'DeviceExtendedDetail' = $Content
         })
     }
 
@@ -514,12 +479,12 @@ class AuvikDeviceWarranty {
     [string]$WarrantyExpirationDate
     [string]$RecommendedSoftwareVersion
     [AuvikTenant]$Tenant
-    [AuvikLink]$Links
+    [pscustomobject]$Links
     hidden $DeviceWarranty
 
     AuvikDeviceWarranty() { $this.Init(@{}) }
 
-    AuvikDeviceWarranty([PSCustomObject]$Content) {
+    AuvikDeviceWarranty([pscustomobject]$Content) {
         if ($Content.data) {
             $Data = $Content.data
         } else {
@@ -558,12 +523,12 @@ class AuvikDeviceLifecycle {
     [LifecycleStatus]$LastSupportStatus
     [AuvikTenant]$Tenant
     [AuvikDevice]$Device
-    [AuvikLink]$Links
+    [pscustomobject]$Links
     hidden $deviceLifecycle
 
     AuvikDeviceLifecycle() { $this.Init(@{}) }
 
-    AuvikDeviceLifecycle([PSCustomObject]$Content) {
+    AuvikDeviceLifecycle([pscustomobject]$Content) {
         if ($Content.data) {
             $Data = $Content.data
         } else {
@@ -604,7 +569,7 @@ class AuvikInterface {
     [OperationalStatus]$OperationalStatus
     [bool]$AdminStatus
     [datetime]$LastModified
-    [AuvikLink]$Links
+    [pscustomobject]$Links
     [AuvikTenant]$Tenant
     [AuvikInterface[]]$ConnectedTo
     [AuvikNetwork[]]$Networks
@@ -613,7 +578,7 @@ class AuvikInterface {
 
     AuvikInterface() { $this.Init(@{}) }
 
-    AuvikInterface([PSCustomObject]$Content) {
+    AuvikInterface([pscustomobject]$Content) {
         if ($Content.data) {
             $Data = $Content.data
         } else {
@@ -655,14 +620,14 @@ class AuvikComponent {
     [string]$ComponentType
     [currentStatus]$CurrentStatus
     [datetime]$LastModified
-    [AuvikLink]$Links
+    [pscustomobject]$Links
     [AuvikTenant]$Tenant
     [AuvikDevice]$ParentDevice
     hidden $Component
 
     AuvikComponent() { $this.Init(@{}) }
 
-    AuvikComponent([PSCustomObject]$Content) {
+    AuvikComponent([pscustomobject]$Content) {
         if ($Content.data) {
             $Data = $Content.data
         } else {
@@ -694,12 +659,12 @@ class ChangeMe {
     [string]$Id
     [string]$DeviceName
     [AuvikTenant]$Tenant
-    [AuvikLink]$Links
+    [pscustomobject]$Links
     hidden $ChangeMe
 
     ChangeMe() { $this.Init(@{}) }
 
-    ChangeMe([PSCustomObject]$Content) {
+    ChangeMe([pscustomobject]$Content) {
         if ($Content.data) {
             $Data = $Content.data
         } else {
