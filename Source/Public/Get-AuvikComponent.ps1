@@ -24,7 +24,11 @@ function Get-AuvikComponent {
         # ID of a device in Auvik. Not compatible with the other parameters.
         [Parameter(ParameterSetName="Single")]
         [string[]]
-        $Id
+        $Id,
+        # Get all results
+        [Parameter()]
+        [switch]
+        $LimitResults
     )
 
     begin {
@@ -52,15 +56,21 @@ function Get-AuvikComponent {
                 default {}
             }
         }
+
+        if ($LimitResults) {
+            $All =$false
+        } else {
+            $All = $true
+        }
     }
 
     process {
         $AuvikComponent = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikComponent]::new($(Invoke-AuvikApi -Uri "$AuvikBaseUri/inventory/component/info/$($_)"))
+                [AuvikComponent]::new($(Invoke-AuvikApi -Uri "$AuvikBaseUri/inventory/component/info/$($_)" -All:$All))
             }
         } else {
-            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/component/info?$($QueryParams -join '&')").data | ForEach-Object {[AuvikComponent]::new($_)}
+            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/component/info?$($QueryParams -join '&')" -All:$All).data | ForEach-Object {[AuvikComponent]::new($_)}
         }
 
     }
