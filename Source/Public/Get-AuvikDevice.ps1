@@ -46,7 +46,7 @@ function Get-AuvikDevice {
     param (
         # Filter by IDs of networks this device is on.
         [Parameter(ParameterSetName="Multiple")]
-        [string]
+        [string[]]
         $Networks,
         # Filter by device type.
         [Parameter(ParameterSetName="Multiple")][ValidateSet("unknown","switch","l3Switch","router","accessPoint","firewall","workstation","server","storage","printer","copier","hypervisor","multimedia","phone","tablet","handheld","virtualAppliance","bridge","controller","hub","modem","ups","module","loadBalancer","camera","telecommunications","packetProcessor","chassis","airConditioner","virtualMachine","pdu","ipPhone","backhaul","internetOfThings","voipSwitch","stack","backupDevice","timeClock","lightingDevice","audioVisual","securityAppliance","utm","alarm","buildingManagement","ipmi","thinAccessPoint","thinClient",IgnoreCase=$false)]
@@ -98,7 +98,7 @@ function Get-AuvikDevice {
         $QueryParams = foreach ($Key in $PSBoundParameters.Keys) {
             switch ($Key) {
                 Networks {
-                    "filter[networks]=$Networks"
+                    "filter[networks]=$($Networks  -join ",")"
                 }
                 DeviceType {
                     "filter[deviceType]=$DeviceType"
