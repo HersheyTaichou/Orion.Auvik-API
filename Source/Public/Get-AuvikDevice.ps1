@@ -138,7 +138,7 @@ function Get-AuvikDevice {
     process {
         $AuvikDevice = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikDevice]::new($(Invoke-AuvikApi -Uri "$AuvikBaseUri/inventory/device/info/$($_)?include=deviceDetail" -All:$All))
+                [AuvikDevice]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/info/$($_)?include=deviceDetail" -All:$All))
             }
         } else {
             $Devices = Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/info?include=deviceDetail&$($QueryParams -join '&')" -All:$All

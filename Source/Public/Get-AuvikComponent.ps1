@@ -67,7 +67,7 @@ function Get-AuvikComponent {
     process {
         $AuvikComponent = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikComponent]::new($(Invoke-AuvikApi -Uri "$AuvikBaseUri/inventory/component/info/$($_)" -All:$All))
+                [AuvikComponent]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/component/info/$($_)" -All:$All))
             }
         } else {
             (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/component/info?$($QueryParams -join '&')" -All:$All).data | ForEach-Object {[AuvikComponent]::new($_)}

@@ -67,7 +67,7 @@ function Get-AuvikNetwork {
     process {
         $AuvikNetwork = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikNetwork]::new($(Invoke-AuvikApi -Uri "$AuvikBaseUri/inventory/network/info/$($_)?include=networkDetail" -All:$All))
+                [AuvikNetwork]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/info/$($_)?include=networkDetail" -All:$All))
             }
         } else {
             $Networks = Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/info?include=networkDetail&$($QueryParams -join '&')" -All:$All

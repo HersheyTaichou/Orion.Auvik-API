@@ -74,7 +74,7 @@ function Get-AuvikInterface {
     process {
         $AuvikInterface = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikInterface]::new($(Invoke-AuvikApi -Uri "$AuvikBaseUri/inventory/interface/info/$($_)" -All:$All))
+                [AuvikInterface]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/interface/info/$($_)" -All:$All))
             }
         } else {
             (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/interface/info?$($QueryParams -join '&')" -All:$All).data | ForEach-Object {[AuvikInterface]::new($_)}
