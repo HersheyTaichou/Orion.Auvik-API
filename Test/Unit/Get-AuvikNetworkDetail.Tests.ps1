@@ -34,7 +34,7 @@ Describe 'Get-AuvikNetworkDetail Tests' -Tags 'Unit' {
     }
 
     It 'Returns NetworkDetail by ModifiedAfter' {
-        Get-AuvikNetworkDetail -ModifiedAfter $Networks.LastModified -LimitResults | Sort-Object -Unique -Top 1 | Should -BeGreaterOrEqual $Networks.LastModified
+        (Get-AuvikNetworkDetail -ModifiedAfter $Networks.LastModified -LimitResults).Id | Sort-Object -Unique | Should -Contain $Networks.Id
     }
 
     It 'Returns Network by Id' {
