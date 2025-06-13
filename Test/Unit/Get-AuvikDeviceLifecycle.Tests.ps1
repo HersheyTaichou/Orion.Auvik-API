@@ -12,7 +12,7 @@ Describe 'Get-AuvikDeviceLifecycle Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $DeviceLifecycle = Get-AuvikDeviceLifecycle -Tenants ($Tenants[0]).ID -LimitResults
+        $DeviceLifecycle = Get-AuvikDeviceLifecycle -TenantID ($Tenants[0]).ID -LimitResults
         $SalesAvailability = ($DeviceLifecycle | Where-Object {"" -ne $_.SalesAvailability})[0].SalesAvailability
         $SoftwareMaintenanceStatus = ($DeviceLifecycle | Where-Object {"" -ne $_.SoftwareMaintenanceStatus})[0].SoftwareMaintenanceStatus
         $SecuritySoftwareMaintenanceStatus = ($DeviceLifecycle | Where-Object {"" -ne $_.SecuritySoftwareMaintenanceStatus})[0].SecuritySoftwareMaintenanceStatus

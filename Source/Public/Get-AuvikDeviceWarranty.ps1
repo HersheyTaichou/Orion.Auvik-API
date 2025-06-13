@@ -12,7 +12,7 @@ function Get-AuvikDeviceWarranty {
         # Array of tenant IDs to request info from.
         [Parameter(ParameterSetName="Multiple")]
         [string[]]
-        $Tenants,
+        $TenantID,
         # ID of a device in Auvik. Only accepts one ID at a time and is not compatible with the other parameters
         [Parameter(ParameterSetName="Single")]
         [string[]]
@@ -37,7 +37,7 @@ function Get-AuvikDeviceWarranty {
                     "filter[coveredUnderService]=$($CoveredUnderService.ToString().ToLower())"
                 }
                 Tenants {
-                    "tenants=$($Tenants -join ",")"
+                    "tenants=$($TenantID -join ",")"
                 }
                 Default {}
             }

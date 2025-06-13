@@ -12,7 +12,7 @@ Describe 'Get-AuvikDeviceExtendedDetail Test' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $Devices = Get-AuvikDevice -Tenants ($Tenants[0]).ID -LimitResults
+        $Devices = Get-AuvikDevice -TenantID ($Tenants[0]).ID -LimitResults
     }
 
     It 'Returns device by Id' {

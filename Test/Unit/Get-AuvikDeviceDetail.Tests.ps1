@@ -12,7 +12,7 @@ Describe 'Get-AuvikDeviceDetail Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $DeviceDetail = Get-AuvikDeviceDetail -Tenants ($Tenants[0]).ID -LimitResults
+        $DeviceDetail = Get-AuvikDeviceDetail -TenantID ($Tenants[0]).ID -LimitResults
         $DiscoverySNMP = $DeviceDetail[0].SnmpStatus
         $DiscoveryWMI = $DeviceDetail[0].WmiStatus
         $DiscoveryLogin = $DeviceDetail[0].LoginStatus

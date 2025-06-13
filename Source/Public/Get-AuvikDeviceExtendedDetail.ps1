@@ -52,7 +52,7 @@ function Get-AuvikDeviceExtendedDetail {
         # Array of tenant IDs to request info from.
         [Parameter(ParameterSetName="Multiple")]
         [string[]]
-        $Tenants,
+        $TenantID,
         #>
         # ID of a device in Auvik. Not compatible with the other parameters.
         [Parameter(ParameterSetName="Single")]
@@ -81,7 +81,7 @@ function Get-AuvikDeviceExtendedDetail {
                     "filter[stateKnown]=$($StateKnown.ToString().ToLower())"
                 }
                 Tenants {
-                    "tenants=$($Tenants -join ",")"
+                    "tenants=$($TenantID -join ",")"
                 }
                 default {}
             }

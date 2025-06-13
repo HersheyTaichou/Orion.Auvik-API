@@ -24,7 +24,7 @@ function Get-AuvikInterface {
         # Array of tenant IDs to request info from.
         [Parameter(ParameterSetName="Multiple")]
         [string[]]
-        $Tenants,
+        $TenantID,
         # ID of a device in Auvik. Not compatible with the other parameters.
         [Parameter(ParameterSetName="Single")]
         [string[]]
@@ -43,22 +43,22 @@ function Get-AuvikInterface {
         $QueryParams = foreach ($Key in $PSBoundParameters.Keys) {
             switch ($Key) {
                 InterfaceType {
-                    "filter[interfaceType]=$InterfaceType"
+                    "filter[interfaceType]=$($InterfaceType)"
                 }
                 ParentDevice {
-                    "filter[parentDevice]=$ParentDevice"
+                    "filter[parentDevice]=$($ParentDevice)"
                 }
                 AdminStatus {
                     "filter[adminStatus]=$($AdminStatus.ToString().ToLower())"
                 }
                 OperationalStatus {
-                    "filter[operationalStatus]=$OperationalStatus"
+                    "filter[operationalStatus]=$($OperationalStatus)"
                 }
                 ModifiedAfter {
-                    "filter[modifiedAfter]=$ModifiedAfter"
+                    "filter[modifiedAfter]=$($ModifiedAfter)"
                 }
                 Tenants {
-                    "tenants=$($Tenants -join ",")"
+                    "tenants=$($TenantID -join ",")"
                 }
                 default {}
             }

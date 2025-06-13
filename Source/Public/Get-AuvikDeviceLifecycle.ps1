@@ -20,7 +20,7 @@ function Get-AuvikDeviceLifecycle {
         # Array of tenant IDs to request info from.
         [Parameter(ParameterSetName="Multiple")]
         [string[]]
-        $Tenants,
+        $TenantID,
         # ID of a device in Auvik. Only accepts one ID at a time and is not compatible with the other parameters
         [Parameter(ParameterSetName="Single")]
         [string[]]
@@ -51,7 +51,7 @@ function Get-AuvikDeviceLifecycle {
                     "filter[lastSupportStatus]=$($LastSupportStatus)"
                 }
                 Tenants {
-                    "tenants=$($Tenants -join ",")"
+                    "tenants=$($TenantID -join ",")"
                 }
                 Default {}
             }

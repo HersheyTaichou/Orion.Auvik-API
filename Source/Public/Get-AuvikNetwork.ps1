@@ -20,7 +20,7 @@ function Get-AuvikNetwork {
         # Array of tenant IDs to request info from.
         [Parameter(ParameterSetName="Multiple")]
         [string[]]
-        $Tenants,
+        $TenantID,
         # ID of a network in Auvik. Not compatible with the other parameters.
         [Parameter(ParameterSetName="Single")]
         [string[]]
@@ -39,19 +39,19 @@ function Get-AuvikNetwork {
         $QueryParams = foreach ($Key in $PSBoundParameters.Keys) {
             switch ($Key) {
                 NetworkType {
-                    "filter[networkType]=$NetworkType"
+                    "filter[networkType]=$($NetworkType)"
                 }
                 ScanStatus {
-                    "filter[scanStatus]=$ScanStatus"
+                    "filter[scanStatus]=$($ScanStatus)"
                 }
                 Devices {
                     "filter[devices]=$($Devices -join ",")"
                 }
                 ModifiedAfter {
-                    "filter[modifiedAfter]=$ModifiedAfter"
+                    "filter[modifiedAfter]=$($ModifiedAfter)"
                 }
                 Tenants {
-                    "tenants=$($Tenants -join ",")"
+                    "tenants=$($TenantID -join ",")"
                 }
                 default {}
             }

@@ -12,7 +12,7 @@ Describe 'Get-AuvikDeviceWarranty Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $DeviceWarranty = Get-AuvikDeviceWarranty -Tenants ($Tenants[0]).ID -LimitResults
+        $DeviceWarranty = Get-AuvikDeviceWarranty -TenantID ($Tenants[0]).ID -LimitResults
     }
 
     It 'Returns devices by Tenant' {

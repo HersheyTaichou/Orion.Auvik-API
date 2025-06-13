@@ -20,7 +20,7 @@ function Get-AuvikComponent {
         # Array of tenant IDs to request info from.
         [Parameter(ParameterSetName="Multiple")]
         [string[]]
-        $Tenants,
+        $TenantID,
         # ID of a device in Auvik. Not compatible with the other parameters.
         [Parameter(ParameterSetName="Single")]
         [string[]]
@@ -39,19 +39,19 @@ function Get-AuvikComponent {
         $QueryParams = foreach ($Key in $PSBoundParameters.Keys) {
             switch ($Key) {
                 ModifiedAfter {
-                    "filter[modifiedAfter]=$ModifiedAfter"
+                    "filter[modifiedAfter]=$($ModifiedAfter)"
                 }
                 DeviceId {
-                    "filter[deviceId]=$DeviceId"
+                    "filter[deviceId]=$($DeviceId)"
                 }
                 DeviceName {
-                    "filter[deviceName]=$DeviceName"
+                    "filter[deviceName]=$($DeviceName)"
                 }
                 currentStatus {
-                    "filter[currentStatus]=$currentStatus"
+                    "filter[currentStatus]=$($currentStatus)"
                 }
                 Tenants {
-                    "tenants=$($Tenants -join ",")"
+                    "tenants=$($TenantID -join ",")"
                 }
                 default {}
             }

@@ -12,7 +12,7 @@ Describe 'Get-AuvikDevice Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $Devices = Get-AuvikDevice -Tenants ($Tenants[0]).ID -LimitResults
+        $Devices = Get-AuvikDevice -TenantID ($Tenants[0]).ID -LimitResults
         $NetworkId = ($Devices.Network | Where-Object {$_.Id -ne ""})[0].Id
         $DeviceType = ($Devices | Where-Object {"" -ne $_.DeviceType})[0].DeviceType
         $MakeModel = ($Devices | Where-Object {"" -ne $_.MakeModel})[0].MakeModel

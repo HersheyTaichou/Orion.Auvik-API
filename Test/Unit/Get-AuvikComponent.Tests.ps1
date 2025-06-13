@@ -12,7 +12,7 @@ Describe 'Get-AuvikComponent Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $Component = Get-AuvikComponent -Tenants ($Tenants[0]).ID -LimitResults
+        $Component = Get-AuvikComponent -TenantID ($Tenants[0]).ID -LimitResults
         #$ModifiedAfter = ($Component | Where-Object {$_.LastModified -gt 1})[0]
         $ParentDevice = ($Component.parentDevice | Where-Object {("" -ne $_.Id) -and ("" -ne $_.DeviceName)})[0]
         $CurrentStatus = ($Component | Where-Object {$_.CurrentStatus -in @('ok','degraded','failed')})[0].CurrentStatus

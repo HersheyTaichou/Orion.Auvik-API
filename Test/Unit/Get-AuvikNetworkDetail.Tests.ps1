@@ -12,13 +12,13 @@ Describe 'Get-AuvikNetworkDetail Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $Networks = (Get-AuvikNetwork -Tenants ($Tenants[0]).ID -LimitResults)[0]
-        $Devices = (Get-AuvikDevice -Tenants ($Tenants[0]).ID -LimitResults)[0]
+        $Networks = (Get-AuvikNetwork -TenantID ($Tenants[0]).ID -LimitResults)[0]
+        $Devices = (Get-AuvikDevice -TenantID ($Tenants[0]).ID -LimitResults)[0]
 
     }
 
     It 'Returns NetworkDetail by Tenant' {
-        (Get-AuvikNetworkDetail -Tenants $Tenants.Id -LimitResults) | Should -Not -BeNullOrEmpty
+        (Get-AuvikNetworkDetail -TenantID $Tenants.Id -LimitResults) | Should -Not -BeNullOrEmpty
     }
 
     It 'Returns NetworkDetail by NetworkType' {
@@ -34,7 +34,7 @@ Describe 'Get-AuvikNetworkDetail Tests' -Tags 'Unit' {
     }
 
     It 'Returns NetworkDetail by ModifiedAfter' {
-        Get-AuvikNetworkDetail -ModifiedAfter $Networks.LastModified -LimitResults | Sort-Object -Unique -Top 1 | Should -BeGreaterOrEqual $ModifiedAfter
+        Get-AuvikNetworkDetail -ModifiedAfter $Networks.LastModified -LimitResults | Sort-Object -Unique -Top 1 | Should -BeGreaterOrEqual $Networks.LastModified
     }
 
     It 'Returns Network by Id' {

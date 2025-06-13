@@ -12,7 +12,7 @@ Describe 'Get-AuvikInterface Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $Interface = Get-AuvikInterface -Tenants ($Tenants[0]).ID -LimitResults
+        $Interface = Get-AuvikInterface -TenantID ($Tenants[0]).ID -LimitResults
         $InterfaceType = ($Interface | Where-Object {"" -ne $_.InterfaceType})[0].InterfaceType
         $ParentDevice = ($Interface.parentDevice | Where-Object {"" -ne $_.Id})[0]
         $OperationalStatus = ($Interface | Where-Object {"" -ne $_.OperationalStatus})[0].operationalStatus
