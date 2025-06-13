@@ -1,0 +1,168 @@
+{
+  "data": [
+    {
+      "type": "device",
+      "id": "MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw",
+      "attributes": {
+        "ipAddresses": [
+          "10.0.0.1"
+        ],
+        "deviceName": "MyAccessPoint",
+        "deviceType": "accessPoint",
+        "makeModel": "M Series Access Point",
+        "vendorName": "Ubiquiti",
+        "softwareVersion": "3.9.3.7537",
+        "serialNumber": "1Q2W3E4R5T6Y",
+        "description": "Linux 3.3.8 #1 Fri Oct 13 11:12:44 PDT 2017 mips",
+        "firmwareVersion": "unifi-v1.6.7.249-gb74e0282",
+        "lastModified": "2018-03-12T12:00:00Z",
+        "lastSeenTime": "2018-11-30T18:34:39.452Z",
+        "onlineStatus": "online"
+      },
+      "relationships": {
+        "tenant": {
+          "data": {
+            "type": "tenant",
+            "id": "195798545063742726",
+            "attributes": {
+              "domainPrefix": "sampledomain"
+            }
+          }
+        },
+        "networks": {
+          "data": [
+            {
+              "type": "network",
+              "id": "MTk5NTAyNzg2ODc3MDYzMTY5LDE5OTUwMjc5MTExMjc4NTkyMw",
+              "attributes": {
+                "networkName": "192.168.4.0/24"
+              },
+              "links": {
+                "self": "https://auvikapi.us3.my.auvik.com/v1/inventory/network/info/MTk5NTAyNzg2ODc3MDYzMTY5LDE5OTUwMjc5MTExMjc4NTkyMw",
+                "dashboard": "https://sampledomain.my.auvik.com/#entity/network/199502791112896003/dashboard"
+              }
+            }
+          ]
+        },
+        "deviceDetail": {
+          "data": {
+            "type": "deviceDetail",
+            "id": "MTk5NTAyNzg2ODc3MDYzMTY5LDE5OTUwMjc5MTExMjc4NTkyMw",
+            "links": {
+              "dashboard": "https://sampledomain.my.auvik.com/#entity/device/199502791113028867/dashboard",
+              "self": "https://auvikapi.us3.my.auvik.com/v1/inventory/device/detail/MTk5NTAyNzg2ODc3MDYzMTY5LDE5OTUwMjc5MTExMjc4NTkyMw"
+            }
+          }
+        }
+      },
+      "links": {
+        "dashboard": "https://sampledomain.my.auvik.com/#entity/device/199502791112896003/dashboard",
+        "self": "https://auvikapi.us3.my.auvik.com/v1/inventory/device/info/MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw"
+      }
+    }
+  ],
+  "included": [
+    {
+      "type": "deviceDetail",
+      "id": "MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw",
+      "attributes": {
+        "discoveryStatus": {
+          "snmp": "disabled",
+          "login": "disabled",
+          "wmi": "disabled",
+          "vmware": "disabled"
+        },
+        "manageStatus": true,
+        "trafficInsightsStatus": "notDetected"
+      },
+      "relationships": {
+        "tenant": {
+          "data": {
+            "type": "tenant",
+            "id": "195798545063742726",
+            "attributes": {
+              "domainPrefix": "sampledomain"
+            }
+          }
+        },
+        "connectedDevices": {
+          "data": [
+            {
+              "id": "MTk5NzYyMjM1MDE1MTY4MDA0LDE5OTc2MjQ4MzgzMjYxMjM1NQ",
+              "attributes": {
+                "deviceName": "SomeOtherDevice"
+              },
+              "type": "device",
+              "links": {
+                "dashboard": "https://sampledomain.my.auvik.com/#entity/device/199502791112785923/dashboard",
+                "self": "https://auvikapi.us3.my.auvik.com/v1/inventory/device/info/MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMjg5NjAwMw"
+              }
+            }
+          ]
+        },
+        "interfaces": {
+          "data": [
+            {
+              "type": "interface",
+              "id": "MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMjg5NjAwMw",
+              "attributes": {
+                "interfaceName": "Interface 1",
+                "macAddress": "10:dd:b1:cb:ab:c6"
+              },
+              "links": {
+                "dashboard": "https://sampledomain.my.auvik.com/#entity/interface/199502791112785923/dashboard",
+                "self": "https://auvikapi.us3.my.auvik.com/v1/inventory/interface/info/MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMjg5NjAwMw"
+              }
+            }
+          ]
+        },
+        "configurations": {
+          "data": [
+            {
+              "type": "configuration",
+              "id": "MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMjg5NjAwMw",
+              "attributes": {
+                "isRunning": true,
+                "backupTime": "2018-03-12T12:00:00Z"
+              },
+              "links": {
+                "self": "https://auvikapi.us3.my.auvik.com/v1/inventory/configuration/MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMjg5NjAwMw"
+              }
+            }
+          ]
+        },
+        "components": {
+          "data": [
+            {
+              "type": "component",
+              "id": "MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMjg5NjAwMw",
+              "attributes": {
+                "configurationId": "string",
+                "configurationIndex": "string",
+                "componentName": "CPU Core 26",
+                "componentType": "cpu"
+              },
+              "links": {
+                "dashboard": "https://sampledomain.my.auvik.com/#entity/device/197769558351021318/cpu",
+                "self": "https://auvikapi.us3.my.auvik.com/v1/inventory/components/MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMjg5NjAwMw"
+              }
+            }
+          ]
+        }
+      },
+      "links": {
+        "dashboard": "https://sampledomain.my.auvik.com/#entity/device/199502791113028867/dashboard",
+        "self": "https://auvikapi.us3.my.auvik.com/v1/inventory/device/detail/MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw"
+      }
+    }
+  ],
+  "links": {
+    "next": "https://auvikapi.us3.my.auvik.com/v1/inventory/device/info?page[after]=Y3Vyc29yOk16TXpPVE0wT0RRNU1UQTROemN4TlRneExETXpNemt6TkRnME56QXpORFF5TmpFeU5R&page[first]=300",
+    "prev": "https://auvikapi.us3.my.auvik.com/v1/inventory/device/info?page[before]=Y3Vyc29yOk16TXpPVE0wT0RRNU1UQTROemN4TlRneExETXpNemt6TkRnME56QXpORFF5TmpFeU5R&page[last]=300",
+    "first": "https://auvikapi.us3.my.auvik.com/v1/inventory/device/info?page[first]=300",
+    "last": "https://auvikapi.us3.my.auvik.com/v1/inventory/device/info?page[last]=300"
+  },
+  "meta": {
+    "totalPages": 5
+  }
+}

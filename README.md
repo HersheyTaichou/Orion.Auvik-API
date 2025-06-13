@@ -36,14 +36,14 @@ Once you have the above information, you will need to run "Connect-AuvikApi" in 
 
 ```PowerShell
 $AuvikCreds = Get-Credential -Message "Enter your username and API key to Auvik"
-Connect-AuvikApi -Credential $AuvikCreds -Uri "https://auvikapi.us3.my.auvik.com"
+Connect-AuvikApi -Credential $AuvikCreds -Uri "https://auvikapi.us1.my.auvik.com"
 ```
 
 You can now run any of the other commands for the Auvik API.
 
 For automated tasks, the credentials and Uri can be stored, but the credentials need to be passed to Connect-AuvikApi as a PSCredential object.
 
-## Naming Conventions
+## Naming and Output Conventions
 
 ### Functions
 
@@ -51,9 +51,35 @@ The functions start with the correct verb based on PowerShell best practices. Ge
 
 The Noun section starts with "Auvik", to indicate it is interacting with Auvik. For Get- commands, the final part is the data type returned. For other commands, it is based on the action taken.
 
+By default, all results are returned.
+
 ### Classes
 
-The PowerShell classes are prepended with "Auvik" then named after the data type that is returned by the Auvik API.
+The PowerShell classes are prepended with "Auvik" then named after the data type that is returned by the Auvik API. Taking the json output from the API and formatting it into PowerShell objects is done in the class.
+
+[Here is an example output of a query](./Example-Device.json), taken from Auvik's API documentation
+
+Anything under "attributes" is moved up one level and everything related is sent to create it's own data type object. The top-level links and meta sections are dropped as unneeded.
+
+```PowerShell
+Id              : MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw
+IpAddresses     : {10.0.0.1}
+DeviceName      : MyAccessPoint
+DeviceType      : accessPoint
+MakeModel       : M Series Access Point
+VendorName      : Ubiquiti
+SoftwareVersion : 3.9.3.7537
+SerialNumber    : 1Q2W3E4R5T6Y
+Description     : Linux 3.3.8 #1 Fri Oct 13 11:12:44 PDT 2017 mips
+FirmwareVersion : unifi-v1.6.7.249-gb74e0282
+LastModified    : 3/12/2018 12:00:00 PM
+LastSeenTime    : 11/30/2018 6:34:39 PM
+OnlineStatus    : online
+Tenant          : AuvikTenant
+Network         : {MTk5NTAyNzg2ODc3MDYzMTY5LDE5OTUwMjc5MTExMjc4NTkyMw}
+DeviceDetail    : {MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw}
+Links           : @{dashboard=https://sampledomain.my.auvik.com/#entity/device/199502791112896003/dashboard; self=https://auvikapi.us3.my.auvik.com/v1/inventory/device/info/MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw}
+```
 
 ## Progress
 
