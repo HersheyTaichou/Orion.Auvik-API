@@ -167,6 +167,14 @@ enum OperationalStatus {
     lowerLayerDown
 }
 
+enum EntityType {
+    root
+    device
+    network
+    interface
+    unknown
+}
+
 class AuvikTenant {
     [string]$Id
     [string]$DomainPrefix
@@ -647,6 +655,51 @@ class AuvikComponent {
     }
 
     ChangeMe([hashtable]$Properties) { $this.Init($Properties) }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
+class AuvikEntityNote {
+    [string]$Id
+    [string]$Title
+    [string]$Body
+    [string]$EntityId
+    [EntityType]$EntityType
+    [string]$EntityName
+    [string]$LastModifiedBy
+    [datetime]$LastModified
+    [AuvikTenant]$Tenant
+    [pscustomobject]$Links
+    hidden $EntityNote
+
+    AuvikEntityNote() { $this.Init(@{}) }
+
+    AuvikEntityNote([pscustomobject]$Content) {
+        if ($Content.data) {
+            $Data = $Content.data
+        } else {
+            $Data = $Content
+        }
+        $this.Init(@{
+            'Id' = $Data.id
+            'Title' = $Data.attributes.Title
+            'Body' = $Data.attributes.Body
+            'EntityId' = $Data.attributes.EntityId
+            'EntityType' = $Data.attributes.EntityType
+            'EntityName' = $Data.attributes.EntityName
+            'LastModifiedBy' = $Data.attributes.LastModifiedBy
+            'LastModified' = if ($Data.attributes.LastModified) {$Data.attributes.LastModified} else {0}
+            'Tenant' = $Data.relationships.tenant.data
+            'Links' = $Data.Links
+            'EntityNote' = $Content
+        })
+    }
+
+    AuvikEntityNote([hashtable]$Properties) { $this.Init($Properties) }
 
     [void] Init([hashtable]$Properties) {
         foreach ($Property in $Properties.Keys) {
