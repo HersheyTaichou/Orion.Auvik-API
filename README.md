@@ -23,7 +23,7 @@ Before you can query the Auvik API, you will need to authenticate with it. To au
 
 1. The API endpoint for your Auvik tenant
    1. Log into your Auvik account.
-   2. At the top, note the URL in the browser, it should look like "https://domain.us1.my.auvik.com/
+   2. At the top, note the URL in the browser, it should look like "<https://domain.us1.my.auvik.com/>"
    3. Replace "domain" in your URL with "auvikapi", this is your API endpoint
 2. The API key for your account
    1. Log into your Auvik account.
@@ -42,6 +42,18 @@ Connect-AuvikApi -Credential $AuvikCreds -Uri "https://auvikapi.us3.my.auvik.com
 You can now run any of the other commands for the Auvik API.
 
 For automated tasks, the credentials and Uri can be stored, but the credentials need to be passed to Connect-AuvikApi as a PSCredential object.
+
+## Naming Conventions
+
+### Functions
+
+The functions start with the correct verb based on PowerShell best practices. Get queries are replaced with "Get-" and Post queries are replaced with the closest equivalent based on the action performed.
+
+The Noun section starts with "Auvik", to indicate it is interacting with Auvik. For Get- commands, the final part is the data type returned. For other commands, it is based on the action taken.
+
+### Classes
+
+The PowerShell classes are prepended with "Auvik" then named after the data type that is returned by the Auvik API.
 
 ## Progress
 
@@ -65,37 +77,37 @@ For automated tasks, the credentials and Uri can be stored, but the credentials 
 | /inventory/interface/info/{id} | Done | Get-AuvikInterface | Pass |
 | /inventory/component/info | Done | Get-AuvikComponent | Pass |
 | /inventory/component/info/{id} | Done | Get-AuvikComponent | Pass |
-| /inventory/entity/note | To-Do | - |
-| /inventory/entity/note/{id} | To-Do | - |
-| /inventory/entity/audit | To-Do | - |
-| /inventory/entity/audit/{id} | To-Do | - |
-| /inventory/configuration | To-Do | - |
-| /inventory/configuration/{id} | To-Do | - |
-| /alert/history/info | To-Do | - |
-| /alert/history/info/{id} | To-Do | - |
-| /alert/dismiss/{id} | To-Do | - |
+| /inventory/entity/note | Done | Get-AuvikEntityNote | Pass |
+| /inventory/entity/note/{id} | Done | Get-AuvikEntityNote | Pass |
+| /inventory/entity/audit | To-Do | Get-AuvikEntityAudit | - |
+| /inventory/entity/audit/{id} | To-Do | Get-AuvikEntityAudit | - |
+| /inventory/configuration | To-Do | Get-AuvikConfiguration | - |
+| /inventory/configuration/{id} | To-Do | Get-AuvikConfiguration | - |
+| /alert/history/info | To-Do | Get-AuvikAlert | - |
+| /alert/history/info/{id} | To-Do | Get-AuvikAlert | - |
+| /alert/dismiss/{id} | To-Do | Clear-AuvikAlert | - |
 | /authentication/verify | Done | Connect-AuvikApi | Pass |
 | /tenants | Done | Get-AuvikTenant | Pass |
 | /tenants/detail | Done | Get-AuvikTenantDetail | Pass |
 | /tenants/detail/{id} | Done | Get-AuvikTenantDetail | Pass |
-| /billing/usage/client | To-Do | - |
-| /billing/usage/device/{id} | To-Do | - |
-| /stat/device/{statId} | To-Do | - |
-| /stat/deviceAvailability/{statId} | To-Do | - |
-| /stat/service/{statId} | To-Do | - |
-| /stat/interface/{statId} | To-Do | - |
-| /stat/component/{componentType}/{statId} | To-Do | - |
-| /stat/oid/{statId} | To-Do | - |
-| /settings/snmppoller | To-Do | - |
-| /settings/snmppoller/{snmpPollerSettingId} | To-Do | - |
-| /settings/snmppoller/{snmpPollerSettingId}/devices | To-Do | - |
-| /stat/snmppoller/string | To-Do | - |
-| /stat/snmppoller/int | To-Do | - |
-| /asm/app/info | To-Do | - |
-| /asm/client/info | To-Do | - |
-| /asm/securityLog/info | To-Do | - |
-| /asm/tag/info | To-Do | - |
-| /asm/user/info | To-Do | - |
+| /billing/usage/client | To-Do | Get-AuvikClientUsage | - |
+| /billing/usage/device/{id} | To-Do | Get-AuvikClientUsage | - |
+| /stat/device/{statId} | To-Do | Get-AuvikDeviceStatistics | - |
+| /stat/deviceAvailability/{statId} | To-Do | Get-AuvikDeviceAvailabilityStatistics | - |
+| /stat/service/{statId} | To-Do | Get-AuvikServiceStatistics | - |
+| /stat/interface/{statId} | To-Do | Get-AuvikInterfaceStatistics | - |
+| /stat/component/{componentType}/{statId} | To-Do | Get-AuvikComponentStatistics | - |
+| /stat/oid/{statId} | To-Do | Get-AuvikDeviceOidMonitor | - |
+| /settings/snmppoller | To-Do | Get-AuvikSnmpPollerSetting | - |
+| /settings/snmppoller/{snmpPollerSettingId} | To-Do | Get-AuvikSnmpPollerSetting | - |
+| /settings/snmppoller/{snmpPollerSettingId}/devices | To-Do | Get-AuvikSnmpPollerSettingDevice | - |
+| /stat/snmppoller/string | To-Do | Get-AuvikSnmpPollerHistoryStatistics | - |
+| /stat/snmppoller/int | To-Do | Get-AuvikSnmpPollerHistoryStatistics | - |
+| /asm/app/info | To-Do | Get-AuvikAsmApp | - |
+| /asm/client/info | To-Do | Get-AuvikAsmClient | - |
+| /asm/securityLog/info | To-Do | Get-AuvikAsmSecurityLog | - |
+| /asm/tag/info | To-Do | Get-AuvikAsmTag | - |
+| /asm/user/info | To-Do | Get-AuvikAsmUser | - |
 
 ---
 Maintained by Mike Hiersche
