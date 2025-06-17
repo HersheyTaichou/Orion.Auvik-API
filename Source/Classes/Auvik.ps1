@@ -175,6 +175,21 @@ enum EntityType {
     unknown
 }
 
+enum EntityAuditStatus {
+    unknown
+    initiated
+    created
+    closed
+    failed
+}
+
+enum EntityAuditCategory {
+    unknown
+    tunnel
+    terminal
+    remoteBrowser
+}
+
 class AuvikTenant {
     [string]$Id
     [string]$DomainPrefix
@@ -654,7 +669,7 @@ class AuvikComponent {
         })
     }
 
-    ChangeMe([hashtable]$Properties) { $this.Init($Properties) }
+    AuvikComponent([hashtable]$Properties) { $this.Init($Properties) }
 
     [void] Init([hashtable]$Properties) {
         foreach ($Property in $Properties.Keys) {
@@ -733,6 +748,57 @@ class ChangeMe {
     }
 
     ChangeMe([hashtable]$Properties) { $this.Init($Properties) }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
+class AuvikEntityAudit {
+    [string]$Id
+    [string]$User
+    [EntityAuditCategory]$Category
+    [string]$Action
+    [string]$Direction
+    [EntityAuditStatus]$Status
+    [string]$Cause
+    [string]$Data
+    [datetime]$DateStarted
+    [datetime]$LastActive
+    [AuvikTenant]$Tenant
+    [AuvikDevice]$Device
+    [pscustomobject]$Links
+    hidden $EntityAudit
+
+    AuvikEntityAudit() { $this.Init(@{}) }
+
+    AuvikEntityAudit([pscustomobject]$Content) {
+        if ($Content.data) {
+            $ContentData = $Content.data
+        } else {
+            $ContentData = $Content
+        }
+        $this.Init(@{
+            'Id' = $ContentData.id
+            'User' = $ContentData.attributes.User
+            'Category' = $ContentData.attributes.Category
+            'Action' = $ContentData.attributes.Action
+            'Direction' = $ContentData.attributes.Direction
+            'Status' = $ContentData.attributes.Status
+            'Cause' = $ContentData.attributes.Cause
+            'Data' = $ContentData.attributes.Data
+            'DateStarted' = $ContentData.attributes.DateStarted
+            'LastActive' = $ContentData.attributes.LastActive
+            'Tenant' = $ContentData.relationships.tenant.data
+            'Device' = $ContentData.relationships.Device.data
+            'Links' = $ContentData.Links
+            'EntityAudit' = $Content
+        })
+    }
+
+    AuvikEntityAudit([hashtable]$Properties) { $this.Init($Properties) }
 
     [void] Init([hashtable]$Properties) {
         foreach ($Property in $Properties.Keys) {
