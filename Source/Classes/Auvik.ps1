@@ -788,9 +788,9 @@ class AuvikEntityAudit {
             'Direction' = $ContentData.attributes.Direction
             'Status' = $ContentData.attributes.Status
             'Cause' = $ContentData.attributes.Cause
-            'Data' = $ContentData.attributes.Data
-            'DateStarted' = $ContentData.attributes.DateStarted
-            'LastActive' = $ContentData.attributes.LastActive
+            'Data' = $ContentData.attributes.Data # if ($Data.attributes.LastModified) {$Data.attributes.LastModified} else {0}
+            'DateStarted' = if ($ContentData.attributes.DateStarted) {$ContentData.attributes.DateStarted} else {0}
+            'LastActive' = if ($ContentData.attributes.LastActive) {$ContentData.attributes.LastActive} else {0}
             'Tenant' = $ContentData.relationships.tenant.data
             'Device' = $ContentData.relationships.Device.data
             'Links' = $ContentData.Links

@@ -67,10 +67,10 @@ function Get-AuvikEntityAudit {
     process {
         $AuvikComponent = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikEntityNote]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/entity/audit/$($_)" -All:$All))
+                [AuvikEntityAudit]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/entity/audit/$($_)" -All:$All))
             }
         } else {
-            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/entity/audit?$($QueryParams -join '&')" -All:$All).data | ForEach-Object {[AuvikEntityNote]::new($_)}
+            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/entity/audit?$($QueryParams -join '&')" -All:$All).data | ForEach-Object {[AuvikEntityAudit]::new($_)}
         }
 
     }
