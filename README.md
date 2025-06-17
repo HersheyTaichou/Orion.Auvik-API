@@ -62,6 +62,8 @@ The PowerShell classes are prepended with "Auvik" then named after the data type
 Anything under "attributes" is moved up one level and everything related is sent to create it's own data type object. The top-level links and meta sections are dropped as unneeded.
 
 ```PowerShell
+$AuvikDevice
+
 Id              : MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw
 IpAddresses     : {10.0.0.1}
 DeviceName      : MyAccessPoint
@@ -79,6 +81,24 @@ Tenant          : AuvikTenant
 Network         : {MTk5NTAyNzg2ODc3MDYzMTY5LDE5OTUwMjc5MTExMjc4NTkyMw}
 DeviceDetail    : {MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw}
 Links           : @{dashboard=https://sampledomain.my.auvik.com/#entity/device/199502791112896003/dashboard; self=https://auvikapi.us3.my.auvik.com/v1/inventory/device/info/MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw}
+```
+
+Each class also contains a hidden object with the original data used to build the class, named after the data type. In the above example, it would be this:
+
+```PowerShell
+$AuvikDevice.Device
+
+$AuvikDevice.Device | fl
+
+data     : {@{type=device; id=MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw; attributes=; relationships=; links=}}
+included : {@{type=deviceDetail; id=MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw; attributes=; relationships=;
+           links=}}
+links    : @{next=https://auvikapi.us3.my.auvik.com/v1/inventory/device/info?page[after]=Y3Vyc29yOk16TXpPVE0wT0RRNU1UQT
+           ROemN4TlRneExETXpNemt6TkRnME56QXpORFF5TmpFeU5R&page[first]=300; prev=https://auvikapi.us3.my.auvik.com/v1/in
+           ventory/device/info?page[before]=Y3Vyc29yOk16TXpPVE0wT0RRNU1UQTROemN4TlRneExETXpNemt6TkRnME56QXpORFF5TmpFeU5
+           R&page[last]=300; first=https://auvikapi.us3.my.auvik.com/v1/inventory/device/info?page[first]=300;
+           last=https://auvikapi.us3.my.auvik.com/v1/inventory/device/info?page[last]=300}
+meta     : @{totalPages=5}
 ```
 
 ## Progress
