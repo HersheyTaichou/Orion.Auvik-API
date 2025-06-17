@@ -57,7 +57,7 @@ function Get-AuvikInterface {
                 ModifiedAfter {
                     "filter[modifiedAfter]=$($ModifiedAfter)"
                 }
-                Tenants {
+                TenantID {
                     "tenants=$($TenantID -join ",")"
                 }
                 default {}

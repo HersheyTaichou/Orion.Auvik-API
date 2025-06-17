@@ -50,7 +50,7 @@ function Get-AuvikDeviceLifecycle {
                 LastSupportStatus {
                     "filter[lastSupportStatus]=$($LastSupportStatus)"
                 }
-                Tenants {
+                TenantID {
                     "tenants=$($TenantID -join ",")"
                 }
                 Default {}

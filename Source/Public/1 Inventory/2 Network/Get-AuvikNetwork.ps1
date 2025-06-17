@@ -50,7 +50,7 @@ function Get-AuvikNetwork {
                 ModifiedAfter {
                     "filter[modifiedAfter]=$($ModifiedAfter)"
                 }
-                Tenants {
+                TenantID {
                     "tenants=$($TenantID -join ",")"
                 }
                 default {}

@@ -36,7 +36,7 @@ function Get-AuvikDeviceWarranty {
                 CoveredUnderService {
                     "filter[coveredUnderService]=$($CoveredUnderService.ToString().ToLower())"
                 }
-                Tenants {
+                TenantID {
                     "tenants=$($TenantID -join ",")"
                 }
                 Default {}

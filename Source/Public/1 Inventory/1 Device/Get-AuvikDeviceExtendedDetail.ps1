@@ -80,7 +80,7 @@ function Get-AuvikDeviceExtendedDetail {
                 StateKnown {
                     "filter[stateKnown]=$($StateKnown.ToString().ToLower())"
                 }
-                Tenants {
+                TenantID {
                     "tenants=$($TenantID -join ",")"
                 }
                 default {}

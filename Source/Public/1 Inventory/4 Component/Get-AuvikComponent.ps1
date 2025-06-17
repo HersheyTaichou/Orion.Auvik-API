@@ -50,7 +50,7 @@ function Get-AuvikComponent {
                 currentStatus {
                     "filter[currentStatus]=$($currentStatus)"
                 }
-                Tenants {
+                TenantID {
                     "tenants=$($TenantID -join ",")"
                 }
                 default {}

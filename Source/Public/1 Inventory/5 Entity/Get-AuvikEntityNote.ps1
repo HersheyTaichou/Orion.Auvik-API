@@ -57,7 +57,7 @@ function Get-AuvikEntityNote {
                 ModifiedAfter {
                     "filter[modifiedAfter]=$($ModifiedAfter)"
                 }
-                Tenants {
+                TenantID {
                     "tenants=$($TenantID -join ",")"
                 }
                 default {}

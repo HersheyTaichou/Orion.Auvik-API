@@ -57,7 +57,7 @@ function Get-AuvikNetworkDetail {
                 Scope {
                     "filter[scope]=$($Scope)"
                 }
-                Tenants {
+                TenantID {
                     "tenants=$($TenantID -join ",")"
                 }
                 default {}

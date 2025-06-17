@@ -101,7 +101,7 @@ function Get-AuvikDeviceDetail {
                 TrafficInsightsStatus {
                     "filter[trafficInsightsStatus]=$($TrafficInsightsStatus)"
                 }
-                Tenants {
+                TenantID {
                     "tenants=$($TenantID -join ",")"
                 }
                 Default {}
