@@ -1,4 +1,4 @@
-function Get-AuvikEntityNote {
+function Get-AuvikEntityAudit {
     [CmdletBinding(DefaultParameterSetName="Multiple")]
     param (
         # Filter by user name associated to the audit.
