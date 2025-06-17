@@ -5,11 +5,11 @@ function Get-AuvikEntityAudit {
         [Parameter(ParameterSetName="Multiple")]
         [string]
         $User,
-        # Filter by the audit’s category.
+        # Filter by the audit's category.
         [Parameter(ParameterSetName="Multiple")][ValidateSet("unknown","tunnel","terminal","remoteBrowser",IgnoreCase=$false)]
         [string]
         $Category,
-        # Filter by the audit’s status.
+        # Filter by the audit's status.
         [Parameter(ParameterSetName="Multiple")][ValidateSet("unknown","initiated","created","closed","failed",IgnoreCase=$false)]
         [string]
         $Status,

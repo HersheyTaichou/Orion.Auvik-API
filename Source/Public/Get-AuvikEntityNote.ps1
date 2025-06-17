@@ -1,15 +1,15 @@
 function Get-AuvikEntityNote {
     [CmdletBinding(DefaultParameterSetName="Multiple")]
     param (
-        # Filter by the entity’s ID.
+        # Filter by the entity's ID.
         [Parameter(ParameterSetName="Multiple")]
         [string]
         $EntityId,
-        # Filter by the entity’s type.
+        # Filter by the entity's type.
         [Parameter(ParameterSetName="Multiple")][ValidateSet("root","device","network","interface",IgnoreCase=$false)]
         [string]
         $EntityType,
-        # Filter by the entity’s name.
+        # Filter by the entity's name.
         [Parameter(ParameterSetName="Multiple")]
         [string]
         $EntityName,
