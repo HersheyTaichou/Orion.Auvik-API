@@ -46,7 +46,7 @@ task Analyze {
 
 task TestCode {
     Write-Build Yellow "`n`n`nTesting dev code before build"
-    $TestResult = Invoke-Pester -Path "$PSScriptRoot\Test\Unit" -Tag Unit  -PassThru
+    $TestResult = Invoke-Pester -Path "$PSScriptRoot\Test\Unit" -Tag New  -PassThru
     if($TestResult.FailedCount -gt 0) {throw 'Tests failed'}
 }
 

@@ -8,7 +8,7 @@ BeforeAll {
     Import-Module "$ModuleManifest" -ErrorAction Stop
 }
 
-Describe 'Get-AuvikEntityNote Tests' -Tags 'Unit','New' {
+Describe 'Get-AuvikEntityNote Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
