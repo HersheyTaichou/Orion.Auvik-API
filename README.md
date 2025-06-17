@@ -125,8 +125,8 @@ meta     : @{totalPages=5}
 | /inventory/component/info/{id} | Done | Get-AuvikComponent | Pass |
 | /inventory/entity/note | Done | Get-AuvikEntityNote | Pass |
 | /inventory/entity/note/{id} | Done | Get-AuvikEntityNote | Pass |
-| /inventory/entity/audit | To-Do | Get-AuvikEntityAudit | - |
-| /inventory/entity/audit/{id} | To-Do | Get-AuvikEntityAudit | - |
+| /inventory/entity/audit | Done | Get-AuvikEntityAudit | Pass |
+| /inventory/entity/audit/{id} | Done | Get-AuvikEntityAudit | Pass |
 | /inventory/configuration | To-Do | Get-AuvikConfiguration | - |
 | /inventory/configuration/{id} | To-Do | Get-AuvikConfiguration | - |
 | /alert/history/info | To-Do | Get-AuvikAlert | - |
