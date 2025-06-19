@@ -723,39 +723,6 @@ class AuvikEntityNote {
     }
 }
 
-class ChangeMe {
-    [string]$Id
-    [string]$DeviceName
-    [AuvikTenant]$Tenant
-    [pscustomobject]$Links
-    hidden $ChangeMe
-
-    ChangeMe() { $this.Init(@{}) }
-
-    ChangeMe([pscustomobject]$Content) {
-        if ($Content.data) {
-            $Data = $Content.data
-        } else {
-            $Data = $Content
-        }
-        $this.Init(@{
-            'Id' = $Data.id
-            'DeviceName' = $Data.attributes.DeviceName
-            'Tenant' = $Data.relationships.tenant.data
-            'Links' = $Data.Links
-            'ChangeMe' = $Content
-        })
-    }
-
-    ChangeMe([hashtable]$Properties) { $this.Init($Properties) }
-
-    [void] Init([hashtable]$Properties) {
-        foreach ($Property in $Properties.Keys) {
-            $this.$Property = $Properties.$Property
-        }
-    }
-}
-
 class AuvikEntityAudit {
     [string]$Id
     [string]$User
@@ -799,6 +766,76 @@ class AuvikEntityAudit {
     }
 
     AuvikEntityAudit([hashtable]$Properties) { $this.Init($Properties) }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
+class AuvikConfiguration {
+    [string]$Id
+    [datetime]$BackupTime
+    [bool]$IsRunning
+    [AuvikTenant]$Tenant
+    [AuvikDevice]$Device
+    [pscustomobject]$Links
+    hidden $Configuration
+
+    AuvikConfiguration() { $this.Init(@{}) }
+
+    AuvikConfiguration([pscustomobject]$Content) {
+        if ($Content.data) {
+            $Data = $Content.data
+        } else {
+            $Data = $Content
+        }
+        $this.Init(@{
+            'Id' = $Data.id
+            'BackupTime' = if ($Data.attributes.BackupTime) {$Data.attributes.backupTime}
+            'IsRunning' = $Data.attributes.isRunning
+            'Tenant' = $Data.relationships.tenant.data
+            'Device' = $Data.relationships.device.data
+            'Links' = $Data.Links
+            'Configuration' = $Content
+        })
+    }
+
+    AuvikConfiguration([hashtable]$Properties) { $this.Init($Properties) }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
+class ChangeMe {
+    [string]$Id
+    [string]$DeviceName
+    [AuvikTenant]$Tenant
+    [pscustomobject]$Links
+    hidden $ChangeMe
+
+    ChangeMe() { $this.Init(@{}) }
+
+    ChangeMe([pscustomobject]$Content) {
+        if ($Content.data) {
+            $Data = $Content.data
+        } else {
+            $Data = $Content
+        }
+        $this.Init(@{
+            'Id' = $Data.id
+            'DeviceName' = $Data.attributes.DeviceName
+            'Tenant' = $Data.relationships.tenant.data
+            'Links' = $Data.Links
+            'ChangeMe' = $Content
+        })
+    }
+
+    ChangeMe([hashtable]$Properties) { $this.Init($Properties) }
 
     [void] Init([hashtable]$Properties) {
         foreach ($Property in $Properties.Keys) {
