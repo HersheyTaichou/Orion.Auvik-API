@@ -12,7 +12,7 @@ Describe 'Get-AuvikDeviceDetail Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $DeviceDetail = Get-AuvikDeviceDetail -TenantID ($Tenants[0]).ID -LimitResults
+        $DeviceDetail = Get-AuvikDeviceDetail -TenantID ($Tenants[0]).ID -Pages 1
         $DiscoverySNMP = $DeviceDetail[0].SnmpStatus
         $DiscoveryWMI = $DeviceDetail[0].WmiStatus
         $DiscoveryLogin = $DeviceDetail[0].LoginStatus
@@ -25,28 +25,28 @@ Describe 'Get-AuvikDeviceDetail Tests' -Tags 'Unit' {
     }
 
     It 'Returns devices by ManageStatus' {
-        (Get-AuvikDeviceDetail -ManageStatus $true -LimitResults).ManageStatus | Sort-Object -Unique | Should -BeTrue
+        (Get-AuvikDeviceDetail -ManageStatus $true -Pages 1).ManageStatus | Sort-Object -Unique | Should -BeTrue
     }
 
     It 'Returns devices by DiscoverySNMP' {
-        (Get-AuvikDeviceDetail -DiscoverySNMP $DiscoverySNMP -LimitResults).SnmpStatus | Sort-Object -Unique | Should -Be $DiscoverySNMP
+        (Get-AuvikDeviceDetail -DiscoverySNMP $DiscoverySNMP -Pages 1).SnmpStatus | Sort-Object -Unique | Should -Be $DiscoverySNMP
     }
 
     It 'Returns devices by DiscoveryWMI' {
-        (Get-AuvikDeviceDetail -DiscoveryWMI $DiscoveryWMI -LimitResults).WmiStatus | Sort-Object -Unique | Should -Be $DiscoveryWMI
+        (Get-AuvikDeviceDetail -DiscoveryWMI $DiscoveryWMI -Pages 1).WmiStatus | Sort-Object -Unique | Should -Be $DiscoveryWMI
     }
 
     # When testing, this returned more than just disabled logins
     It 'Returns devices by DiscoveryLogin' {
-        (Get-AuvikDeviceDetail -DiscoveryLogin $DiscoveryLogin -LimitResults).LoginStatus | Sort-Object -Unique | Should -Contain $DiscoveryLogin
+        (Get-AuvikDeviceDetail -DiscoveryLogin $DiscoveryLogin -Pages 1).LoginStatus | Sort-Object -Unique | Should -Contain $DiscoveryLogin
     }
 
     It 'Returns devices by DiscoveryVMware' {
-        (Get-AuvikDeviceDetail -DiscoveryVMware $DiscoveryVMware -LimitResults).VMwareStatus | Sort-Object -Unique | Should -Be $DiscoveryVMware
+        (Get-AuvikDeviceDetail -DiscoveryVMware $DiscoveryVMware -Pages 1).VMwareStatus | Sort-Object -Unique | Should -Be $DiscoveryVMware
     }
 
     It 'Returns devices by trafficInsightsStatus' {
-        (Get-AuvikDeviceDetail -TrafficInsightsStatus $TrafficInsightsStatus -LimitResults).TrafficInsightsStatus | Sort-Object -Unique | Should -Be $TrafficInsightsStatus
+        (Get-AuvikDeviceDetail -TrafficInsightsStatus $TrafficInsightsStatus -Pages 1).TrafficInsightsStatus | Sort-Object -Unique | Should -Be $TrafficInsightsStatus
     }
 
     It 'Returns device by Id' {

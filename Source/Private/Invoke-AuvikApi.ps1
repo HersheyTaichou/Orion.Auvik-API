@@ -5,10 +5,10 @@ function Invoke-AuvikApi {
         [Parameter(Mandatory)]
         [uri]
         $Uri,
-        # Get all results
+        # Maximum number of pages of results to get
         [Parameter()]
-        [switch]
-        $All
+        [int]
+        $Pages
     )
 
     begin {
@@ -18,9 +18,9 @@ function Invoke-AuvikApi {
             'Authentication' = 'Basic'
             'StatusCodeVariable' = 'StatusCode'
         }
-        $Page = 1
 
-        $TotalPages = 100
+        $Page = 1
+        $TotalPages = if ($Pages) {$Pages} else {100}
         $Backoff = 5
     }
 
@@ -40,12 +40,8 @@ function Invoke-AuvikApi {
             switch ($StatusCode) {
                 200 {
                     $Page++
-                    if ($All) {
-                        $DeviceParams.Uri = $RestMethod.links.next
-                    } else {
-                        $DeviceParams.Uri = $null
-                    }
-                    $TotalPages = $RestMethod.meta.totalPages
+                    $DeviceParams.Uri = $RestMethod.links.next
+                    $TotalPages = if ($Pages) {$Pages} else {$RestMethod.meta.totalPages}
                     $Try = 0
                     $RestMethod
                     $Backoff = 5
@@ -80,7 +76,7 @@ function Invoke-AuvikApi {
                 }
             }
 
-        } while ($DeviceParams.Uri -and $Try -lt 5)
+        } while ($DeviceParams.Uri -and $Try -lt 5 -and $Page -le $TotalPages)
     }
 
     end {

@@ -12,7 +12,7 @@ Describe 'Get-AuvikInterface Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $Interface = Get-AuvikInterface -TenantID ($Tenants[0]).ID -LimitResults
+        $Interface = Get-AuvikInterface -TenantID ($Tenants[0]).ID -Pages 1
         $InterfaceType = ($Interface | Where-Object {"" -ne $_.InterfaceType})[0].InterfaceType
         $ParentDevice = ($Interface.parentDevice | Where-Object {"" -ne $_.Id})[0]
         $OperationalStatus = ($Interface | Where-Object {"" -ne $_.OperationalStatus})[0].operationalStatus
@@ -25,19 +25,19 @@ Describe 'Get-AuvikInterface Tests' -Tags 'Unit' {
     }
 
     It 'Returns Interface by InterfaceType' {
-        (Get-AuvikInterface -InterfaceType $InterfaceType -LimitResults).InterfaceType | Sort-Object -Unique | Should -Be $InterfaceType
+        (Get-AuvikInterface -InterfaceType $InterfaceType -Pages 1).InterfaceType | Sort-Object -Unique | Should -Be $InterfaceType
     }
 
     It 'Returns Interface by ParentDevice' {
-        (Get-AuvikInterface -ParentDevice $ParentDevice.Id -LimitResults).ParentDevice.Id | Sort-Object -Unique | Should -Be $ParentDevice.Id
+        (Get-AuvikInterface -ParentDevice $ParentDevice.Id -Pages 1).ParentDevice.Id | Sort-Object -Unique | Should -Be $ParentDevice.Id
     }
 
     It 'Returns Interface by OperationalStatus' {
-        (Get-AuvikInterface -OperationalStatus $OperationalStatus -LimitResults).OperationalStatus | Sort-Object -Unique | Should -Be $OperationalStatus
+        (Get-AuvikInterface -OperationalStatus $OperationalStatus -Pages 1).OperationalStatus | Sort-Object -Unique | Should -Be $OperationalStatus
     }
 
     It 'Returns Interface by ModifiedAfter' {
-        (Get-AuvikInterface -ModifiedAfter $ModifiedAfter -LimitResults).LastModified | Sort-Object -Unique -Top 1 | Should -BeGreaterOrEqual $ModifiedAfter
+        (Get-AuvikInterface -ModifiedAfter $ModifiedAfter -Pages 1).LastModified | Sort-Object -Unique -Top 1 | Should -BeGreaterOrEqual $ModifiedAfter
     }
 
     It 'Returns Network by Id' {

@@ -70,10 +70,10 @@ function Get-AuvikDeviceDetail {
         [Parameter(ParameterSetName="Single")]
         [string[]]
         $Id,
-        # Get all results
+        # Maximum number of pages of results to get
         [Parameter()]
-        [switch]
-        $LimitResults
+        [int]
+        $Pages
     )
 
     begin {
@@ -108,20 +108,18 @@ function Get-AuvikDeviceDetail {
             }
         }
 
-        if ($LimitResults) {
-            $All =$false
-        } else {
-            $All = $true
+        $Parameters = if ($Pages) {
+            @{'Pages' = $Pages}
         }
     }
 
     process {
         $AuvikDeviceDetail = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikDeviceDetail]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/detail/$($_)" -All:$All))
+                [AuvikDeviceDetail]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/detail/$($_)" @Parameters))
             }
         } else {
-            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/detail?$($QueryParams -join '&')" -All:$All).data | ForEach-Object {[AuvikDeviceDetail]::new($_)}
+            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/detail?$($QueryParams -join '&')" @Parameters).data | ForEach-Object {[AuvikDeviceDetail]::new($_)}
         }
     }
 

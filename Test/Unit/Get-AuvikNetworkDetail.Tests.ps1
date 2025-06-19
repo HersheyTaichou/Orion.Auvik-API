@@ -12,29 +12,29 @@ Describe 'Get-AuvikNetworkDetail Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $Networks = (Get-AuvikNetwork -TenantID ($Tenants[0]).ID -LimitResults)[0]
-        $Devices = (Get-AuvikDevice -TenantID ($Tenants[0]).ID -LimitResults)[0]
+        $Networks = (Get-AuvikNetwork -TenantID ($Tenants[0]).ID -Pages 1)[0]
+        $Devices = (Get-AuvikDevice -TenantID ($Tenants[0]).ID -Pages 1)[0]
 
     }
 
     It 'Returns NetworkDetail by Tenant' {
-        (Get-AuvikNetworkDetail -TenantID $Tenants.Id -LimitResults) | Should -Not -BeNullOrEmpty
+        (Get-AuvikNetworkDetail -TenantID $Tenants.Id -Pages 1) | Should -Not -BeNullOrEmpty
     }
 
     It 'Returns NetworkDetail by NetworkType' {
-        (Get-AuvikNetworkDetail -NetworkType $Networks.NetworkType -LimitResults).Id | Sort-Object -Unique | Should -Contain $Networks.Id
+        (Get-AuvikNetworkDetail -NetworkType $Networks.NetworkType -Pages 1).Id | Sort-Object -Unique | Should -Contain $Networks.Id
     }
 
     It 'Returns NetworkDetail by ScanStatus' {
-        (Get-AuvikNetworkDetail -ScanStatus $Networks.ScanStatus -LimitResults).Id | Sort-Object -Unique | Should -Contain $Networks.Id
+        (Get-AuvikNetworkDetail -ScanStatus $Networks.ScanStatus -Pages 1).Id | Sort-Object -Unique | Should -Contain $Networks.Id
     }
 
     It 'Returns NetworkDetail by Devices' {
-        (Get-AuvikNetworkDetail -Devices $Devices.Id -LimitResults).Id | Sort-Object -Unique | Should -Not -BeNullOrEmpty
+        (Get-AuvikNetworkDetail -Devices $Devices.Id -Pages 1).Id | Sort-Object -Unique | Should -Not -BeNullOrEmpty
     }
 
     It 'Returns NetworkDetail by ModifiedAfter' {
-        (Get-AuvikNetworkDetail -ModifiedAfter $Networks.LastModified -LimitResults).Id | Sort-Object -Unique | Should -Contain $Networks.Id
+        (Get-AuvikNetworkDetail -ModifiedAfter $Networks.LastModified -Pages 1).Id | Sort-Object -Unique | Should -Contain $Networks.Id
     }
 
     It 'Returns Network by Id' {

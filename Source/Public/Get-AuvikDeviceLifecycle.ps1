@@ -25,10 +25,10 @@ function Get-AuvikDeviceLifecycle {
         [Parameter(ParameterSetName="Single")]
         [string[]]
         $Id,
-        # Get all results
+        # Maximum number of pages of results to get
         [Parameter()]
-        [switch]
-        $LimitResults
+        [int]
+        $Pages
     )
 
     begin {
@@ -57,20 +57,18 @@ function Get-AuvikDeviceLifecycle {
             }
         }
 
-        if ($LimitResults) {
-            $All =$false
-        } else {
-            $All = $true
+        $Parameters = if ($Pages) {
+            @{'Pages' = $Pages}
         }
     }
 
     process {
         $AuvikDeviceLifecycle = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikDeviceLifecycle]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/lifecycle/$($_)" -All:$All))
+                [AuvikDeviceLifecycle]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/lifecycle/$($_)" @Parameters))
             }
         } else {
-            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/lifecycle?$($QueryParams -join '&')" -All:$All).data | ForEach-Object {[AuvikDeviceLifecycle]::new($_)}
+            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/device/lifecycle?$($QueryParams -join '&')" @Parameters).data | ForEach-Object {[AuvikDeviceLifecycle]::new($_)}
         }
     }
 

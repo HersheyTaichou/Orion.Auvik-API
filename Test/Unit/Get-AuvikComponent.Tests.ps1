@@ -12,7 +12,7 @@ Describe 'Get-AuvikComponent Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $Component = Get-AuvikComponent -TenantID ($Tenants[0]).ID -LimitResults
+        $Component = Get-AuvikComponent -TenantID ($Tenants[0]).ID -Pages 1
         #$ModifiedAfter = ($Component | Where-Object {$_.LastModified -gt 1})[0]
         $ParentDevice = ($Component.parentDevice | Where-Object {("" -ne $_.Id) -and ("" -ne $_.DeviceName)})[0]
         $CurrentStatus = ($Component | Where-Object {$_.CurrentStatus -in @('ok','degraded','failed')})[0].CurrentStatus
@@ -26,19 +26,19 @@ Describe 'Get-AuvikComponent Tests' -Tags 'Unit' {
 
     # In testing, the ModifiedAfter field was not populated
     <#It 'Returns Component by ModifiedAfter' {
-        (Get-AuvikComponent -ModifiedAfter $ModifiedAfter.LastModified -LimitResults).LastModified | Sort-Object -Unique | Should -BeTrue
+        (Get-AuvikComponent -ModifiedAfter $ModifiedAfter.LastModified -Pages 1).LastModified | Sort-Object -Unique | Should -BeTrue
     }#>
 
     It 'Returns Component by Parent Device ID' {
-        (Get-AuvikComponent -DeviceId $ParentDevice.Id -LimitResults).ParentDevice.Id | Sort-Object -Unique | Should -Be $ParentDevice.Id
+        (Get-AuvikComponent -DeviceId $ParentDevice.Id -Pages 1).ParentDevice.Id | Sort-Object -Unique | Should -Be $ParentDevice.Id
     }
 
     It 'Returns Component by Parent Device Name' {
-        (Get-AuvikComponent -DeviceName $ParentDevice.DeviceName -LimitResults).ParentDevice.DeviceName | Sort-Object -Unique | Should -Be $ParentDevice.DeviceName
+        (Get-AuvikComponent -DeviceName $ParentDevice.DeviceName -Pages 1).ParentDevice.DeviceName | Sort-Object -Unique | Should -Be $ParentDevice.DeviceName
     }
 
     It 'Returns Component by Current Status' {
-        (Get-AuvikComponent -CurrentStatus $CurrentStatus -LimitResults).CurrentStatus | Sort-Object -Unique | Should -Be $CurrentStatus
+        (Get-AuvikComponent -CurrentStatus $CurrentStatus -Pages 1).CurrentStatus | Sort-Object -Unique | Should -Be $CurrentStatus
     }
 
     It 'Returns Component by Id' {

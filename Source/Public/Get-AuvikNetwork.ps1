@@ -25,10 +25,10 @@ function Get-AuvikNetwork {
         [Parameter(ParameterSetName="Single")]
         [string[]]
         $Id,
-        # Get all results
+        # Maximum number of pages of results to get
         [Parameter()]
-        [switch]
-        $LimitResults
+        [int]
+        $Pages
     )
 
     begin {
@@ -57,20 +57,18 @@ function Get-AuvikNetwork {
             }
         }
 
-        if ($LimitResults) {
-            $All =$false
-        } else {
-            $All = $true
+        $Parameters = if ($Pages) {
+            @{'Pages' = $Pages}
         }
     }
 
     process {
         $AuvikNetwork = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikNetwork]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/info/$($_)?include=networkDetail" -All:$All))
+                [AuvikNetwork]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/info/$($_)?include=networkDetail" @Parameters))
             }
         } else {
-            $Networks = Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/info?include=networkDetail&$($QueryParams -join '&')" -All:$All
+            $Networks = Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/info?include=networkDetail&$($QueryParams -join '&')" @Parameters
             for ($i = 0; $i -lt $Networks.data.Count; $i++) {
                 $Content = [PSCustomObject]@{
                     'Data' = $Networks.data[$i]

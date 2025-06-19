@@ -12,7 +12,7 @@ Describe 'Get-AuvikDevice Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $Devices = Get-AuvikDevice -TenantID ($Tenants[0]).ID -LimitResults
+        $Devices = Get-AuvikDevice -TenantID ($Tenants[0]).ID -Pages 1
         $NetworkId = ($Devices.Network | Where-Object {$_.Id -ne ""})[0].Id
         $DeviceType = ($Devices | Where-Object {"" -ne $_.DeviceType})[0].DeviceType
         $MakeModel = ($Devices | Where-Object {"" -ne $_.MakeModel})[0].MakeModel
@@ -27,35 +27,35 @@ Describe 'Get-AuvikDevice Tests' -Tags 'Unit' {
     }
 
     It 'Returns devices by Network' {
-        (Get-AuvikDevice -Networks $NetworkId -LimitResults).Network.Id | Sort-Object -Unique | Should -Contain $NetworkId
+        (Get-AuvikDevice -Networks $NetworkId -Pages 1).Network.Id | Sort-Object -Unique | Should -Contain $NetworkId
     }
 
     It 'Returns devices by DeviceType' {
-        (Get-AuvikDevice -DeviceType $DeviceType -LimitResults).DeviceType | Sort-Object -Unique | Should -Be $DeviceType
+        (Get-AuvikDevice -DeviceType $DeviceType -Pages 1).DeviceType | Sort-Object -Unique | Should -Be $DeviceType
     }
 
     It 'Returns devices by MakeModel' {
-        (Get-AuvikDevice -MakeModel $MakeModel -LimitResults).MakeModel | Sort-Object -Unique | Should -Be $MakeModel
+        (Get-AuvikDevice -MakeModel $MakeModel -Pages 1).MakeModel | Sort-Object -Unique | Should -Be $MakeModel
     }
 
     It 'Returns devices by VendorName' {
-        (Get-AuvikDevice -VendorName $VendorName -LimitResults).VendorName | Sort-Object -Unique | Should -Be $VendorName
+        (Get-AuvikDevice -VendorName $VendorName -Pages 1).VendorName | Sort-Object -Unique | Should -Be $VendorName
     }
 
     It 'Returns devices by OnlineStatus' {
-        (Get-AuvikDevice -OnlineStatus $OnlineStatus -LimitResults).OnlineStatus | Sort-Object -Unique | Should -Be $OnlineStatus
+        (Get-AuvikDevice -OnlineStatus $OnlineStatus -Pages 1).OnlineStatus | Sort-Object -Unique | Should -Be $OnlineStatus
     }
 
     It 'Returns devices by ModifiedAfter' {
-        (Get-AuvikDevice -ModifiedAfter $ModifiedAfter -LimitResults).LastModified | Sort-Object -Unique -Top 1 | Should -BeGreaterOrEqual $ModifiedAfter
+        (Get-AuvikDevice -ModifiedAfter $ModifiedAfter -Pages 1).LastModified | Sort-Object -Unique -Top 1 | Should -BeGreaterOrEqual $ModifiedAfter
     }
 
     It 'Returns devices by NotSeenSince' {
-        (Get-AuvikDevice -NotSeenSince $NotSeenSince -LimitResults).LastSeenTime |  Sort-Object -Unique -Top 1 | Should -BeLessOrEqual $NotSeenSince
+        (Get-AuvikDevice -NotSeenSince $NotSeenSince -Pages 1).LastSeenTime |  Sort-Object -Unique -Top 1 | Should -BeLessOrEqual $NotSeenSince
     }
 
     It 'Returns devices by StateKnown' {
-        Get-AuvikDevice -StateKnown $true -LimitResults | Should -Not -BeNullOrEmpty
+        Get-AuvikDevice -StateKnown $true -Pages 1 | Should -Not -BeNullOrEmpty
     }
 
     It 'Returns device by Id' {

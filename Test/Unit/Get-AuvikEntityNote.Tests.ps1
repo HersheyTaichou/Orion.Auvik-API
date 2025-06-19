@@ -12,7 +12,7 @@ Describe 'Get-AuvikEntityNote Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $EntityNote = (Get-AuvikEntityNote -TenantID ($Tenants[0]).ID -LimitResults)[0]
+        $EntityNote = (Get-AuvikEntityNote -TenantID ($Tenants[0]).ID -Pages 1)[0]
 
 
     }
@@ -22,23 +22,23 @@ Describe 'Get-AuvikEntityNote Tests' -Tags 'Unit' {
     }
 
     It 'Returns EntityNote by Entity ID' {
-        (Get-AuvikEntityNote -EntityId $EntityNote.EntityId -LimitResults).EntityId | Sort-Object -Unique | Should -Be $EntityNote.EntityId
+        (Get-AuvikEntityNote -EntityId $EntityNote.EntityId -Pages 1).EntityId | Sort-Object -Unique | Should -Be $EntityNote.EntityId
     }
 
     It 'Returns EntityNote by Entity Type' {
-        (Get-AuvikEntityNote -EntityType $EntityNote.EntityType -LimitResults).EntityType | Sort-Object -Unique | Should -Be $EntityNote.EntityType
+        (Get-AuvikEntityNote -EntityType $EntityNote.EntityType -Pages 1).EntityType | Sort-Object -Unique | Should -Be $EntityNote.EntityType
     }
 
     It 'Returns EntityNote by Entity Name' {
-        (Get-AuvikEntityNote -EntityName $EntityNote.EntityName -LimitResults).EntityName | Sort-Object -Unique | Should -Be $EntityNote.EntityName
+        (Get-AuvikEntityNote -EntityName $EntityNote.EntityName -Pages 1).EntityName | Sort-Object -Unique | Should -Be $EntityNote.EntityName
     }
 
     It 'Returns EntityNote by LastModifiedBy' {
-        (Get-AuvikEntityNote -LastModifiedBy $EntityNote.LastModifiedBy -LimitResults).LastModifiedBy | Sort-Object -Unique | Should -Be $EntityNote.LastModifiedBy
+        (Get-AuvikEntityNote -LastModifiedBy $EntityNote.LastModifiedBy -Pages 1).LastModifiedBy | Sort-Object -Unique | Should -Be $EntityNote.LastModifiedBy
     }
 
     It 'Returns EntityNote by ModifiedAfter' {
-        (Get-AuvikEntityNote -ModifiedAfter $EntityNote.LastModified -LimitResults).LastModified | Sort-Object -Unique -Top 1 | Should -BeGreaterOrEqual $EntityNote.LastModified
+        (Get-AuvikEntityNote -ModifiedAfter $EntityNote.LastModified -Pages 1).LastModified | Sort-Object -Unique -Top 1 | Should -BeGreaterOrEqual $EntityNote.LastModified
     }
 
     It 'Returns EntityNote by Id' {

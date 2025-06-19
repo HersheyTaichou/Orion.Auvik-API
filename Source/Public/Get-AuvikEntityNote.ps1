@@ -29,10 +29,10 @@ function Get-AuvikEntityNote {
         [Parameter(ParameterSetName="Single")]
         [string[]]
         $Id,
-        # Get all results
+        # Maximum number of pages of results to get
         [Parameter()]
-        [switch]
-        $LimitResults
+        [int]
+        $Pages
     )
 
     begin {
@@ -64,20 +64,18 @@ function Get-AuvikEntityNote {
             }
         }
 
-        if ($LimitResults) {
-            $All =$false
-        } else {
-            $All = $true
+        $Parameters = if ($Pages) {
+            @{'Pages' = $Pages}
         }
     }
 
     process {
         $AuvikComponent = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikEntityNote]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/entity/note/$($_)" -All:$All))
+                [AuvikEntityNote]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/entity/note/$($_)" @Parameters))
             }
         } else {
-            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/entity/note?$($QueryParams -join '&')" -All:$All).data | ForEach-Object {[AuvikEntityNote]::new($_)}
+            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/entity/note?$($QueryParams -join '&')" @Parameters).data | ForEach-Object {[AuvikEntityNote]::new($_)}
         }
 
     }

@@ -12,7 +12,7 @@ Describe 'Get-AuvikDeviceWarranty Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $DeviceWarranty = Get-AuvikDeviceWarranty -TenantID ($Tenants[0]).ID -LimitResults
+        $DeviceWarranty = Get-AuvikDeviceWarranty -TenantID ($Tenants[0]).ID -Pages 1
     }
 
     It 'Returns devices by Tenant' {
@@ -20,11 +20,11 @@ Describe 'Get-AuvikDeviceWarranty Tests' -Tags 'Unit' {
     }
 
     It 'Returns devices CoveredUnderWarranty' {
-        (Get-AuvikDeviceWarranty -CoveredUnderWarranty $false -LimitResults).WarrantyCoverageStatus | Sort-Object -Unique -Top 1 | Should -BeIn @('Available','Expired','Unknown')
+        (Get-AuvikDeviceWarranty -CoveredUnderWarranty $false -Pages 1).WarrantyCoverageStatus | Sort-Object -Unique -Top 1 | Should -BeIn @('Available','Expired','Unknown')
     }
 
     It 'Returns devices CoveredUnderService' {
-        (Get-AuvikDeviceWarranty -CoveredUnderService $false -LimitResults).ServiceCoverageStatus | Sort-Object -Unique -Top 1 | Should -BeIn @('Expired','Unknown')
+        (Get-AuvikDeviceWarranty -CoveredUnderService $false -Pages 1).ServiceCoverageStatus | Sort-Object -Unique -Top 1 | Should -BeIn @('Expired','Unknown')
     }
 
     It 'Returns device by Id' {

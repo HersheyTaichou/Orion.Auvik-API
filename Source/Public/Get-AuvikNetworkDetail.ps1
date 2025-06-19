@@ -29,10 +29,10 @@ function Get-AuvikNetworkDetail {
         [Parameter(ParameterSetName="Single")]
         [string[]]
         $Id,
-        # Get all results
+        # Maximum number of pages of results to get
         [Parameter()]
-        [switch]
-        $LimitResults
+        [int]
+        $Pages
     )
 
     begin {
@@ -64,20 +64,18 @@ function Get-AuvikNetworkDetail {
             }
         }
 
-        if ($LimitResults) {
-            $All =$false
-        } else {
-            $All = $true
+        $Parameters = if ($Pages) {
+            @{'Pages' = $Pages}
         }
     }
 
     process {
         $AuvikNetworkDetail = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikNetworkDetail]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/detail/$($_)" -All:$All))
+                [AuvikNetworkDetail]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/detail/$($_)" @Parameters))
             }
         } else {
-            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/detail?$($QueryParams -join '&')" -All:$All).data | ForEach-Object {[AuvikNetworkDetail]::new($_)}
+            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/network/detail?$($QueryParams -join '&')" @Parameters).data | ForEach-Object {[AuvikNetworkDetail]::new($_)}
         }
     }
 

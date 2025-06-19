@@ -25,10 +25,10 @@ function Get-AuvikComponent {
         [Parameter(ParameterSetName="Single")]
         [string[]]
         $Id,
-        # Get all results
+        # Maximum number of pages of results to get
         [Parameter()]
-        [switch]
-        $LimitResults
+        [int]
+        $Pages
     )
 
     begin {
@@ -57,20 +57,22 @@ function Get-AuvikComponent {
             }
         }
 
-        if ($LimitResults) {
-            $All =$false
-        } else {
-            $All = $true
+        $Parameters = if ($Pages) {
+            @{'Pages' = $Pages}
+        }
+
+        $Parameters = if ($Pages) {
+            @{'Pages' = $Pages}
         }
     }
 
     process {
         $AuvikComponent = if ($PSCmdlet.ParameterSetName -eq "Single") {
             $Id | ForEach-Object {
-                [AuvikComponent]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/component/info/$($_)" -All:$All))
+                [AuvikComponent]::new($(Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/component/info/$($_)" @Parameters))
             }
         } else {
-            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/component/info?$($QueryParams -join '&')" -All:$All).data | ForEach-Object {[AuvikComponent]::new($_)}
+            (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/inventory/component/info?$($QueryParams -join '&')" @Parameters).data | ForEach-Object {[AuvikComponent]::new($_)}
         }
 
     }

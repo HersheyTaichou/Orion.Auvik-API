@@ -8,11 +8,11 @@ BeforeAll {
     Import-Module "$ModuleManifest" -ErrorAction Stop
 }
 
-Describe 'Get-AuvikEntityAudit Tests' -Tags 'Unit','New' {
+Describe 'Get-AuvikEntityAudit Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $EntityAudit = (Get-AuvikEntityAudit -TenantID ($Tenants[0]).ID -LimitResults)[0]
+        $EntityAudit = (Get-AuvikEntityAudit -TenantID ($Tenants[0]).ID -Pages 1)[0]
 
 
     }
@@ -22,19 +22,19 @@ Describe 'Get-AuvikEntityAudit Tests' -Tags 'Unit','New' {
     }
 
     It 'Returns EntityAudit by User' {
-        (Get-AuvikEntityAudit -User $EntityAudit.User -LimitResults).User | Sort-Object -Unique | Should -Be $EntityAudit.User
+        (Get-AuvikEntityAudit -User $EntityAudit.User -Pages 1).User | Sort-Object -Unique | Should -Be $EntityAudit.User
     }
 
     It 'Returns EntityAudit by Category' {
-        (Get-AuvikEntityAudit -Category $EntityAudit.Category -LimitResults).Category | Sort-Object -Unique | Should -Be $EntityAudit.Category
+        (Get-AuvikEntityAudit -Category $EntityAudit.Category -Pages 1).Category | Sort-Object -Unique | Should -Be $EntityAudit.Category
     }
 
     It 'Returns EntityAudit by Status' {
-        (Get-AuvikEntityAudit -Status $EntityAudit.Status -LimitResults).Status | Sort-Object -Unique | Should -Be $EntityAudit.Status
+        (Get-AuvikEntityAudit -Status $EntityAudit.Status -Pages 1).Status | Sort-Object -Unique | Should -Be $EntityAudit.Status
     }
 
     It 'Returns EntityAudit by ModifiedAfter' {
-        (Get-AuvikEntityAudit -ModifiedAfter "$((Get-Date).AddDays(-7))" -LimitResults).dateStarted | Sort-Object -Unique -Top 1 | Should -BeGreaterOrEqual $((Get-Date).AddDays(-7))
+        (Get-AuvikEntityAudit -ModifiedAfter "$((Get-Date).AddDays(-7))" -Pages 1).dateStarted | Sort-Object -Unique -Top 1 | Should -BeGreaterOrEqual $((Get-Date).AddDays(-7))
     }
 
     It 'Returns EntityAudit by Id' {
