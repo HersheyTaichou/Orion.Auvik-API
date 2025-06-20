@@ -190,6 +190,47 @@ enum EntityAuditCategory {
     remoteBrowser
 }
 
+enum AlertSeverity {
+    unknown
+    emergency
+    critical
+    warning
+    info
+}
+enum AlertStatus {
+    created
+    resolved
+    paused
+    unpaused
+}
+
+class AuvikAuthorizations {
+    [string]$Id
+    hidden $Authorizations
+
+    AuvikAuthorizations() { $this.Init(@{}) }
+
+    AuvikAuthorizations([pscustomobject]$Content) {
+        if ($Content.data) {
+            $Data = $Content.data
+        } else {
+            $Data = $Content
+        }
+        $this.Init(@{
+            'Id' = $Data.id
+            'Authorizations' = $Content
+        })
+    }
+
+    AuvikAuthorizations([hashtable]$Properties) { $this.Init($Properties) }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
 class AuvikTenant {
     [string]$Id
     [string]$DomainPrefix
@@ -203,7 +244,7 @@ class AuvikTenant {
     [datetime]$trialEndDate
     [pscustomobject]$Address
     [AuvikTenant]$Parent
-    [pscustomobject]$Authorizations
+    [AuvikAuthorizations]$Authorizations
     hidden $Tenant
 
     AuvikTenant() { $this.Init(@{}) }
@@ -402,8 +443,8 @@ class AuvikDeviceDetail {
     [AuvikTenant]$Tenant
     [AuvikDevice[]]$ConnectedDevices
     [AuvikInterface[]]$Interfaces
-    [pscustomobject[]]$Configurations
-    [pscustomobject[]]$Components
+    [AuvikConfiguration[]]$Configurations
+    [AuvikComponent[]]$Components
     [pscustomobject]$Links
     hidden $DeviceDetail
 
@@ -803,6 +844,74 @@ class AuvikConfiguration {
     }
 
     AuvikConfiguration([hashtable]$Properties) { $this.Init($Properties) }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
+class AuvikAlert {
+    [string]$Id
+    [string]$Name
+    [AlertSeverity]$Severity
+    [AlertStatus]$Status
+    [string]$AlertDefinitionId
+    [string]$SpecificationId
+    [datetime]$DetectedOn
+    [string]$Description
+    [bool]$Dismissed
+    [bool]$Dispatched
+    [pscustomobject[]]$ExternalTicket
+    [AuvikTenant]$Tenant
+    [pscustomobject]$RelatedAlert
+    $Entity
+    [pscustomobject]$Links
+    hidden $Alert
+
+    AuvikAlert() { $this.Init(@{}) }
+
+    AuvikAlert([pscustomobject]$Content) {
+        if ($Content.data) {
+            $Data = $Content.data
+        } else {
+            $Data = $Content
+        }
+        $this.Init(@{
+            'Id' = $Data.id
+            'Name' = $Data.attributes.Name
+            'Severity' = $Data.attributes.Severity
+            'Status' = $Data.attributes.Status
+            'AlertDefinitionId' = $Data.attributes.AlertDefinitionId
+            'SpecificationId' = $Data.attributes.SpecificationId
+            'DetectedOn' = $Data.attributes.DetectedOn
+            'Description' = $Data.attributes.Description
+            'Dismissed' = $Data.attributes.Dismissed
+            'Dispatched' = $Data.attributes.Dispatched
+            'ExternalTicket' = $Data.attributes.ExternalTicket
+            'Tenant' = $Data.relationships.tenant.data
+            'RelatedAlert' = $Data.relationships.RelatedAlert.data
+            'Entity' = switch ($Data.relationships.entity.data.type) {
+                device {
+                    [AuvikDevice]::new($Data.relationships.entity.data)
+                }
+                interface {
+                    [AuvikInterface]::new($Data.relationships.entity.data)
+                }
+                Default {
+                    if ($Data.relationships.entity.data) {
+                        Write-Debug "Add $($Data.relationships.entity.data.type)"
+                        [PSCustomObject]::new($Data.relationships.entity.data)
+                    }
+                }
+            }
+            'Links' = $Data.Links
+            'Alert' = $Content
+        })
+    }
+
+    AuvikAlert([hashtable]$Properties) { $this.Init($Properties) }
 
     [void] Init([hashtable]$Properties) {
         foreach ($Property in $Properties.Keys) {
