@@ -920,6 +920,79 @@ class AuvikAlert {
     }
 }
 
+class AuvikClientUsage {
+    [string]$Id
+    [pscustomobject[]]$MonitoredWorkstations
+    [pscustomobject[]]$MonitoredServers
+    [int]$MaxMonitoredWorkstations
+    [int]$MaxMonitoredServers
+    [string]$DomainPrefix
+    [int]$BillableDays
+    [datetime]$UsagePeriodStartDate
+    [datetime]$UsagePeriodEndDate
+    [int]$UsagePeriodLengthInDays
+    [int]$DeviceUsageTotalDays
+    [int]$DeviceUsageAverageDays
+    [pscustomobject]$DeviceUsageTotalDaysByClientType
+    [pscustomobject]$DeviceUsageAverageDaysByClientType
+    [int]$ClientUsageTotalDays
+    [int]$ClientUsageAveragedDays
+    [pscustomobject]$ClientUsageTotalDaysByClientType
+    [pscustomobject]$ClientUsageAverageDaysByClientType
+    [int]$TotalAsmUsers
+    #[AuvikDeviceUsage]$Devices
+    [pscustomobject[]]$Devices
+    [AuvikClientUsage]$Clients
+    #[AuvikAsmUser]$AsmUsers
+    [pscustomobject[]]$AsmUsers # Change to AuvikAsmUser type
+    [pscustomobject]$Links
+    hidden $ClientUsage
+
+    AuvikClientUsage() { $this.Init(@{}) }
+
+    AuvikClientUsage([pscustomobject]$Content) {
+        if ($Content.data) {
+            $Data = $Content.data
+        } else {
+            $Data = $Content
+        }
+        $this.Init(@{
+            'Id' = $Data.id
+            'MonitoredWorkstations' = $Data.attributes.MonitoredWorkstations
+            'MonitoredServers' = $Data.attributes.MonitoredServers
+            'MaxMonitoredWorkstations' = $Data.attributes.MaxMonitoredWorkstations
+            'MaxMonitoredServers' = $Data.attributes.MaxMonitoredServers
+            'DomainPrefix' = $Data.attributes.DomainPrefix
+            'BillableDays' = $Data.attributes.BillableDays
+            'UsagePeriodStartDate' = $Data.attributes.UsagePeriod.StartDate
+            'UsagePeriodEndDate' = $Data.attributes.UsagePeriod.EndDate
+            'UsagePeriodLengthInDays' = $Data.attributes.UsagePeriod.LengthInDays
+            'DeviceUsageTotalDays' = $Data.attributes.DeviceUsage.TotalDays
+            'DeviceUsageAverageDays' = $Data.attributes.DeviceUsage.AverageDays
+            'DeviceUsageTotalDaysByClientType' = $Data.attributes.DeviceUsage.TotalDaysByClientType
+            'DeviceUsageAverageDaysByClientType' = $Data.attributes.DeviceUsage.AverageDaysByClientType
+            'ClientUsageTotalDays' = $Data.attributes.ClientUsage.TotalDays
+            'ClientUsageAveragedDays' = $Data.attributes.ClientUsage.AveragedDays
+            'ClientUsageTotalDaysByClientType' = $Data.attributes.ClientUsage.TotalDaysByClientType
+            'ClientUsageAverageDaysByClientType' = $Data.attributes.ClientUsage.AverageDaysByClientType
+            'TotalAsmUsers' = $Data.attributes.asmUserUsage.totalAsmUsers
+            'Devices' = $Data.relationships.Devices.Data
+            'Clients' = $Data.relationships.Clients.Data
+            'AsmUsers' = $Data.relationships.AsmUsers.data
+            'Links' = $Data.Links
+            'ClientUsage' = $Content
+        })
+    }
+
+    AuvikClientUsage([hashtable]$Properties) { $this.Init($Properties) }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
 class ChangeMe {
     [string]$Id
     [string]$DeviceName
