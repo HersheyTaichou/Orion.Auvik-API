@@ -127,17 +127,17 @@ meta     : @{totalPages=5}
 | /inventory/entity/note/{id} | Done | Get-AuvikEntityNote | Pass |
 | /inventory/entity/audit | Done | Get-AuvikEntityAudit | Pass |
 | /inventory/entity/audit/{id} | Done | Get-AuvikEntityAudit | Pass |
-| /inventory/configuration | To-Do | Get-AuvikConfiguration | - |
-| /inventory/configuration/{id} | To-Do | Get-AuvikConfiguration | - |
-| /alert/history/info | To-Do | Get-AuvikAlert | - |
-| /alert/history/info/{id} | To-Do | Get-AuvikAlert | - |
-| /alert/dismiss/{id} | To-Do | Clear-AuvikAlert | - |
+| /inventory/configuration | Done | Get-AuvikConfiguration | Pass |
+| /inventory/configuration/{id} | Done | Get-AuvikConfiguration | Pass |
+| /alert/history/info | Done | Get-AuvikAlert | Pass |
+| /alert/history/info/{id} | Done | Get-AuvikAlert | Pass |
+| /alert/dismiss/{id} | Error | Clear-AuvikAlert | - |
 | /authentication/verify | Done | Connect-AuvikApi | Pass |
 | /tenants | Done | Get-AuvikTenant | Pass |
 | /tenants/detail | Done | Get-AuvikTenantDetail | Pass |
 | /tenants/detail/{id} | Done | Get-AuvikTenantDetail | Pass |
-| /billing/usage/client | To-Do | Get-AuvikClientUsage | - |
-| /billing/usage/device/{id} | To-Do | Get-AuvikClientUsage | - |
+| /billing/usage/client | In Progress | Get-AuvikClientUsage | - |
+| /billing/usage/device/{id} | To-Do | Get-AuvikDeviceUsage | - |
 | /stat/device/{statId} | To-Do | Get-AuvikDeviceStatistics | - |
 | /stat/deviceAvailability/{statId} | To-Do | Get-AuvikDeviceAvailabilityStatistics | - |
 | /stat/service/{statId} | To-Do | Get-AuvikServiceStatistics | - |
@@ -154,6 +154,10 @@ meta     : @{totalPages=5}
 | /asm/securityLog/info | To-Do | Get-AuvikAsmSecurityLog | - |
 | /asm/tag/info | To-Do | Get-AuvikAsmTag | - |
 | /asm/user/info | To-Do | Get-AuvikAsmUser | - |
+
+**Get-AuvikDeviceExtendedDetail**: Querying this API endpoint without an ID returns 500 (Internal Server Error)
+
+**Clear-AuvikAlert**: I have tested this on multiple alerts, but it always returns 405 (Method Not Allowed)
 
 ---
 Maintained by Mike Hiersche
