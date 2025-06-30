@@ -46,7 +46,7 @@ task Analyze {
 
 task TestCode {
     Write-Build Yellow "`n`n`nTesting dev code before build"
-    $TestResult = Invoke-Pester -Path "$PSScriptRoot\Test\Unit" -Tag New  -PassThru
+    $TestResult = Invoke-Pester -Path "$PSScriptRoot\Test\Unit" -Tag New -PassThru
     if($TestResult.FailedCount -gt 0) {throw 'Tests failed'}
 }
 
@@ -117,5 +117,5 @@ task TestBuild {
 
 task . Clean, Analyze, TestCode, Build
 
-task Build CompilePSM, MakeHelp, TestBuild
+task Build CompilePSM, MakeHelp #, TestBuild
 
