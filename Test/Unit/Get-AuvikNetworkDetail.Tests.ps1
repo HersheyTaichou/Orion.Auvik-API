@@ -12,13 +12,13 @@ Describe 'Get-AuvikNetworkDetail Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $Networks = (Get-AuvikNetwork -TenantID ($Tenants[0]).ID -Pages 1)[0]
-        $Devices = (Get-AuvikDevice -TenantID ($Tenants[0]).ID -Pages 1)[0]
+        $Networks = (Get-AuvikNetwork -TenantID $Tenants[0].Id -Pages 1)[0]
+        $Devices = (Get-AuvikDevice -TenantID $Tenants[0].Id -Pages 1)[0]
 
     }
 
     It 'Returns NetworkDetail by Tenant' {
-        (Get-AuvikNetworkDetail -TenantID $Tenants.Id -Pages 1) | Should -Not -BeNullOrEmpty
+        (Get-AuvikNetworkDetail -TenantID $Tenants[0].Id -Pages 1) | Should -Not -BeNullOrEmpty
     }
 
     It 'Returns NetworkDetail by NetworkType' {

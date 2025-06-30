@@ -11,7 +11,7 @@ function Get-AuvikAlert {
         $AlertSpecificationId,
         # Filter by alert severity.
         [Parameter(ParameterSetName="Multiple")]
-        [AlertSeverity]
+        [Severity]
         $Severity,
         # Filter by the status of the alert.
         [Parameter(ParameterSetName="Multiple")]

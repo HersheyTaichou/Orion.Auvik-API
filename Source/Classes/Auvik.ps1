@@ -86,6 +86,7 @@ enum LifecycleStatus {
     securityOnly
     unpublished
     empty
+    unknown
 }
 
 enum NetworkType {
@@ -237,7 +238,7 @@ class AuvikTenant {
     [System.Nullable[datetime]]$trialEndDate
     [pscustomobject]$Address
     [AuvikTenant]$Parent
-    [AuvikAuthorizations]$Authorizations
+    [AuvikAuthorizations[]]$Authorizations
     hidden $Tenant
 
     AuvikTenant() { $this.Init(@{}) }
@@ -767,7 +768,7 @@ class AuvikEntityAudit {
     [string]$Cause
     [string]$Data
     [datetime]$DateStarted
-    [datetime]$LastActive
+    [System.Nullable[datetime]]$LastActive
     [AuvikTenant]$Tenant
     [AuvikDevice]$Device
     [pscustomobject]$Links

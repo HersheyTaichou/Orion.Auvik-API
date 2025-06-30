@@ -12,7 +12,7 @@ Describe 'Get-AuvikEntityAudit Tests' -Tags 'Unit' {
     BeforeAll {
         Connect-AuvikApi -Credential $ApiCredentials -Uri $BaseUri -ErrorAction Stop
         $Tenants = Get-AuvikTenant
-        $EntityAudit = (Get-AuvikEntityAudit -TenantID ($Tenants[0]).ID -Pages 1)[0]
+        $EntityAudit = (Get-AuvikEntityAudit -TenantID $Tenants[0].ID -Pages 1 | Where-Object {$null -ne $_.dateStarted})[0]
 
 
     }
@@ -34,7 +34,7 @@ Describe 'Get-AuvikEntityAudit Tests' -Tags 'Unit' {
     }
 
     It 'Returns EntityAudit by ModifiedAfter' {
-        (Get-AuvikEntityAudit -ModifiedAfter "$((Get-Date).AddDays(-7))" -Pages 1).dateStarted | Sort-Object -Unique -Top 1 | Should -BeGreaterOrEqual $((Get-Date).AddDays(-7))
+        (Get-AuvikEntityAudit -ModifiedAfter $EntityAudit.DateStarted -Pages 1 | Where-Object {$null -ne $_.dateStarted}).dateStarted | Sort-Object -Unique -Top 1 | Should -BeGreaterOrEqual $EntityAudit.DateStarted
     }
 
     It 'Returns EntityAudit by Id' {
