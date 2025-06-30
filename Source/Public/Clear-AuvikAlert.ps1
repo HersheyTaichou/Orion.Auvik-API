@@ -4,11 +4,7 @@ function Clear-AuvikAlert {
         # ID of an alert. Not compatible with the other parameters.
         [Parameter()]
         [string[]]
-        $Id,
-        # Maximum number of pages of results to get
-        [Parameter()]
-        [int]
-        $Pages
+        $Id
     )
 
     begin {
