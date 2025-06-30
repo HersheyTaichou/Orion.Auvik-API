@@ -67,7 +67,6 @@ enum DiscoveryStatus {
     authorizing
     authorized
     privileged
-    unknown
 }
 
 enum TrafficInsightsStatus {
@@ -78,7 +77,6 @@ enum TrafficInsightsStatus {
     linking
     linkingFailed
     forwarding
-    unknown
 }
 
 enum LifecycleStatus {
@@ -88,8 +86,6 @@ enum LifecycleStatus {
     securityOnly
     unpublished
     empty
-    unknown
-E
 }
 
 enum NetworkType {
@@ -100,7 +96,6 @@ enum NetworkType {
     network
     layer2
     internet
-    unknown
 }
 
 enum ScanStatus {
@@ -113,7 +108,6 @@ enum ScanStatus {
 enum Scope {
     private
     public
-    unknown
 }
 
 enum CurrentStatus {
@@ -172,7 +166,13 @@ enum EntityType {
     device
     network
     interface
+}
+
+enum EntityAuditCategory {
     unknown
+    tunnel
+    terminal
+    remoteBrowser
 }
 
 enum EntityAuditStatus {
@@ -183,14 +183,7 @@ enum EntityAuditStatus {
     failed
 }
 
-enum EntityAuditCategory {
-    unknown
-    tunnel
-    terminal
-    remoteBrowser
-}
-
-enum AlertSeverity {
+enum Severity {
     unknown
     emergency
     critical
@@ -236,12 +229,12 @@ class AuvikTenant {
     [string]$DomainPrefix
     [string]$DisplayName
     [string]$TenantType
-    [bool]$Enabled
+    [System.Nullable[bool]]$Enabled
     [string]$Subscribed
     [string]$SubscriptionOwner
-    [bool]$Running
-    [datetime]$TrialStartDate
-    [datetime]$trialEndDate
+    [System.Nullable[bool]]$Running
+    [System.Nullable[datetime]]$TrialStartDate
+    [System.Nullable[datetime]]$trialEndDate
     [pscustomobject]$Address
     [AuvikTenant]$Parent
     [AuvikAuthorizations]$Authorizations
@@ -264,8 +257,8 @@ class AuvikTenant {
             "Subscribed" = $Data.attributes.Subscribed
             "SubscriptionOwner" = $Data.attributes.SubscriptionOwner
             "Running" = $Data.attributes.Running
-            "TrialStartDate" = if ($Content.data.attributes.TrialStartDate) {$Content.data.attributes.TrialStartDate} else {0}
-            "trialEndDate" = if ($Content.data.attributes.trialEndDate) {$Content.data.attributes.trialEndDate} else {0}
+            "TrialStartDate" = if ($data.attributes.TrialStartDate) {$data.attributes.TrialStartDate}
+            "trialEndDate" = if ($data.attributes.trialEndDate) {$data.attributes.trialEndDate}
             "Address" = $Data.attributes.Address
             'Parent' = $Data.relationships.parent.data
             'Authorizations' = $Data.relationships.Authorizations.data
@@ -284,7 +277,7 @@ class AuvikTenant {
 
 class AuvikNetworkDetail {
     [string]$Id
-    [Scope]$Scope
+    [System.Nullable[Scope]]$Scope
     [string]$PrimaryCollector
     [string[]]$SecondaryCollectors
     [string]$CollectorSelection
@@ -303,7 +296,7 @@ class AuvikNetworkDetail {
         }
         $this.Init(@{
             'Id' = $Data.id
-            'Scope' = if ($Data.attributes.Scope) {$Data.attributes.Scope} else {"unknown"}
+            'Scope' = if ($Data.attributes.Scope) {$Data.attributes.Scope}
             'PrimaryCollector' = $Data.attributes.PrimaryCollector
             'SecondaryCollectors' = $Data.attributes.SecondaryCollectors
             'CollectorSelection' = $Data.attributes.CollectorSelection
@@ -325,11 +318,11 @@ class AuvikNetworkDetail {
 
 class AuvikNetwork {
     [string]$Id
-    [NetworkType]$NetworkType
+    [System.Nullable[NetworkType]]$NetworkType
     [string]$networkName
     [string]$Description
-    [ScanStatus]$ScanStatus
-    [datetime]$LastModified
+    [System.Nullable[ScanStatus]]$ScanStatus
+    [System.Nullable[datetime]]$LastModified
     [AuvikNetworkDetail[]]$NetworkDetail
     [AuvikTenant]$Tenant
     [AuvikDevice[]]$Device
@@ -348,12 +341,12 @@ class AuvikNetwork {
         }
         $this.Init(@{
             'Id' = $Data.id
-            'NetworkType' = if ($Data.attributes.networkType) {$Data.attributes.networkType} else {"unknown"}
+            'NetworkType' = if ($Data.attributes.networkType) {$Data.attributes.networkType}
             'NetworkName' = $Data.attributes.networkName
             'Description' = $Data.attributes.description
-            'ScanStatus' = if ($Data.attributes.scanStatus) {$Data.attributes.scanStatus} else {"unknown"}
-            'LastModified' = if ($Data.attributes.lastModified) {$Data.attributes.lastModified} else {0}
-            'NetworkDetail' = if ($Content.Included) {$Content.Included} else {$null}
+            'ScanStatus' = if ($Data.attributes.scanStatus) {$Data.attributes.scanStatus}
+            'LastModified' = if ($Data.attributes.lastModified) {$Data.attributes.lastModified}
+            'NetworkDetail' = if ($Content.Included) {$Content.Included}
             'Tenant' = $Data.relationships.tenant.data
             'Device' = $Data.relationships.devices.data
             'Links' = $Data.links
@@ -377,16 +370,16 @@ class AuvikDevice {
     [string]$Id
     [ipaddress[]]$IpAddresses
     [string]$DeviceName
-    [DeviceType]$DeviceType
+    [System.Nullable[DeviceType]]$DeviceType
     [string]$MakeModel
     [string]$VendorName
     [string]$SoftwareVersion
     [string]$SerialNumber
     [string]$Description
     [string]$FirmwareVersion
-    [datetime]$LastModified
-    [datetime]$LastSeenTime
-    [OnlineStatus]$OnlineStatus
+    [System.Nullable[datetime]]$LastModified
+    [System.Nullable[datetime]]$LastSeenTime
+    [System.Nullable[OnlineStatus]]$OnlineStatus
     [AuvikTenant]$Tenant
     [AuvikNetwork[]]$Network
     [AuvikDeviceDetail[]]$DeviceDetail
@@ -405,16 +398,16 @@ class AuvikDevice {
             'Id' = $Data.id
             'IpAddresses' = $Data.attributes.ipAddresses
             'DeviceName' = $Data.attributes.DeviceName
-            'DeviceType' = if ($Data.attributes.DeviceType) {$Data.attributes.DeviceType} else {"unknown"}
+            'DeviceType' = if ($Data.attributes.DeviceType) {$Data.attributes.DeviceType}
             'MakeModel' = $Data.attributes.MakeModel
             'VendorName' = $Data.attributes.VendorName
             'SoftwareVersion' = $Data.attributes.SoftwareVersion
             'SerialNumber' = $Data.attributes.SerialNumber
             'Description' = $Data.attributes.Description
             'FirmwareVersion' = $Data.attributes.FirmwareVersion
-            'LastModified' = if ($Data.attributes.LastModified) {$Data.attributes.LastModified} else {0}
-            'LastSeenTime' = if ($Data.attributes.LastSeenTime) {$Data.attributes.LastSeenTime} else {0}
-            'OnlineStatus' = if ($Data.attributes.OnlineStatus) {$Data.attributes.OnlineStatus} else {"unknown"}
+            'LastModified' = if ($Data.attributes.LastModified) {$Data.attributes.LastModified}
+            'LastSeenTime' = if ($Data.attributes.LastSeenTime) {$Data.attributes.LastSeenTime}
+            'OnlineStatus' = if ($Data.attributes.OnlineStatus) {$Data.attributes.OnlineStatus}
             'Tenant' = $Data.relationships.tenant.data
             'Network' = $Data.relationships.Networks.data #| ForEach-Object {[AuvikNetwork]::new($_)}
             'DeviceDetail' = $Content.included
@@ -435,11 +428,11 @@ class AuvikDevice {
 class AuvikDeviceDetail {
     [string]$Id
     [bool]$ManageStatus
-    [DiscoveryStatus]$SnmpStatus
-    [DiscoveryStatus]$LoginStatus
-    [DiscoveryStatus]$WmiStatus
-    [DiscoveryStatus]$VMwareStatus
-    [TrafficInsightsStatus]$TrafficInsightsStatus
+    [System.Nullable[DiscoveryStatus]]$SnmpStatus
+    [System.Nullable[DiscoveryStatus]]$LoginStatus
+    [System.Nullable[DiscoveryStatus]]$WmiStatus
+    [System.Nullable[DiscoveryStatus]]$VMwareStatus
+    [System.Nullable[TrafficInsightsStatus]]$TrafficInsightsStatus
     [AuvikTenant]$Tenant
     [AuvikDevice[]]$ConnectedDevices
     [AuvikInterface[]]$Interfaces
@@ -460,11 +453,11 @@ class AuvikDeviceDetail {
         $this.Init(@{
             'Id' = $Data.id
             'ManageStatus' = $Data.attributes.ManageStatus
-            'SnmpStatus' = if ($Data.attributes.discoveryStatus.snmp) {$Data.attributes.discoveryStatus.snmp} else {"unknown"}
-            'LoginStatus' = if ($Data.attributes.discoveryStatus.login) {$Data.attributes.discoveryStatus.login} else {"unknown"}
-            'WmiStatus' = if ($Data.attributes.discoveryStatus.wmi) {$Data.attributes.discoveryStatus.wmi} else {"unknown"}
-            'VMwareStatus' = if ($Data.attributes.discoveryStatus.vmware) {$Data.attributes.discoveryStatus.vmware} else {"unknown"}
-            'TrafficInsightsStatus' = if ($Data.attributes.TrafficInsightsStatus) {$Data.attributes.TrafficInsightsStatus} else {"unknown"}
+            'SnmpStatus' = if ($Data.attributes.discoveryStatus.snmp) {$Data.attributes.discoveryStatus.snmp}
+            'LoginStatus' = if ($Data.attributes.discoveryStatus.login) {$Data.attributes.discoveryStatus.login}
+            'WmiStatus' = if ($Data.attributes.discoveryStatus.wmi) {$Data.attributes.discoveryStatus.wmi}
+            'VMwareStatus' = if ($Data.attributes.discoveryStatus.vmware) {$Data.attributes.discoveryStatus.vmware}
+            'TrafficInsightsStatus' = if ($Data.attributes.TrafficInsightsStatus) {$Data.attributes.TrafficInsightsStatus}
             'Tenant' = $Data.relationships.tenant.data
             'ConnectedDevices' = $Data.relationships.ConnectedDevices.data
             'Interfaces' = $Data.relationships.Interfaces.data
@@ -493,9 +486,9 @@ class AuvikDeviceExtendedDetail {
     [datetime]$LastSeenTime
     [pscustomobject]$Attributes
     [AuvikTenant]$Tenant
-    [AuvikNetwork[]]$Networks
-    [AuvikDeviceDetail[]]$DeviceDetail
-    [AuvikDevice]$Members
+    #[AuvikNetwork[]]$Networks
+    #[AuvikDeviceDetail[]]$DeviceDetail
+    #[AuvikDevice[]]$Members
     hidden $DeviceExtendedDetail
 
 
@@ -512,9 +505,9 @@ class AuvikDeviceExtendedDetail {
             'Id' = $Data.id
             'Links' = $Data.Links
             'DeviceName' = $Data.attributes.DeviceName
-            'DeviceType' = if ($Data.attributes.DeviceType) {$Data.attributes.DeviceType} else {"unknown"}
-            'LastModified' = if ($Data.attributes.LastModified) {$Data.attributes.LastModified} else {0}
-            'LastSeenTime' = if ($Data.attributes.LastSeenTime) {$Data.attributes.LastSeenTime} else {0}
+            'DeviceType' = if ($Data.attributes.DeviceType) {$Data.attributes.DeviceType}
+            'LastModified' = if ($Data.attributes.LastModified) {$Data.attributes.LastModified}
+            'LastSeenTime' = if ($Data.attributes.LastSeenTime) {$Data.attributes.LastSeenTime}
             'Attributes' = $NoteProperty | ForEach-Object {@{$_ = $Data.attributes.$_}}
             'Tenant' = $Data.relationships.tenant.data
             #'Networks' = $Data.relationships.Networks.data
@@ -581,10 +574,10 @@ class AuvikDeviceWarranty {
 class AuvikDeviceLifecycle {
     [string]$Id
     [string]$DeviceName
-    [LifecycleStatus]$SalesAvailability
-    [LifecycleStatus]$SoftwareMaintenanceStatus
-    [LifecycleStatus]$SecuritySoftwareMaintenanceStatus
-    [LifecycleStatus]$LastSupportStatus
+    [System.Nullable[LifecycleStatus]]$SalesAvailability
+    [System.Nullable[LifecycleStatus]]$SoftwareMaintenanceStatus
+    [System.Nullable[LifecycleStatus]]$SecuritySoftwareMaintenanceStatus
+    [System.Nullable[LifecycleStatus]]$LastSupportStatus
     [AuvikTenant]$Tenant
     [AuvikDevice]$Device
     [pscustomobject]$Links
@@ -601,10 +594,10 @@ class AuvikDeviceLifecycle {
         $this.Init(@{
             'Id' = $Data.id
             'DeviceName' = $Data.attributes.DeviceName
-            'salesAvailability' = if ($Data.attributes.salesAvailability) {$Data.attributes.salesAvailability} else {"unknown"}
-            'softwareMaintenanceStatus' = if ($Data.attributes.softwareMaintenanceStatus) {$Data.attributes.softwareMaintenanceStatus} else {"unknown"}
-            'securitySoftwareMaintenanceStatus' = if ($Data.attributes.securitySoftwareMaintenanceStatus) {$Data.attributes.securitySoftwareMaintenanceStatus} else {"unknown"}
-            'lastSupportStatus' = if ($Data.attributes.lastSupportStatus) {$Data.attributes.lastSupportStatus} else {"unknown"}
+            'salesAvailability' = if ($Data.attributes.salesAvailability) {$Data.attributes.salesAvailability}
+            'softwareMaintenanceStatus' = if ($Data.attributes.softwareMaintenanceStatus) {$Data.attributes.softwareMaintenanceStatus}
+            'securitySoftwareMaintenanceStatus' = if ($Data.attributes.securitySoftwareMaintenanceStatus) {$Data.attributes.securitySoftwareMaintenanceStatus}
+            'lastSupportStatus' = if ($Data.attributes.lastSupportStatus) {$Data.attributes.lastSupportStatus}
             'Tenant' = $Data.relationships.tenant.data
             'Device' = $Data.relationships.Device.data
             'Links' = $Data.Links
@@ -624,15 +617,15 @@ class AuvikDeviceLifecycle {
 class AuvikInterface {
     [string]$Id
     [string]$InterfaceName
-    [InterfaceType]$InterfaceType
+    [System.Nullable[InterfaceType]]$InterfaceType
     [string]$MacAddress
-    [Int64]$NegotiatedSpeed
+    [System.Nullable[Int64]]$NegotiatedSpeed
     [string]$Duplex
-    [bool]$CustomConnections
+    [System.Nullable[bool]]$CustomConnections
     [ipaddress[]]$IpAddresses
-    [OperationalStatus]$OperationalStatus
-    [bool]$AdminStatus
-    [datetime]$LastModified
+    [System.Nullable[OperationalStatus]]$OperationalStatus
+    [System.Nullable[bool]]$AdminStatus
+    [System.Nullable[datetime]]$LastModified
     [pscustomobject]$Links
     [AuvikTenant]$Tenant
     [AuvikInterface[]]$ConnectedTo
@@ -651,15 +644,15 @@ class AuvikInterface {
         $this.Init(@{
             'Id' = $Data.id
             'InterfaceName' = $Data.attributes.DeviceName
-            'InterfaceType' = if ($Data.attributes.InterfaceType) {$Data.attributes.InterfaceType} else {"unknown"}
+            'InterfaceType' = if ($Data.attributes.InterfaceType) {$Data.attributes.InterfaceType}
             'MacAddress' = $Data.attributes.MacAddress
             'NegotiatedSpeed' = $Data.attributes.NegotiatedSpeed
             'Duplex' = $Data.attributes.Duplex
             'CustomConnections' = $Data.attributes.CustomConnections
             'IpAddresses' = $Data.attributes.IpAddresses
-            'OperationalStatus' = if ($Data.attributes.OperationalStatus) {$Data.attributes.OperationalStatus} else {"unknown"}
+            'OperationalStatus' = if ($Data.attributes.OperationalStatus) {$Data.attributes.OperationalStatus}
             'AdminStatus' = $Data.attributes.AdminStatus
-            'LastModified' = if ($Data.attributes.LastModified) {$Data.attributes.LastModified} else {0}
+            'LastModified' = if ($Data.attributes.LastModified) {$Data.attributes.LastModified}
             'Links' = $Data.Links
             'Tenant' = $Data.relationships.tenant.data
             'ConnectedTo' = $Data.relationships.ConnectedTo.data
@@ -683,7 +676,7 @@ class AuvikComponent {
     [string]$ComponentName
     [string]$ComponentType
     [currentStatus]$CurrentStatus
-    [datetime]$LastModified
+    [System.Nullable[datetime]]$LastModified
     [pscustomobject]$Links
     [AuvikTenant]$Tenant
     [AuvikDevice]$ParentDevice
@@ -702,7 +695,7 @@ class AuvikComponent {
             'ComponentName' = $Data.attributes.ComponentName
             'ComponentType' = $Data.attributes.ComponentType
             'CurrentStatus' = $Data.attributes.CurrentStatus
-            'LastModified' = if ($Data.attributes.LastModified) {$Data.attributes.LastModified} else {0}
+            'LastModified' = if ($Data.attributes.LastModified) {$Data.attributes.LastModified}
             'Links' = $Data.Links
             'Tenant' = $Data.relationships.tenant.data
             'ParentDevice' = $Data.relationships.ParentDevice.data
@@ -724,7 +717,7 @@ class AuvikEntityNote {
     [string]$Title
     [string]$Body
     [string]$EntityId
-    [EntityType]$EntityType
+    [System.Nullable[EntityType]]$EntityType
     [string]$EntityName
     [string]$LastModifiedBy
     [datetime]$LastModified
@@ -748,7 +741,7 @@ class AuvikEntityNote {
             'EntityType' = $Data.attributes.EntityType
             'EntityName' = $Data.attributes.EntityName
             'LastModifiedBy' = $Data.attributes.LastModifiedBy
-            'LastModified' = if ($Data.attributes.LastModified) {$Data.attributes.LastModified} else {0}
+            'LastModified' = if ($Data.attributes.LastModified) {$Data.attributes.LastModified}
             'Tenant' = $Data.relationships.tenant.data
             'Links' = $Data.Links
             'EntityNote' = $Content
@@ -796,9 +789,9 @@ class AuvikEntityAudit {
             'Direction' = $ContentData.attributes.Direction
             'Status' = $ContentData.attributes.Status
             'Cause' = $ContentData.attributes.Cause
-            'Data' = $ContentData.attributes.Data # if ($Data.attributes.LastModified) {$Data.attributes.LastModified} else {0}
-            'DateStarted' = if ($ContentData.attributes.DateStarted) {$ContentData.attributes.DateStarted} else {0}
-            'LastActive' = if ($ContentData.attributes.LastActive) {$ContentData.attributes.LastActive} else {0}
+            'Data' = $ContentData.attributes.Data
+            'DateStarted' = if ($ContentData.attributes.DateStarted) {$ContentData.attributes.DateStarted}
+            'LastActive' = if ($ContentData.attributes.LastActive) {$ContentData.attributes.LastActive}
             'Tenant' = $ContentData.relationships.tenant.data
             'Device' = $ContentData.relationships.Device.data
             'Links' = $ContentData.Links
@@ -855,7 +848,7 @@ class AuvikConfiguration {
 class AuvikAlert {
     [string]$Id
     [string]$Name
-    [AlertSeverity]$Severity
+    [Severity]$Severity
     [AlertStatus]$Status
     [string]$AlertDefinitionId
     [string]$SpecificationId
