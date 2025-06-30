@@ -47,16 +47,16 @@ function Invoke-AuvikApi {
                     $Backoff = 5
                 }
                 400 {
-                    Write-Error "$($StatusCode): $($ReasonPhrase). Please verify the request details: $($Uri.PathAndQuery)"
-                    throw
+                    throw "$($StatusCode): $($ReasonPhrase). Please verify the request details: $($Uri.PathAndQuery)"
+                }
+                401 {
+                    throw "$($StatusCode): $($ReasonPhrase). Verify you have permissions to access the data."
                 }
                 403 {
-                    Write-Error "$($StatusCode): $($ReasonPhrase). Please confirm the Uri and Auvik API Credentials are correct."
-                    throw
+                    throw "$($StatusCode): $($ReasonPhrase). Please confirm the Uri and Auvik API Credentials are correct."
                 }
                 404 {
-                    Write-Error "$($StatusCode): $($ReasonPhrase). Unable to find details based on the Uri: $($Uri.PathAndQuery)"
-                    throw
+                    throw "$($StatusCode): $($ReasonPhrase). Unable to find details based on the Uri: $($Uri)"
                 }
                 429 {
                     Write-Error "$($StatusCode): $($ReasonPhrase). Sleeping for $($Backoff) seconds then trying again. (Try #$($Try))"
