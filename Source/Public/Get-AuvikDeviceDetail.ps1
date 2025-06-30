@@ -43,24 +43,24 @@ function Get-AuvikDeviceDetail {
         [bool]
         $ManageStatus,
         # Filter by the device's SNMP discovery status.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("disabled","determining","notSupported","notAuthorized","authorizing","authorized","privileged",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [DiscoveryStatus]
         $DiscoverySNMP,
         # Filter by the device's WMI discovery status.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("disabled","determining","notSupported","notAuthorized","authorizing","authorized","privileged",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [DiscoveryStatus]
         $DiscoveryWMI,
         # Filter by the device's Login discovery status.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("disabled","determining","notSupported","notAuthorized","authorizing","authorized","privileged",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [DiscoveryStatus]
         $DiscoveryLogin,
         # Filter by the device's VMware discovery status.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("disabled","determining","notSupported","notAuthorized","authorizing","authorized","privileged",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [DiscoveryStatus]
         $DiscoveryVMware,
         # Filter by the device's TrafficInsights status.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("notDetected","detected","notApproved","approved","linking","linkingFailed","forwarding",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [TrafficInsightsStatus]
         $TrafficInsightsStatus,
         # Array of tenant IDs to request info from.
         [Parameter(ParameterSetName="Multiple")]

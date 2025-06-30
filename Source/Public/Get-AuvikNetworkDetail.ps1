@@ -2,12 +2,12 @@ function Get-AuvikNetworkDetail {
     [CmdletBinding(DefaultParameterSetName="Multiple")]
     param (
         # Filter by network type.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("routed","vlan","wifi","loopback","network","layer2","internet",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [NetworkType]
         $NetworkType,
         # Filter by the network's scan status.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("true","false","notAllowed","unknown",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [ScanStatus]
         $ScanStatus,
         # Filter by IDs of devices on this network. Filter by multiple values by providing an array
         [Parameter(ParameterSetName="Multiple")]
@@ -18,8 +18,8 @@ function Get-AuvikNetworkDetail {
         [datetime]
         $ModifiedAfter,
         # Array of tenant IDs to request info from.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("private","public",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [Scope]
         $Scope,
         # Array of tenant IDs to request info from.
         [Parameter(ParameterSetName="Multiple")]

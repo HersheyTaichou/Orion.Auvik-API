@@ -49,8 +49,8 @@ function Get-AuvikDevice {
         [string[]]
         $Networks,
         # Filter by device type.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("unknown","switch","l3Switch","router","accessPoint","firewall","workstation","server","storage","printer","copier","hypervisor","multimedia","phone","tablet","handheld","virtualAppliance","bridge","controller","hub","modem","ups","module","loadBalancer","camera","telecommunications","packetProcessor","chassis","airConditioner","virtualMachine","pdu","ipPhone","backhaul","internetOfThings","voipSwitch","stack","backupDevice","timeClock","lightingDevice","audioVisual","securityAppliance","utm","alarm","buildingManagement","ipmi","thinAccessPoint","thinClient",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [DeviceType]
         $DeviceType,
         # Filter by the device's make and model.
         [Parameter(ParameterSetName="Multiple")]
@@ -61,8 +61,8 @@ function Get-AuvikDevice {
         [string]
         $VendorName,
         # Filter by the device's online status.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("online","offline","unreachable","testing","unknown","dormant","notPresent","lowerLayerDown",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [OnlineStatus]
         $OnlineStatus,
         # Filter by date and time, only returning entities modified after provided value.
         [Parameter(ParameterSetName="Multiple")]

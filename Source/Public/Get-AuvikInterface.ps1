@@ -2,8 +2,8 @@ function Get-AuvikInterface {
     [CmdletBinding(DefaultParameterSetName="Multiple")]
     param (
         # Filter by IDs of networks this device is on.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("ethernet","wifi","bluetooth","cdma","coax","cpu","distributedVirtualSwitch","firewire","gsm","ieee8023AdLag","inferredWired","inferredWireless","interface","linkAggregation","loopback","modem","wimax","optical","other","parallel","ppp","radiomac","rs232","tunnel","unknown","usb","virtualBridge","virtualNic","virtualSwitch","vlan",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [InterfaceType]
         $InterfaceType,
         # Filter by device type.
         [Parameter(ParameterSetName="Multiple")]
@@ -14,8 +14,8 @@ function Get-AuvikInterface {
         [bool]
         $AdminStatus,
         # Filter by the device's vendor/manufacturer.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("online","offline","unreachable","testing","unknown","dormant","notPresent","lowerLayerDown",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [OperationalStatus]
         $OperationalStatus,
         # Filter by date and time, only returning entities modified after provided value.
         [Parameter(ParameterSetName="Multiple")]

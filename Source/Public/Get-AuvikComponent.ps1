@@ -14,8 +14,8 @@ function Get-AuvikComponent {
         [string]
         $DeviceName,
         # Filter by the component's current status.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("ok","degraded","failed",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [CurrentStatus]
         $currentStatus,
         # Array of tenant IDs to request info from.
         [Parameter(ParameterSetName="Multiple")]

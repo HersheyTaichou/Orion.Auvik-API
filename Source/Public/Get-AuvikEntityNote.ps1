@@ -6,8 +6,8 @@ function Get-AuvikEntityNote {
         [string]
         $EntityId,
         # Filter by the entity's type.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("root","device","network","interface",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [EntityType]
         $EntityType,
         # Filter by the entity's name.
         [Parameter(ParameterSetName="Multiple")]

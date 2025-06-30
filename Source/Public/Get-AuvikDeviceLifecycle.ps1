@@ -2,20 +2,20 @@ function Get-AuvikDeviceLifecycle {
     [CmdletBinding(DefaultParameterSetName="Multiple")]
     param (
         # Filter by sales availability.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("covered","available","expired","securityOnly","unpublished","empty",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [LifecycleStatus]
         $SalesAvailability,
         # Filter by software maintenance status.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("covered","available","expired","securityOnly","unpublished","empty",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [LifecycleStatus]
         $SoftwareMaintenanceStatus,
         # Filter by security software maintenance status.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("covered","available","expired","securityOnly","unpublished","empty",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [LifecycleStatus]
         $SecuritySoftwareMaintenanceStatus,
         # Filter by last support status.
-        [Parameter(ParameterSetName="Multiple")][ValidateSet("covered","available","expired","securityOnly","unpublished","empty",IgnoreCase=$false)]
-        [string]
+        [Parameter(ParameterSetName="Multiple")]
+        [LifecycleStatus]
         $LastSupportStatus,
         # Array of tenant IDs to request info from.
         [Parameter(ParameterSetName="Multiple")]
