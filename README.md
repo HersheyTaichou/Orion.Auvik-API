@@ -4,7 +4,7 @@ A PowerShell wrapper for the Auvik API
 
 ## Introduction
 
-This module is a wrapper for the Auvik API. It was built with and requires PowerShell 7.0 support.
+This module is a wrapper for the Auvik API. It was built with and requires PowerShell 7.0 support. All the commands output custom PowerShell objects built with classes.
 
 ### Similar projects
 
