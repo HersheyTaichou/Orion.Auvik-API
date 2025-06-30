@@ -8,7 +8,7 @@ function Get-AuvikAlert {
         # Deprecated. Filter by alert specification ID. Use 'alertDefinitionId' instead
         [Parameter(ParameterSetName="Multiple")]
         [string]
-        $alertSpecificationId,
+        $AlertSpecificationId,
         # Filter by alert severity.
         [Parameter(ParameterSetName="Multiple")]
         [AlertSeverity]
@@ -24,11 +24,11 @@ function Get-AuvikAlert {
         # Filter by the dismissed status.
         [Parameter(ParameterSetName="Multiple")]
         [bool]
-        $dismissed,
+        $Dismissed,
         # Filter by dispatched status.
         [Parameter(ParameterSetName="Multiple")]
         [bool]
-        $dispatched,
+        $Dispatched,
         # Filter by the time which is greater than the given timestamp.
         [Parameter(ParameterSetName="Multiple")]
         [datetime]
@@ -62,26 +62,26 @@ function Get-AuvikAlert {
                     "filter[deviceId]=$($DeviceId)"
                 }
                 AlertDefinitionId {
-                    "filter[alertDefinitionId] = $($AlertDefinitionId)"
+                    "filter[alertDefinitionId]=$($AlertDefinitionId)"
                 }
                 AlertSpecificationId {
                     Write-Warning "AlertSpecificationId is Deprecated, AlertDefinitionId should be used instead."
-                    "filter[alertSpecificationId] = $($alertSpecificationId)"
+                    "filter[alertSpecificationId]=$($alertSpecificationId)"
                 }
                 Severity {
-                    "filter[severity] = $($Severity)"
+                    "filter[severity]=$($Severity)"
                 }
                 Status {
-                    "filter[status] = $($Status)"
+                    "filter[status]=$($Status)"
                 }
                 EntityId {
-                    "filter[entityId] = $($entityId)"
+                    "filter[entityId]=$($entityId)"
                 }
                 Dismissed {
-                    "filter[dismissed] = $($dismissed.ToString().ToLower())"
+                    "filter[dismissed]=$($dismissed.ToString().ToLower())"
                 }
                 Dispatched {
-                    "filter[dispatched] = $($dispatched.ToString().ToLower())"
+                    "filter[dispatched]=$($dispatched.ToString().ToLower())"
                 }
                 DetectedTimeAfter {
                     "filter[detectedTimeAfter]=$($DetectedTimeAfter)"
