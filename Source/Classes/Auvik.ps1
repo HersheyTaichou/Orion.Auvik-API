@@ -200,7 +200,7 @@ enum AlertStatus {
 
 class AuvikAuthorizations {
     [string]$Id
-    hidden $Authorizations
+    hidden $AuthorizationsObject
 
     AuvikAuthorizations() { $this.Init(@{}) }
 
@@ -212,7 +212,7 @@ class AuvikAuthorizations {
         }
         $this.Init(@{
             'Id' = $Data.id
-            'Authorizations' = $Content
+            'AuthorizationsObject' = $content
         })
     }
 
@@ -239,7 +239,7 @@ class AuvikTenant {
     [pscustomobject]$Address
     [AuvikTenant]$Parent
     [AuvikAuthorizations[]]$Authorizations
-    hidden $Tenant
+    hidden $TenantObject
 
     AuvikTenant() { $this.Init(@{}) }
 
@@ -285,7 +285,7 @@ class AuvikNetworkDetail {
     [string[]]$ExcludedIpAddresses
     [AuvikTenant]$Tenant
     [pscustomobject]$Links
-    hidden $NetworkDetail
+    hidden $NetworkDetailObject
 
     AuvikNetworkDetail() { $this.Init(@{}) }
 
@@ -304,7 +304,7 @@ class AuvikNetworkDetail {
             'ExcludedIpAddresses' = $Data.attributes.ExcludedIpAddresses
             'Tenant' = $Data.relationships.tenant.data
             'Links' = $Data.links
-            'NetworkDetail' = $Content
+            'NetworkDetailObject' = $content
         })
     }
 
@@ -328,7 +328,7 @@ class AuvikNetwork {
     [AuvikTenant]$Tenant
     [AuvikDevice[]]$Device
     [pscustomobject]$Links
-    hidden $Network
+    hidden $NetworkObject
 
     AuvikNetwork() {
         $this.Init(@{})
@@ -351,7 +351,7 @@ class AuvikNetwork {
             'Tenant' = $Data.relationships.tenant.data
             'Device' = $Data.relationships.devices.data
             'Links' = $Data.links
-            'Network' = $Content
+            'NetworkObject' = $content
         })
     }
 
@@ -385,7 +385,7 @@ class AuvikDevice {
     [AuvikNetwork[]]$Network
     [AuvikDeviceDetail[]]$DeviceDetail
     [pscustomobject]$Links
-    hidden $Device
+    hidden $DeviceObject
 
     AuvikDevice() { $this.Init(@{}) }
 
@@ -413,7 +413,7 @@ class AuvikDevice {
             'Network' = $Data.relationships.Networks.data #| ForEach-Object {[AuvikNetwork]::new($_)}
             'DeviceDetail' = $Content.included
             'Links' = $Data.Links
-            'Device' = $Content
+            'DeviceObject' = $content
         })
     }
 
@@ -440,7 +440,7 @@ class AuvikDeviceDetail {
     [AuvikConfiguration[]]$Configurations
     [AuvikComponent[]]$Components
     [pscustomobject]$Links
-    hidden $DeviceDetail
+    hidden $DeviceDetailObject
 
 
     AuvikDeviceDetail() { $this.Init(@{}) }
@@ -465,7 +465,7 @@ class AuvikDeviceDetail {
             'Configurations' = $Data.relationships.Configurations.data
             'Components' = $Data.relationships.Components.data
             'Links' = $Data.Links
-            'DeviceDetail' = $Content
+            'DeviceDetailObject' = $content
         })
     }
 
@@ -490,7 +490,7 @@ class AuvikDeviceExtendedDetail {
     #[AuvikNetwork[]]$Networks
     #[AuvikDeviceDetail[]]$DeviceDetail
     #[AuvikDevice[]]$Members
-    hidden $DeviceExtendedDetail
+    hidden $DeviceExtendedDetailObject
 
 
     AuvikDeviceExtendedDetail() { $this.Init(@{}) }
@@ -514,7 +514,7 @@ class AuvikDeviceExtendedDetail {
             #'Networks' = $Data.relationships.Networks.data
             #'DeviceDetail' = $Data.relationships.deviceDetail.data
             #'Members' = $Data.relationships.members
-            'DeviceExtendedDetail' = $Content
+            'DeviceExtendedDetailObject' = $content
         })
     }
 
@@ -538,7 +538,7 @@ class AuvikDeviceWarranty {
     [string]$RecommendedSoftwareVersion
     [AuvikTenant]$Tenant
     [pscustomobject]$Links
-    hidden $DeviceWarranty
+    hidden $DeviceWarrantyObject
 
     AuvikDeviceWarranty() { $this.Init(@{}) }
 
@@ -559,7 +559,7 @@ class AuvikDeviceWarranty {
             'RecommendedSoftwareVersion' = $Data.attributes.RecommendedSoftwareVersion
             'Tenant' = $Data.relationships.tenant.data
             'Links' = $Data.Links
-            'DeviceWarranty' = $Content
+            'DeviceWarrantyObject' = $content
         })
     }
 
@@ -582,7 +582,7 @@ class AuvikDeviceLifecycle {
     [AuvikTenant]$Tenant
     [AuvikDevice]$Device
     [pscustomobject]$Links
-    hidden $deviceLifecycle
+    hidden $deviceLifecycleObject
 
     AuvikDeviceLifecycle() { $this.Init(@{}) }
 
@@ -602,7 +602,7 @@ class AuvikDeviceLifecycle {
             'Tenant' = $Data.relationships.tenant.data
             'Device' = $Data.relationships.Device.data
             'Links' = $Data.Links
-            'DeviceLifecycle' = $Content
+            'DeviceLifecycleObject' = $content
         })
     }
 
@@ -632,7 +632,7 @@ class AuvikInterface {
     [AuvikInterface[]]$ConnectedTo
     [AuvikNetwork[]]$Networks
     [AuvikDevice]$ParentDevice
-    hidden $Interface
+    hidden $InterfaceObject
 
     AuvikInterface() { $this.Init(@{}) }
 
@@ -659,7 +659,7 @@ class AuvikInterface {
             'ConnectedTo' = $Data.relationships.ConnectedTo.data
             'Networks' = $Data.relationships.Networks.data
             'ParentDevice' = $Data.relationships.ParentDevice.data
-            'Interface' = $Content
+            'InterfaceObject' = $content
         })
     }
 
@@ -681,7 +681,7 @@ class AuvikComponent {
     [pscustomobject]$Links
     [AuvikTenant]$Tenant
     [AuvikDevice]$ParentDevice
-    hidden $Component
+    hidden $ComponentObject
 
     AuvikComponent() { $this.Init(@{}) }
 
@@ -700,7 +700,7 @@ class AuvikComponent {
             'Links' = $Data.Links
             'Tenant' = $Data.relationships.tenant.data
             'ParentDevice' = $Data.relationships.ParentDevice.data
-            'Component' = $Content
+            'ComponentObject' = $content
         })
     }
 
@@ -724,7 +724,7 @@ class AuvikEntityNote {
     [datetime]$LastModified
     [AuvikTenant]$Tenant
     [pscustomobject]$Links
-    hidden $EntityNote
+    hidden $EntityNoteObject
 
     AuvikEntityNote() { $this.Init(@{}) }
 
@@ -745,7 +745,7 @@ class AuvikEntityNote {
             'LastModified' = if ($Data.attributes.LastModified) {$Data.attributes.LastModified}
             'Tenant' = $Data.relationships.tenant.data
             'Links' = $Data.Links
-            'EntityNote' = $Content
+            'EntityNoteObject' = $content
         })
     }
 
@@ -772,7 +772,7 @@ class AuvikEntityAudit {
     [AuvikTenant]$Tenant
     [AuvikDevice]$Device
     [pscustomobject]$Links
-    hidden $EntityAudit
+    hidden $EntityAuditObject
 
     AuvikEntityAudit() { $this.Init(@{}) }
 
@@ -796,7 +796,7 @@ class AuvikEntityAudit {
             'Tenant' = $ContentData.relationships.tenant.data
             'Device' = $ContentData.relationships.Device.data
             'Links' = $ContentData.Links
-            'EntityAudit' = $Content
+            'EntityAuditObject' = $content
         })
     }
 
@@ -816,7 +816,7 @@ class AuvikConfiguration {
     [AuvikTenant]$Tenant
     [AuvikDevice]$Device
     [pscustomobject]$Links
-    hidden $Configuration
+    hidden $ConfigurationObject
 
     AuvikConfiguration() { $this.Init(@{}) }
 
@@ -833,7 +833,7 @@ class AuvikConfiguration {
             'Tenant' = $Data.relationships.tenant.data
             'Device' = $Data.relationships.device.data
             'Links' = $Data.Links
-            'Configuration' = $Content
+            'ConfigurationObject' = $content
         })
     }
 
@@ -862,7 +862,7 @@ class AuvikAlert {
     [pscustomobject]$RelatedAlert
     $Entity
     [pscustomobject]$Links
-    hidden $Alert
+    hidden $AlertObject
 
     AuvikAlert() { $this.Init(@{}) }
 
@@ -901,7 +901,7 @@ class AuvikAlert {
                 }
             }
             'Links' = $Data.Links
-            'Alert' = $Content
+            'AlertObject' = $content
         })
     }
 
@@ -916,31 +916,21 @@ class AuvikAlert {
 
 class AuvikClientUsage {
     [string]$Id
-    [pscustomobject[]]$MonitoredWorkstations
-    [pscustomobject[]]$MonitoredServers
-    [int]$MaxMonitoredWorkstations
-    [int]$MaxMonitoredServers
+    [MonitoredEndpoints[]]$MonitoredWorkstations
+    [MonitoredEndpoints[]]$MonitoredServers
+    [System.Nullable[int]]$MaxMonitoredWorkstations
+    [System.Nullable[int]]$MaxMonitoredServers
     [string]$DomainPrefix
-    [int]$BillableDays
-    [datetime]$UsagePeriodStartDate
-    [datetime]$UsagePeriodEndDate
-    [int]$UsagePeriodLengthInDays
-    [int]$DeviceUsageTotalDays
-    [int]$DeviceUsageAverageDays
-    [pscustomobject]$DeviceUsageTotalDaysByClientType
-    [pscustomobject]$DeviceUsageAverageDaysByClientType
-    [int]$ClientUsageTotalDays
-    [int]$ClientUsageAveragedDays
-    [pscustomobject]$ClientUsageTotalDaysByClientType
-    [pscustomobject]$ClientUsageAverageDaysByClientType
-    [int]$TotalAsmUsers
-    #[AuvikDeviceUsage]$Devices
-    [pscustomobject[]]$Devices
-    [AuvikClientUsage]$Clients
-    #[AuvikAsmUser]$AsmUsers
-    [pscustomobject[]]$AsmUsers # Change to AuvikAsmUser type
+    [System.Nullable[int]]$BillableDays
+    [UsagePeriod]$UsagePeriod
+    [AuvikUsage]$DeviceUsage
+    [AuvikUsage]$ClientUsage
+    [System.Nullable[int]]$TotalAsmUsers
+    [AuvikDeviceUsage[]]$Devices
+    [AuvikClientUsage[]]$Clients
+    [string[]]$AsmUsers # Change to AuvikAsmUser type?
     [pscustomobject]$Links
-    hidden $ClientUsage
+    hidden $ClientUsageObject
 
     AuvikClientUsage() { $this.Init(@{}) }
 
@@ -958,23 +948,15 @@ class AuvikClientUsage {
             'MaxMonitoredServers' = $Data.attributes.MaxMonitoredServers
             'DomainPrefix' = $Data.attributes.DomainPrefix
             'BillableDays' = $Data.attributes.BillableDays
-            'UsagePeriodStartDate' = $Data.attributes.UsagePeriod.StartDate
-            'UsagePeriodEndDate' = $Data.attributes.UsagePeriod.EndDate
-            'UsagePeriodLengthInDays' = $Data.attributes.UsagePeriod.LengthInDays
-            'DeviceUsageTotalDays' = $Data.attributes.DeviceUsage.TotalDays
-            'DeviceUsageAverageDays' = $Data.attributes.DeviceUsage.AverageDays
-            'DeviceUsageTotalDaysByClientType' = $Data.attributes.DeviceUsage.TotalDaysByClientType
-            'DeviceUsageAverageDaysByClientType' = $Data.attributes.DeviceUsage.AverageDaysByClientType
-            'ClientUsageTotalDays' = $Data.attributes.ClientUsage.TotalDays
-            'ClientUsageAveragedDays' = $Data.attributes.ClientUsage.AveragedDays
-            'ClientUsageTotalDaysByClientType' = $Data.attributes.ClientUsage.TotalDaysByClientType
-            'ClientUsageAverageDaysByClientType' = $Data.attributes.ClientUsage.AverageDaysByClientType
+            'UsagePeriod' = $Data.attributes.UsagePeriod
+            'DeviceUsage' = $Data.attributes.DeviceUsage
+            'ClientUsage' = $Data.attributes.ClientUsage
             'TotalAsmUsers' = $Data.attributes.asmUserUsage.totalAsmUsers
             'Devices' = $Data.relationships.Devices.Data
             'Clients' = $Data.relationships.Clients.Data
-            'AsmUsers' = $Data.relationships.AsmUsers.data
+            'AsmUsers' = $Data.relationships.AsmUsers.data.Id
             'Links' = $Data.Links
-            'ClientUsage' = $Content
+            'ClientUsageObject' = $content
         })
     }
 
@@ -987,12 +969,152 @@ class AuvikClientUsage {
     }
 }
 
-class ChangeMe {
+class AuvikDeviceUsage {
     [string]$Id
     [string]$DeviceName
+    [UsagePeriod]$UsagePeriod
+    [int]$totalDays
+    [int]$averageDays
+    [DaysByClientType]$TotalDaysByClientType
+    [DaysByClientType]$AverageDaysByClientType
+    [AuvikClientUsage]$Client
+    [pscustomobject]$Links
+    hidden $DeviceUsageObject
+
+    AuvikDeviceUsage() { $this.Init(@{}) }
+
+    AuvikDeviceUsage([pscustomobject]$Content) {
+        if ($Content.data) {
+            $Data = $Content.data
+        } else {
+            $Data = $Content
+        }
+        $this.Init(@{
+            'Id' = $Data.id
+            'DeviceName' = $Data.attributes.DeviceName
+            'UsagePeriod' = $Data.attributes.UsagePeriod
+            'totalDays' = $Data.attributes.totalDays
+            'averageDays' = $Data.attributes.averageDays
+            'TotalDaysByClientType' = $Data.attributes.TotalDaysByClientType
+            'AverageDaysByClientType' = $Data.attributes.AverageDaysByClientType
+            'Client' = $Data.relationships.Client.data
+            'Links' = $Data.Links
+            'DeviceUsageObject' = $content
+        })
+    }
+
+    AuvikDeviceUsage([hashtable]$Properties) { $this.Init($Properties) }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
+class UsagePeriod {
+    [datetime]$StartDate
+    [datetime]$EndDate
+    [int]$lengthInDays
+
+    usagePeriod() { $this.Init(@{}) }
+
+    usagePeriod([hashtable]$Properties) { $this.Init($Properties) }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
+class AuvikUsage {
+    [int]$TotalDays
+    [int]$AverageDays
+    [DaysByClientType]$TotalDaysByClientType
+    [DaysByClientType]$AverageDaysByClientType
+
+    AuvikUsage() { $this.Init(@{}) }
+
+    AuvikUsage([hashtable]$Properties) { $this.Init($Properties) }
+
+    AuvikUsage([pscustomobject]$Content) {
+        if ($Content.averageDays) {
+            $Days = $Content.averageDays
+            write-verbose "PSC averageDays"
+        } elseif ($Content.averagedDays) {
+            $Days = $Content.averagedDays
+            write-verbose "PSC averagedDays"
+        } else {
+            $Days = 0
+        }
+        $this.Init(@{
+            'TotalDays' = $Content.TotalDays
+            'AverageDays' = $Days
+            'TotalDaysByClientType' = $Content.TotalDaysByClientType
+            'AverageDaysByClientType' = $Content.AverageDaysByClientType
+        })
+    }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
+class MonitoredEndpoints {
+    [datetime]$Date
+    [int]$TotalEndpoints
+
+    MonitoredEndpoints() { $this.Init(@{}) }
+
+    MonitoredEndpoints([pscustomobject]$Content) {
+        if ($Content.totalEndpoints) {
+            $Endpoints = $Content.totalEndpoints
+        } elseif ($Content.totalServers) {
+            $Endpoints = $Content.totalServers
+        } else {
+            $Endpoints = 0
+        }
+        $this.Init(@{
+            'Date' = $Content.Date
+            'TotalEndpoints' = $Endpoints
+        })
+    }
+
+    MonitoredEndpoints([hashtable]$Properties) { $this.Init($Properties) }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
+class DaysByClientType {
+    [int]$NoTier
+    [int]$Light
+    [int]$Essentials
+    [int]$Performance
+
+    DaysByClientType() { $this.Init(@{}) }
+
+    DaysByClientType([hashtable]$Properties) { $this.Init($Properties) }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
+class ChangeMe {
+    [string]$Id
+    [string]$Name
     [AuvikTenant]$Tenant
     [pscustomobject]$Links
-    hidden $ChangeMe
+    hidden $ChangeMeObject
 
     ChangeMe() { $this.Init(@{}) }
 
@@ -1007,7 +1129,7 @@ class ChangeMe {
             'DeviceName' = $Data.attributes.DeviceName
             'Tenant' = $Data.relationships.tenant.data
             'Links' = $Data.Links
-            'ChangeMe' = $Content
+            'ChangeMeObject' = $content
         })
     }
 
