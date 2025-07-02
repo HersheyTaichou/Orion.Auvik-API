@@ -1,11 +1,11 @@
 function Get-AuvikClientUsage {
     [CmdletBinding()]
     param (
-        # Filter by alert definition ID.
+        # Date from which you want to query
         [Parameter(Mandatory)]
         [datetime]
         $FromDate,
-        # Deprecated. Filter by alert specification ID. Use 'alertDefinitionId' instead
+        # Date to which you want to query
         [Parameter(Mandatory)]
         [datetime]
         $ThruDate,
