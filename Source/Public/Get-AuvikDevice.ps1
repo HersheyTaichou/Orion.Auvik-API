@@ -50,7 +50,7 @@ function Get-AuvikDevice {
         $Networks,
         # Filter by device type.
         [Parameter(ParameterSetName="Multiple")]
-        [DeviceType]
+        [DeviceTypeSchema]
         $DeviceType,
         # Filter by the device's make and model.
         [Parameter(ParameterSetName="Multiple")]

@@ -35,7 +35,7 @@ function Get-AuvikDeviceExtendedDetail {
         <#
         # Filter by device type.
         [Parameter(ParameterSetName="Multiple",Mandatory)][ValidateSet("unknown","switch","l3Switch","router","accessPoint","firewall","workstation","server","storage","printer","copier","hypervisor","multimedia","phone","tablet","handheld","virtualAppliance","bridge","controller","hub","modem","ups","module","loadBalancer","camera","telecommunications","packetProcessor","chassis","airConditioner","virtualMachine","pdu","ipPhone","backhaul","internetOfThings","voipSwitch","stack","backupDevice","timeClock","lightingDevice","audioVisual","securityAppliance","utm","alarm","buildingManagement","ipmi","thinAccessPoint","thinClient",IgnoreCase=$false)]
-        [string]
+        [DeviceTypeSchema]
         $DeviceType,
         # Filter by date and time, only returning entities modified after provided value.
         [Parameter(ParameterSetName="Multiple")]
