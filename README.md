@@ -83,12 +83,10 @@ DeviceDetail    : {MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw}
 Links           : @{dashboard=https://sampledomain.my.auvik.com/#entity/device/199502791112896003/dashboard; self=https://auvikapi.us3.my.auvik.com/v1/inventory/device/info/MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw}
 ```
 
-Each class also contains a hidden object with the original data used to build the class, named after the data type. In the above example, it would be this:
+Each class also contains a hidden object with the original data used to build the class, named after the data type and appended with Object. In the above example, it would be this:
 
 ```PowerShell
-$AuvikDevice.Device
-
-$AuvikDevice.Device | fl
+$AuvikDevice.DeviceObject | fl
 
 data     : {@{type=device; id=MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw; attributes=; relationships=; links=}}
 included : {@{type=deviceDetail; id=MTk5NTAyNzg2ODc3MDYzNDI1LDE5OTUwMjc5MTExMzAyODg2Nw; attributes=; relationships=;
@@ -137,8 +135,8 @@ meta     : @{totalPages=5}
 | /tenants/detail | Done | Get-AuvikTenantDetail | Pass |
 | /tenants/detail/{id} | Done | Get-AuvikTenantDetail | Pass |
 | /billing/usage/client | In Progress | Get-AuvikClientUsage | - |
-| /billing/usage/device/{id} | To-Do | Get-AuvikDeviceUsage | - |
-| /stat/device/{statId} | To-Do | Get-AuvikDeviceStatistics | - |
+| /billing/usage/device/{id} | In Progress | Get-AuvikDeviceUsage | - |
+| /stat/device/{statId} | Done | Get-AuvikDeviceStatistics | - |
 | /stat/deviceAvailability/{statId} | To-Do | Get-AuvikDeviceAvailabilityStatistics | - |
 | /stat/service/{statId} | To-Do | Get-AuvikServiceStatistics | - |
 | /stat/interface/{statId} | To-Do | Get-AuvikInterfaceStatistics | - |
