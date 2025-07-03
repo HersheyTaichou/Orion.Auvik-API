@@ -1216,6 +1216,7 @@ class AuvikStats {
                 Default {}
             }
         }
+        $Properties["StatsObject"] = $Content
         $this.Init($Properties)
     }
 
