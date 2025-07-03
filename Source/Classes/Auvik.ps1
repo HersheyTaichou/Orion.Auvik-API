@@ -1,4 +1,4 @@
-enum DeviceType {
+enum DeviceTypeSchema {
     unknown
     switch
     l3Switch
@@ -198,6 +198,22 @@ enum AlertStatus {
     unpaused
 }
 
+enum TimeInterval {
+    minute
+    hour
+    day
+}
+
+enum StatId {
+    bandwidth
+    cpuUtilization
+    memoryUtilization
+    storageUtilization
+    packetUnicast
+    packetMulticast
+    packetBroadcast
+}
+
 class AuvikAuthorizations {
     [string]$Id
     hidden $AuthorizationsObject
@@ -263,7 +279,7 @@ class AuvikTenant {
             "Address" = $Data.attributes.Address
             'Parent' = $Data.relationships.parent.data
             'Authorizations' = $Data.relationships.Authorizations.data
-            'Tenant' = $Data
+            'TenantObject' = $Data
         })
     }
 
@@ -371,7 +387,7 @@ class AuvikDevice {
     [string]$Id
     [ipaddress[]]$IpAddresses
     [string]$DeviceName
-    [System.Nullable[DeviceType]]$DeviceType
+    [System.Nullable[DeviceTypeSchema]]$DeviceType
     [string]$MakeModel
     [string]$VendorName
     [string]$SoftwareVersion
@@ -482,7 +498,7 @@ class AuvikDeviceExtendedDetail {
     [string]$Id
     [pscustomobject]$Links
     [string]$DeviceName
-    [DeviceType]$DeviceType
+    [DeviceTypeSchema]$DeviceType
     [datetime]$LastModified
     [datetime]$LastSeenTime
     [pscustomobject]$Attributes
@@ -1101,6 +1117,111 @@ class DaysByClientType {
     DaysByClientType() { $this.Init(@{}) }
 
     DaysByClientType([hashtable]$Properties) { $this.Init($Properties) }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
+class AuvikDeviceStatistics {
+    [string]$Id
+    [datetime]$FromTime
+    [datetime]$ThruTime
+    [TimeInterval]$interval
+    [string]$StatType
+    [AuvikStats[]]$Stats
+    [AuvikDevice]$Device
+    [AuvikTenant]$Tenant
+    [pscustomobject]$Links
+    hidden $DeviceStatisticsObject
+
+    AuvikDeviceStatistics() { $this.Init(@{}) }
+
+    AuvikDeviceStatistics([pscustomobject]$Content) {
+        if ($Content.data) {
+            $Data = $Content.data
+        } else {
+            $Data = $Content
+        }
+
+        $this.Init(@{
+            'Id' = $Data.id
+            'FromTime' = $Data.attributes.reportPeriod.FromTime
+            'ThruTime' = $Data.attributes.reportPeriod.ThruTime
+            'interval' = $Data.attributes.interval
+            'StatType' = $Data.attributes.StatType
+            'Stats' = $Data.attributes.Stats | ForEach-Object {
+                for ($d = 0; $d -lt $_.data.Count; $d++) {
+                    [AuvikStats]::new([pscustomobject]@{
+                        'Name' = $_.name
+                        'Index' = $_.index
+                        'Legend' = $_.legend
+                        'Unit' = $_.unit
+                        'Data' = $_.data[$d]
+                    })
+                }
+            }
+            'Device' = $Data.relationships.Device.Data
+            'Tenant' = $Data.relationships.tenant.data
+            'Links' = $Data.Links
+            'DeviceStatisticsObject' = $content
+        })
+    }
+
+    AuvikDeviceStatistics([hashtable]$Properties) { $this.Init($Properties) }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
+class AuvikStats {
+    [string]$Name
+    [System.Nullable[int]]$Index
+    #[string]$Legend
+    #[string]$Unit
+    #$Data
+    [datetime]$RecordedAt
+    [string]$Percent
+    [string]$Transmit
+    [string]$Receive
+    [string]$Bandwidth
+    hidden $StatsObject
+
+    AuvikStats() { $this.Init(@{}) }
+
+    AuvikStats([pscustomobject]$Content) {
+        [hashtable]$Properties = @{
+            'Name' = $Content.Name
+            'Index' = $Content.Index
+        }
+        for ($l = 0; $l -lt $Content.legend.Count; $l++) {
+            switch ($Content.unit[$l]) {
+                unix_mins {
+                    $Properties[$Content.legend[$l].replace(" ",'')] = (Get-Date 01.01.1970).AddMinutes($Content.Data[$l])
+                }
+                percent {
+                    $Properties[$Content.legend[$l]] = "$($Content.Data[$l])%"
+                }
+                bits_per_sec {
+                    $Properties[$Content.legend[$l]] = "$($Content.Data[$l]) bps"
+                }
+                packets_per_second {
+                    $Properties[$Content.legend[$l]] = "$($Content.Data[$l]) pps"
+                }
+                Default {}
+            }
+        }
+        $this.Init($Properties)
+    }
+
+    AuvikStats([hashtable]$Properties) {
+        $this.Init($Properties)
+    }
 
     [void] Init([hashtable]$Properties) {
         foreach ($Property in $Properties.Keys) {
