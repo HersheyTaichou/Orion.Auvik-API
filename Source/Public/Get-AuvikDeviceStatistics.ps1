@@ -3,7 +3,7 @@ function Get-AuvikDeviceStatistics {
     param (
         # ID of statistic to return
         [Parameter(Mandatory)]
-        [StatId]
+        [DeviceStatisticsId]
         $StatId,
         # Date from which you want to query
         [Parameter(Mandatory)]
@@ -65,7 +65,6 @@ function Get-AuvikDeviceStatistics {
         }
 
         $Parameters = if ($Pages) {
-            Write-Debug "Limiting to the first $($Pages) pages"
             @{'Pages' = $Pages}
         }
     }
