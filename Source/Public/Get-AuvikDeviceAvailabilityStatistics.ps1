@@ -10,7 +10,7 @@ function Get-AuvikDeviceAvailabilityStatistics {
         [datetime]
         $FromTime,
         # Date to which you want to query
-        [Parameter()]
+        [Parameter(Mandatory)]
         [datetime]
         $ThruTime,
         # Statistics reporting interval
@@ -43,10 +43,10 @@ function Get-AuvikDeviceAvailabilityStatistics {
         $QueryParams = foreach ($Key in $PSBoundParameters.Keys) {
             switch ($Key) {
                 FromTime {
-                    "filter[fromTime]=$(Get-Date -Date $FromTime -Format "yyyy-MM-ddThh:mm:ss" -AsUTC)"
+                    "filter[fromTime]=$(Get-Date -Date $FromTime -Format "yyyy-MM-ddThh:mm:ss")"
                 }
                 ThruTime {
-                    "filter[thruTime]=$(Get-Date -Date $ThruTime -Format "yyyy-MM-ddThh:mm:ss" -AsUTC)"
+                    "filter[thruTime]=$(Get-Date -Date $ThruTime -Format "yyyy-MM-ddThh:mm:ss")"
                 }
                 Interval {
                     "filter[interval]=$($Interval)"
@@ -70,7 +70,7 @@ function Get-AuvikDeviceAvailabilityStatistics {
     }
 
     process {
-        $AuvikDeviceStatistics = (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/stat/deviceAvailability/$($StatId)?$($QueryParams -join '&')" @Parameters).data #| ForEach-Object {[AuvikDeviceAvailabilityStatistics]::new($_)}
+        $AuvikDeviceStatistics = (Invoke-AuvikApi -Uri "$($AuvikBaseUri)/stat/deviceAvailability/$($StatId)?$($QueryParams -join '&')" @Parameters).data | ForEach-Object {[AuvikDeviceStatistics]::new($_)}
     }
 
     end {
