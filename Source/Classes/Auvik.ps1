@@ -204,7 +204,7 @@ enum TimeInterval {
     day
 }
 
-enum StatId {
+enum DeviceStatisticsId {
     bandwidth
     cpuUtilization
     memoryUtilization
@@ -212,6 +212,11 @@ enum StatId {
     packetUnicast
     packetMulticast
     packetBroadcast
+}
+
+enum DeviceAvailabilityStatisticsId {
+    uptime
+    outage
 }
 
 class AuvikAuthorizations {
@@ -1171,6 +1176,60 @@ class AuvikDeviceStatistics {
     }
 
     AuvikDeviceStatistics([hashtable]$Properties) { $this.Init($Properties) }
+
+    [void] Init([hashtable]$Properties) {
+        foreach ($Property in $Properties.Keys) {
+            $this.$Property = $Properties.$Property
+        }
+    }
+}
+
+class AuvikDeviceAvailabilityStatistics {
+    [string]$Id
+    [datetime]$FromTime
+    [datetime]$ThruTime
+    [TimeInterval]$interval
+    [string]$StatType
+    [AuvikStats[]]$Stats
+    [AuvikDevice]$Device
+    [AuvikTenant]$Tenant
+    [pscustomobject]$Links
+    hidden $DeviceStatisticsObject
+
+    AuvikDeviceAvailabilityStatistics() { $this.Init(@{}) }
+
+    AuvikDeviceAvailabilityStatistics([pscustomobject]$Content) {
+        if ($Content.data) {
+            $Data = $Content.data
+        } else {
+            $Data = $Content
+        }
+
+        $this.Init(@{
+            'Id' = $Data.id
+            'FromTime' = $Data.attributes.reportPeriod.FromTime
+            'ThruTime' = $Data.attributes.reportPeriod.ThruTime
+            'interval' = $Data.attributes.interval
+            'StatType' = $Data.attributes.StatType
+            'Stats' = $Data.attributes.Stats | ForEach-Object {
+                for ($d = 0; $d -lt $_.data.Count; $d++) {
+                    [AuvikStats]::new([pscustomobject]@{
+                        'Name' = $_.name
+                        'Index' = $_.index
+                        'Legend' = $_.legend
+                        'Unit' = $_.unit
+                        'Data' = $_.data[$d]
+                    })
+                }
+            }
+            'Device' = $Data.relationships.Device.Data
+            'Tenant' = $Data.relationships.tenant.data
+            'Links' = $Data.Links
+            'DeviceStatisticsObject' = $content
+        })
+    }
+
+    AuvikDeviceAvailabilityStatistics([hashtable]$Properties) { $this.Init($Properties) }
 
     [void] Init([hashtable]$Properties) {
         foreach ($Property in $Properties.Keys) {
