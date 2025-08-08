@@ -28,7 +28,7 @@ function Invoke-AuvikApi {
         $Content = do {
             Write-Progress -Activity "Querying Page $Page" -Status "$($Uri.PathAndQuery)" -PercentComplete ($Page / $TotalPages * 100) -CurrentOperation "$($Uri.Query)"
             try {
-                Write-Debug "URI: $($DeviceParams.Uri)"
+                Write-Debug "URI is $($DeviceParams.Uri)"
                 $RestMethod = Invoke-RestMethod @DeviceParams
             }
             catch {
@@ -41,7 +41,15 @@ function Invoke-AuvikApi {
                 200 {
                     $Page++
                     $DeviceParams.Uri = $RestMethod.links.next
-                    $TotalPages = if ($Pages) {$Pages} else {$RestMethod.meta.totalPages}
+                    Write-Debug "totalPages is $($RestMethod.meta.totalPages)"
+                    Write-Debug "Next page is $($RestMethod.links.next)"
+                    $TotalPages = if ($Pages) {
+                        $Pages
+                    } elseif ($RestMethod.meta.totalPages) {
+                        $RestMethod.meta.totalPages
+                    } else {
+                        $TotalPages
+                    }
                     $Try = 0
                     $RestMethod
                     $Backoff = 5
@@ -64,9 +72,7 @@ function Invoke-AuvikApi {
                     $Backoff += $Backoff
                 }
                 500 {
-                    Write-Error "$($StatusCode): $($ReasonPhrase). Sleeping for $($Backoff) seconds then trying again. (Try #$($Try))"
-                    Start-Sleep -Seconds $Backoff
-                    $Backoff += $Backoff
+                    throw "$($StatusCode): $($ReasonPhrase). The command may not be formatted correctly."
                 }
                 Default {
                     Write-Error $RestError
