@@ -1184,6 +1184,7 @@ class AuvikDeviceStatistics {
     }
 }
 
+<#
 class AuvikDeviceAvailabilityStatistics {
     [string]$Id
     [datetime]$FromTime
@@ -1237,6 +1238,7 @@ class AuvikDeviceAvailabilityStatistics {
         }
     }
 }
+#>
 
 class AuvikStats {
     [string]$Name
@@ -1249,6 +1251,8 @@ class AuvikStats {
     [string]$Transmit
     [string]$Receive
     [string]$Bandwidth
+    [string]$Uptime
+    [string]$Outage
     hidden $StatsObject
 
     AuvikStats() { $this.Init(@{}) }
@@ -1271,6 +1275,9 @@ class AuvikStats {
                 }
                 packets_per_second {
                     $Properties[$Content.legend[$l]] = "$($Content.Data[$l]) pps"
+                }
+                seconds {
+                    $Properties[$Content.legend[$l]] = "$(New-TimeSpan -Seconds $Content.Data[$l])"
                 }
                 Default {}
             }
